@@ -79,7 +79,7 @@ class LoginAPIView(APIView):
             response = Response()
            
             response.data={
-                'message':'Invalid emailr'
+                'message':'Invalid email'
             }
             return response        
             raise exceptions.AuthenticationFailed('Invalid email')
@@ -88,7 +88,7 @@ class LoginAPIView(APIView):
             response = Response()
            
             response.data={
-                'message':'nvalid password'
+                'message':'invalid password'
             }
             return response        
             raise exceptions.AuthenticationFailed('Invalid password')
