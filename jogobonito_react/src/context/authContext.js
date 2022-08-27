@@ -14,17 +14,32 @@ export const AuthProvider = ({children})=>{
     let [user, setUser] = useState(()=>localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
   
 
-       
+    const [message,setMessage]= useState('')
+    const [error,setErr]= useState('')       
 const userLogin= async (email,password)=>{
-    console.log(email)
-    console.log(password)
-    await axios.post('account/login/', {email:email,password:password}).then((response)=>(
-        console.log(response.data),
-        setAuthTokens(response.data),
-        localStorage.setItem('authTokens',JSON.stringify(response.data)),
-        localStorage.setItem('user',JSON.stringify(jwt_decode(response.data.token))),
-        navigate('/Home')
-    ))
+    // console.log(email)
+    // console.log(password)
+    await axios.post('account/login/', {email:email,password:password}).then((response)=>{
+       
+        console.log(response.data,'LLLL')
+        setAuthTokens(response.data.token)
+        setErr(response.data.message) 
+        console.log(response.data.message,'dfdfffddfdf')
+        if(response.data.token){
+            localStorage.setItem('authTokens',JSON.stringify(response.data))
+            localStorage.setItem('user',JSON.stringify(jwt_decode(response.data.token)))
+            navigate('/Home')
+
+        }
+       
+        
+       if(response.data.message){
+        console.log('dfdfffddfdf')
+       }
+
+     
+     
+    })
 
 console.log(authTokens)
 
@@ -38,22 +53,26 @@ const logoutUser = async()=>{
     localStorage.removeItem('authTokens')
     navigate('/')
 }
-
-  let userLogout = () => {
+let userLogout = () => {
     setAuthTokens(null);
     setUser(null)
     localStorage.removeItem('authTokens')
     localStorage.removeItem('user')
     navigate( '/' )   
 }
-
+  
+console.log(error)
     let contextData={
         user:user,
         phone_number:phone_number,
         setPhone_number:setPhone_number,
         userLogin:userLogin,
-        userLogout:userLogout,
         logoutUser:logoutUser,
+        userLogout:userLogout,
+        message:message,
+        setMessage:setMessage,
+        error:error,
+
 
     }
     return(

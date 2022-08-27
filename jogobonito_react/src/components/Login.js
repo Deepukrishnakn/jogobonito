@@ -8,9 +8,9 @@ import { useNavigate,Link } from 'react-router-dom';
 function Login() {
   const [email,setEmail]= useState('')
   const [password,setPassword]= useState('')
-  const {userLogin}=useContext(AuthContext)
+  const {userLogin,message,setMessage,error }=useContext(AuthContext)
 
-
+   
   const [emailErr, setEmailErr] = useState({})
   const [passwordErr, setPasswordErr] = useState({})
 
@@ -20,8 +20,8 @@ function Login() {
     e.preventDefault()
     const isValid = formValidation()
     if(isValid){
-    console.log(email)
-    console.log(password)
+    // console.log(email)
+    // console.log(password)
     userLogin(email,password)
   }}
 
@@ -45,7 +45,7 @@ function Login() {
   
   setEmailErr(emailErr)
   setPasswordErr(passwordErr)
-
+console.log(error)
   return isValid
 }
 
@@ -56,6 +56,7 @@ function Login() {
 
 <div className=''>
 <Form className='login_form' onSubmit={loginHandler}>
+
       <Form.Group className=" ms-5 me-5" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control className='' type="email" onChange={(e)=>setEmail(e.target.value)} value={email} placeholder="Enter email" />
@@ -74,7 +75,7 @@ function Login() {
                 return <div style={{color:'red'}} >{passwordErr[key]}</div>
               })}
                
-
+               {  error &&(<> <h6 style={{color:'red'}}>{error}</h6>  <br/></>) }
       </Form.Group>
      
       {/* <Form.Group className="ms-5 mb-3 login_form" controlId="formBasicCheckbox">
