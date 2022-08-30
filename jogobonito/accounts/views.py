@@ -1,5 +1,6 @@
 
 import datetime
+from django.contrib import messages,auth
 from .authentication import create_access_token,create_refresh_token, JWTAuthentication,decode_refresh_token
 from rest_framework import status,exceptions
 from rest_framework.decorators import api_view
@@ -93,21 +94,26 @@ class LoginAPIView(APIView):
             return response        
             raise exceptions.AuthenticationFailed('Invalid password')
 
-        access_token = create_access_token(user.id)
-        refresh_token = create_refresh_token(user.id)
+        user = auth.authenticate(email=email, password=password)
+        if user:
+            access_token = create_access_token(user.id)
+            refresh_token = create_refresh_token(user.id)
 
-        UserToken.objects.create(
-            user_id=user.id,
-            token=refresh_token,
-            expired_at=datetime.datetime.utcnow() + datetime.timedelta(days=7)
-        )
+            UserToken.objects.create(
+                user_id=user.id,
+                token=refresh_token,
+                expired_at=datetime.datetime.utcnow() + datetime.timedelta(days=7)
+            )
 
-        response = Response()
-        response.set_cookie(key='refresh_token',value=refresh_token,httponly=True)
-        response.data = {
-            'token': access_token
-        }
-        return response
+            response = Response()
+            response.set_cookie(key='refresh_token',value=refresh_token,httponly=True)
+            response.data = {
+                'token': access_token
+            }
+            return response
+        else:
+            message = {'detail':'Not verifyd'}
+            return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 class UserAPIView(APIView):
     authentication_classes = [JWTAuthentication]

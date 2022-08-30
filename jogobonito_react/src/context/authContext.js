@@ -29,16 +29,11 @@ const userLogin= async (email,password)=>{
             localStorage.setItem('authTokens',JSON.stringify(response.data))
             localStorage.setItem('user',JSON.stringify(jwt_decode(response.data.token)))
             navigate('/Home')
-
         }
-       
-        
+
        if(response.data.message){
         console.log('dfdfffddfdf')
        }
-
-     
-     
     })
 
 console.log(authTokens)

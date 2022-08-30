@@ -54,10 +54,10 @@ console.log(error)
     <div className='m-5'>
 
 
-<div className=''>
+<div>
 <Form className='login_form' onSubmit={loginHandler}>
-
       <Form.Group className=" ms-5 me-5" controlId="formBasicEmail">
+      {  error &&(<> <h6 style={{color:'red'}}>{error}</h6>  <br/></>) }
         <Form.Label>Email address</Form.Label>
         <Form.Control className='' type="email" onChange={(e)=>setEmail(e.target.value)} value={email} placeholder="Enter email" />
         <Form.Text className="text-muted">
@@ -74,8 +74,6 @@ console.log(error)
         {Object.keys(passwordErr).map((key)=>{
                 return <div style={{color:'red'}} >{passwordErr[key]}</div>
               })}
-               
-               {  error &&(<> <h6 style={{color:'red'}}>{error}</h6>  <br/></>) }
       </Form.Group>
      
       {/* <Form.Group className="ms-5 mb-3 login_form" controlId="formBasicCheckbox">
