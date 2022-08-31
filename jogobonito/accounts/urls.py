@@ -1,5 +1,5 @@
-from . import views
-from .views import LoginAPIView,UserAPIView,RefreshAPIView,LogoutAPIView 
+from .import views
+from .views import LoginAPIView,UserAPIView,RefreshAPIView,LogoutAPIView
 from django.urls import path
 
 urlpatterns = [
@@ -11,6 +11,7 @@ urlpatterns = [
     path('logout/',LogoutAPIView.as_view()),
     path('forgotpassword/', views.forgotpassword, name="forgotpassword"),
     path('resetpassword_validate/<uidb64>/<token>/', views.resetpassword_validate, name='resetpassword_validate'),
+    
     # path('resetpassword/', views.resetpassword, name='resetpassword'),
 #   path('resetpassword_validate/<uidb64>/<token>',views.resetpassword_validate,name='resetpassword_validate'),
  ]
