@@ -145,7 +145,7 @@ function Register() {
 
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Enter Last Name</Form.Label>
-        <Form.Control name='last_namme' type="text" placeholder="Enter Last Namesword" onChange={(e)=>setLast_name(e.target.value)} value={last_name} />
+        <Form.Control name='last_namme' type="text" placeholder="Enter Last Name" onChange={(e)=>setLast_name(e.target.value)} value={last_name} />
         {Object.keys(last_nameErr).map((key)=>{
                 return <div style={{color:'red'}} >{last_nameErr[key]}</div>
               })}

@@ -28,7 +28,7 @@ const userLogin= async (email,password)=>{
         if(response.data.token){
             localStorage.setItem('authTokens',JSON.stringify(response.data))
             localStorage.setItem('user',JSON.stringify(jwt_decode(response.data.token)))
-            navigate('/Home')
+            navigate('/Thome')
         }
 
        if(response.data.message){

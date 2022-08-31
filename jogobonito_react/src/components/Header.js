@@ -4,6 +4,7 @@ import { faFutbol } from '@fortawesome/free-solid-svg-icons'
 import './Header.css'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { useNavigate,Link } from 'react-router-dom';
 
 function Header() {
   return (
@@ -13,17 +14,17 @@ function Header() {
 
                <div className='headerlistItem'>
                <FontAwesomeIcon icon={faFutbol} />
-               <span>Business</span>
+               <Link to='/Bisuness'><span className='turfbtn'>Business</span></Link>
                </div>
           
                <div className='headerlistItem active'>
                <FontAwesomeIcon icon={faFutbol} />
-               <span>Home</span>
+               <Link to='/thome'><span className='turfbtn'>Home</span></Link>
                </div>
           
                <div className='headerlistItem'>
                <FontAwesomeIcon icon={faFutbol} />
-               <span>Turf</span>
+               <Link to='/turf'><span className='turfbtn'>Turf</span></Link>
                </div>
           </div>
 
@@ -31,7 +32,7 @@ function Header() {
           <p className='hederDesc'>
           I once cried because I had no shoes to play soccer, but one day, I met a man who had no feet.
           </p>
-          <button className='headerBtn'>Sign In / Sign Up</button>
+          <Link to='/Register'><button className='headerBtn'>Sign In / Sign Up</button></Link>
           <Form className="d-flex mt-3">
             <Form.Control
               type="search"

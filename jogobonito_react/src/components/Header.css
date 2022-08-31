@@ -4,6 +4,7 @@
     display: flex;
     justify-content: center;
     font-family: "Inter";
+    z-index: 5;
 }
 
 .headerContainer{
@@ -41,4 +42,9 @@
     padding: 10px;
     cursor: pointer;
     border-radius: 10px;
+}
+
+.turfbtn{
+    text-decoration: none;
+    color: white;
 }

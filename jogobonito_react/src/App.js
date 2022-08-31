@@ -9,6 +9,7 @@ import ForgotpassPage from './pages/ForgotpassPage';
 import HomePage from './pages/HomePage';
 import ThomePage from './pages/ThomePage';
 import Turf from "./components/Turf";
+import BisunessPage from "./pages/BisunessPage";
 
 function App(){
   return (
@@ -22,6 +23,7 @@ function App(){
       <Route path='/Nave' element ={<HomePage/>} />
       <Route path='/Verify' element ={<VerifyPage/>} />
       <Route path='/ForgotPassword' element ={<ForgotpassPage/>} />
+      <Route path='/Bisuness' element ={<BisunessPage/>} />
 
 
       <Route path='/Thome' element ={<ThomePage/>} />

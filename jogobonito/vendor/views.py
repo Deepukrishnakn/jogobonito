@@ -32,6 +32,7 @@ def vendorRegister(request):
         )
 
         serializer = VendorRegisterSerializer(vendor,many=False)
+        message = {'detail':'vendor Registration send Successfuly'}
         return Response(serializer.data)
     except :
         message = {'detail':'vendor with this email already exist'}
