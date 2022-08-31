@@ -7,10 +7,14 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
+from rest_framework.decorators import api_view,authentication_classes
+
+
 from .serializers import VendorRegisterSerializer
 from django.contrib.auth.hashers import make_password
 from .models import VendorToken,Vendor 
 from accounts.authentication import create_access_token,create_refresh_token, JWTAuthentication,decode_refresh_token
+from rest_framework import generics
 
 # Create your views here.
 
@@ -62,20 +66,29 @@ class LoginVenndorView(APIView):
             VendorToken.objects.create(
                 vendor_id = vendor.id,
                 token= refresh_token,
-                expired_at =  datetime.datetime.utcnow()+datetime.timedelta(days=7),
+                expired_at =  datetime.datetime.utcnow()+datetime.timedelta(seconds=7),
             )
             response = Response()
             response.set_cookie(key='refresh_token',
                                 value=refresh_token, httponly=True)
             response.data = {
-                'token': access_token
+                'token': access_token,
+                'refreshToken': refresh_token,
             }
             return  response   
         else:
             raise exceptions.AuthenticationFailed ('You are not a Vendor')
 
-class VendorAPIView(APIView):
-    authentication_classes = [JWTAuthentication]
+# @api_view(['GET'])
+# @authentication_classes([JWTAuthentication])
+# def get_Vendor(request):  
+#     print('hiiii')   
+#     return Response(VendorRegisterSerializer(request.Vendor).data)
 
-    def get(self,request):
-        return Response(VendorRegisterSerializer(request.vendor).data)
+@api_view(['GET'])
+def get_vendor(request):
+    serializer = VendorRegisterSerializer(request.user)
+    return Response(serializer.data)
+
+
+    
