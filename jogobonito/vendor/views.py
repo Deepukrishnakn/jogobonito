@@ -19,7 +19,7 @@ def vendorRegister(request):
     data = request.data
     print(data)
     try:
-        print('rajaaaa')
+        print('its ok')
         vendor = Vendor.objects.create(
             first_name=data['first_name'],
             last_name=data['last_name'],
@@ -74,7 +74,7 @@ class LoginVenndorView(APIView):
         else:
             raise exceptions.AuthenticationFailed ('You are not a Vendor')
 
-class UserAPIView(APIView):
+class VendorAPIView(APIView):
     authentication_classes = [JWTAuthentication]
 
     def get(self,request):
