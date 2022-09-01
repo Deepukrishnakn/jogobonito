@@ -1,19 +1,16 @@
-from django.shortcuts import render
 import datetime
-from django.contrib import messages,auth
 from django.contrib.auth.hashers import check_password
 from rest_framework import status,exceptions
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
-from rest_framework.decorators import api_view,authentication_classes
-
+from rest_framework.decorators import api_view
 
 from .serializers import VendorRegisterSerializer
 from django.contrib.auth.hashers import make_password
 from .models import VendorToken,Vendor 
-from accounts.authentication import create_access_token,create_refresh_token, JWTAuthentication,decode_refresh_token
+from .authentication import create_access_token,create_refresh_token, VendorAuthentication
 from rest_framework import generics
 
 # Create your views here.
@@ -73,22 +70,22 @@ class LoginVenndorView(APIView):
                                 value=refresh_token, httponly=True)
             response.data = {
                 'token': access_token,
-                'refreshToken': refresh_token,
+                # 'refreshToken': refresh_token,
             }
             return  response   
         else:
             raise exceptions.AuthenticationFailed ('You are not a Vendor')
 
-# @api_view(['GET'])
-# @authentication_classes([JWTAuthentication])
-# def get_Vendor(request):  
-#     print('hiiii')   
-#     return Response(VendorRegisterSerializer(request.Vendor).data)
 
-@api_view(['GET'])
-def get_vendor(request):
-    serializer = VendorRegisterSerializer(request.user)
-    return Response(serializer.data)
+class VendorAPIView(APIView):
+    authentication_classes = [VendorAuthentication]
+        
+    def get(self, request):
+        print('kittiyoo')
+        return Response(VendorRegisterSerializer(request.vendor).data)
+
+
+
 
 
     

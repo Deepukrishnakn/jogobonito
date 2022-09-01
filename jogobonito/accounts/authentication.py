@@ -3,6 +3,7 @@ import jwt,datetime
 from rest_framework.authentication import BaseAuthentication,get_authorization_header
 from .models import  Account
 
+# MIDDLEWARE
 class JWTAuthentication(BaseAuthentication):
     def authenticate(self, request):
         auth = get_authorization_header(request).split()
