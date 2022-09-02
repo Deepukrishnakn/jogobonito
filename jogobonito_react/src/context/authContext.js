@@ -12,6 +12,8 @@ export const AuthProvider = ({children})=>{
     const [phone_number, setPhone_number] = useState('')
     let [authTokens, setAuthTokens] = useState(()=>localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(()=>localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
+    let [VendorAuthTokens, setVendorAuthTokens] = useState(()=>localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
+    let [vendor, setVendor] = useState(()=>localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
   
 
     const [message,setMessage]= useState('')
@@ -21,10 +23,10 @@ const userLogin= async (email,password)=>{
     // console.log(password)
     await axios.post('account/login/', {email:email,password:password}).then((response)=>{
        
-        console.log(response.data,'LLLL')
+        console.log(response.data,'user')
         setAuthTokens(response.data.token)
         setErr(response.data.message) 
-        console.log(response.data.message,'dfdfffddfdf')
+        console.log(response.data.message,'user')
         if(response.data.token){
             localStorage.setItem('authTokens',JSON.stringify(response.data))
             localStorage.setItem('user',JSON.stringify(jwt_decode(response.data.token)))
@@ -32,7 +34,7 @@ const userLogin= async (email,password)=>{
         }
 
        if(response.data.message){
-        console.log('dfdfffddfdf')
+        console.log('user')
        }
     })
 
@@ -57,6 +59,35 @@ let userLogout = () => {
 }
   
 console.log(error)
+
+
+
+const vendorLogin= async (email,password)=>{
+    // console.log(email)
+    // console.log(password)
+    await axios.post('vendor/vendorlogin/', {email:email,password:password}).then((response)=>{
+       
+        console.log(response.data,'vendor')
+        setVendorAuthTokens(response.data.token)
+        setErr(response.data.message) 
+        console.log(response.data.message,'vendor message')
+        if(response.data.token){
+            localStorage.setItem('authTokens',JSON.stringify(response.data))
+            localStorage.setItem('user',JSON.stringify(jwt_decode(response.data.token)))
+            navigate('/Thome')
+        }
+
+       if(response.data.message){
+        console.log('dfdfffddfdf')
+       }
+    })
+
+console.log(VendorAuthTokens)
+
+  }
+
+
+
     let contextData={
         user:user,
         phone_number:phone_number,
@@ -67,6 +98,8 @@ console.log(error)
         message:message,
         setMessage:setMessage,
         error:error,
+        vendor:vendor,
+        vendorLogin:vendorLogin,
 
 
     }

@@ -5,10 +5,10 @@ import "./Login.css";
 import AuthContext from '../context/authContext';
 import { useNavigate,Link } from 'react-router-dom';
 
-function Login() {
+function VendorLogin() {
   const [email,setEmail]= useState('')
   const [password,setPassword]= useState('')
-  const {userLogin,message,setMessage,error }=useContext(AuthContext)
+  const {vendorLogin,message,setMessage,error }=useContext(AuthContext)
 
    
   const [emailErr, setEmailErr] = useState({})
@@ -22,7 +22,7 @@ function Login() {
     if(isValid){
     // console.log(email)
     // console.log(password)
-    userLogin(email,password)
+    vendorLogin(email,password)
   }}
 
   // login form  validation------------
@@ -83,7 +83,7 @@ console.log(error)
         Submit
       </Button>
       <Link className='ms-5 mb-3 mt-3' to='/Register'> SignUp</Link>
-      <Link className='ms-5 mb-3' to='/VendorLogin'> Vendor Login</Link>
+      <Link className='ms-5 mb-3' to='/'> SignIn</Link>
       <Link className='mb-3 ms-5 me-5' to='/ForgotPassword'> ForgotPassword</Link> 
     </Form>
     </div>
@@ -91,4 +91,4 @@ console.log(error)
   )
 }
 
-export default Login
+export default VendorLogin

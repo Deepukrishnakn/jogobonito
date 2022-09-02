@@ -18,7 +18,9 @@ function BusinessRegistretion() {
   const [district, setDistrict] = useState('')
   const [turf_address, setTurf_address] = useState('')
   const [description, setDescription] = useState('')
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState({
+    file:[],
+  })
   const [password, setPassword] = useState('')
   const [confirm_password, setConfirm_password] = useState('')
   // const [phone_number, setPhone_number] = useState('')
@@ -43,8 +45,10 @@ function BusinessRegistretion() {
   const vendorRegisterHandler = async(e)=>{
     e.preventDefault()
     const isValid = formValidation()
+    const formdata = new FormData();
+    formdata.append('avatar',image.file);
     if (isValid){
-    await axios.post('vendor/vendorRegister/',{
+    await axios.post('vendor/vendorRegister/',formdata,{
       first_name:first_name,
       last_name:last_name,
       email:email,
@@ -56,13 +60,13 @@ function BusinessRegistretion() {
       city:city,
       turf_address:turf_address,
       description:description,
-      image:image
+      image:null
 
     }).then((response)=>{
       console.log(response.data)
       if (response.data.phone_number){
 
-        navigate()
+        navigate('/Thome')
       }else{
        console.log("ok")
       }

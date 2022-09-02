@@ -1,4 +1,5 @@
 import datetime
+import email
 from django.contrib.auth.hashers import check_password
 from rest_framework import status,exceptions
 from rest_framework.decorators import api_view
@@ -12,6 +13,7 @@ from django.contrib.auth.hashers import make_password
 from .models import VendorToken,Vendor 
 from .authentication import create_access_token,create_refresh_token, VendorAuthentication
 from rest_framework import generics
+
 
 # Create your views here.
 
@@ -82,7 +84,10 @@ class VendorAPIView(APIView):
         
     def get(self, request):
         print('kittiyoo')
-        return Response(VendorRegisterSerializer(request.vendor).data)
+        user=request.user
+        users=Vendor.objects.get(email=user.email)
+        serializer=VendorRegisterSerializer(users,many=False)
+        return Response(serializer.data)
 
 
 
