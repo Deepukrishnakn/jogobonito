@@ -16,7 +16,12 @@ function ThomePage() {
 <Header/>
 
 <div className='homeContainer'>
-  <Category/>
+<Row>
+    <Col lg={12}>
+    <Category/>
+    </Col>
+  </Row>
+ 
 </div>
 
 

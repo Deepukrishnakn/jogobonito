@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
     'corsheaders',
     'accounts',
-    'turf',
     'vendor',
     'mastar',
 ]
@@ -135,9 +135,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR /'static'
-STATICFILES_DIRS = [
-    'jogobonito/static',
-]
+
 
 #media files configuration
 
