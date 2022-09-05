@@ -11,6 +11,7 @@ import ThomePage from './pages/ThomePage';
 import Turf from "./components/Turf";
 import BisunessPage from "./pages/BisunessPage";
 import VendorLoginPage from "./pages/VendorLoginPage"
+import AddTurf from "./components/AddTurf";
 
 function App(){
   return (
@@ -30,6 +31,8 @@ function App(){
 
       <Route path='/Thome' element ={<ThomePage/>} />
       <Route path='/Turf' element ={<Turf/>} />
+
+      <Route path='/addturf' element ={<AddTurf/>} />
 
 
       {/* <Route path='/Category' element ={<CategoryPage/>} /> */}

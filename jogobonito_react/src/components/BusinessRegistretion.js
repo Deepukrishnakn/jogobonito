@@ -18,7 +18,7 @@ function BusinessRegistretion() {
   const [district, setDistrict] = useState('')
   const [turf_address, setTurf_address] = useState('')
   const [description, setDescription] = useState('')
-  const [image, setImage] = useState('')
+  // const [image, setImage] = useState()
   const [password, setPassword] = useState('')
   const [confirm_password, setConfirm_password] = useState('')
   // const [phone_number, setPhone_number] = useState('')
@@ -56,8 +56,6 @@ function BusinessRegistretion() {
       city:city,
       turf_address:turf_address,
       description:description,
-      image:image
-
     }).then((response)=>{
       console.log(response.data)
       if (response.data.phone_number){
@@ -260,15 +258,15 @@ function BusinessRegistretion() {
                 return <div style={{color:'red'}} >{cityErr[key]}</div>
               })}
       </Form.Group>
-
+{/* 
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Image</Form.Label>
-        {/* <Form.Control name='image' type="file" placeholder="" onChange={(e)=>setImage(e.target.value)} value={image} /> */}
-        <input type="file" onChange={(e)=>setImage(e.target.value)} value={image}  />
+        <Form.Control name='image' type="file" placeholder="" onChange={(e)=>setImage(e.target.value)} value={image} /> 
+        
         {Object.keys(cityErr).map((key)=>{
                 return <div style={{color:'red'}} >{cityErr[key]}</div>
               })}
-      </Form.Group>
+      </Form.Group> */}
 
       {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
         <Form.Check type="checkbox" label="Check me out" />

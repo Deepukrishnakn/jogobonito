@@ -5,7 +5,7 @@ from .models import Vendor
 from rest_framework.response import Response
 from rest_framework import status, exceptions,generics
 
-# MIDDLEWARE
+
 
 
 
@@ -43,7 +43,7 @@ def decode_refresh_token (token):
       except : 
         raise exceptions.AuthenticationFailed('unauthenticated')
 
-
+# MIDDLEWARE
 
 class VendorAuthentication(BaseAuthentication):
       def authenticate(self, request):

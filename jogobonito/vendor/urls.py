@@ -12,6 +12,7 @@ router.register(r'category',views.CategoryViewSet,basename="category")
 
 urlpatterns = [
     path('vendorRegister/', views.vendorRegister, name="vendorRegister"),
+    path('postturf/', views.addTurf,name='postturf'),
     path('vendorlogin/',LoginVenndorView.as_view(),name='vendorlogin'),
     path('vendor/',VendorAPIView.as_view(),name='vendor'),
     path('category_view/<str:slug>/', views.category_view, name="category_view"),

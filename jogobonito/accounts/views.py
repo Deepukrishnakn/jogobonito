@@ -112,8 +112,11 @@ class LoginAPIView(APIView):
             }
             return response
         else:
-            message = {'detail':'Not verifyd'}
-            return Response(message, status=status.HTTP_400_BAD_REQUEST)
+            response = Response()
+            response.data={
+                'message':'Not verifyde'
+            }
+            return response  
 
 class UserAPIView(APIView):
     authentication_classes = [JWTAuthentication]

@@ -10,7 +10,7 @@ function Category() {
   const [loading,setLoading] = useState(false);
   const [data,setData] = useState([])
 
-useEffect(()=>{
+
 
     setLoading(true);
   axios.get('vendor/category').then(res=>{
@@ -18,14 +18,12 @@ useEffect(()=>{
     setData(res.data)
   }).catch(e=>console.log(e))
   .finally(()=>setLoading(false))
-},[]);
+
   return (  
     <div>
 <Row>
       {loading && <h4>loading...</h4>}
   <h1 className='title'>Categories</h1>
-
-  
 
   {data.map((obj)=>
     <Col lg={4}>
