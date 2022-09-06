@@ -6,7 +6,12 @@ import axios from "../constants/constants"
 import {useNavigate,Link} from 'react-router-dom'
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-
+// mui
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 function AddTurf() {
   const {VendorAuthTokens} =useContext(AuthContext)
@@ -26,9 +31,19 @@ function AddTurf() {
     const [district_id, setDistrict_id] = useState("");
     const [city_id, setCity_id] = useState("");
     const [is_available, setIs_available] = useState("");
-    const [category,setCategory] = useState([])
+    const [data,setData] = useState([])
+    
+    // const [category_id, setCategory_id] = useState("");
+    // const handleChange = (event) => {
+    //   setCategory_id(event.target.value );
+    //   console.log(category_id)
+   
+    // };
+  
+
 
     const HandleSubmit = async(e) => {
+      console.log(category_id)
       e.preventDefault()
         console.log(turfName)
         const turfData = new FormData();
@@ -46,6 +61,7 @@ function AddTurf() {
         turfData.append('district',district_id)
         turfData.append('city',city_id)
         turfData.append('is_available',is_available)
+        
     await axios.post('vendor/postturf/',turfData,    
     {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`,  'content-type': 'multipart/form-data'} } ).then((response)=>{
       console.log(response.data)
@@ -57,23 +73,20 @@ function AddTurf() {
       console.log(err.response.data.detail,"erorr")
      console.log(turfData)
     }) 
-
-   
- 
-  axios.get('vendor/category').then(res=>{
-    // console.log(res.data)
-    
-    setCategory(res.category)
-  }).catch(e=>console.log(e))
-  
 }
-    
+
+useEffect(()=>{
+axios.get('vendor/category').then(res=>{
+ console.log(res.data)
+  setData(res.data)
+}).catch(e=>console.log(e))
+// console.log(data)
+},[]);
+
+
+
         return (
           <div>
-{category.map((obj) =>
-  <h1>{obj.slug}</h1>
-)}
-          
       
       <Form className=' m-5' onSubmit={HandleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -123,6 +136,16 @@ function AddTurf() {
               <Form.Control name='image3' type="file" placeholder="upload image4" onChange={(e)=>setImage3(e.target.files[0])}/>
             </Form.Group>
 
+      
+            {/* <DropdownButton id="dropdown-item-button" title="Dropdow" onChange={handleChange} value={category_id}>
+            {data.map((obj)=>
+              <Dropdown.Item  value={obj.slug}> {obj.category_name}</Dropdown.Item>
+            )}
+            </DropdownButton> */}
+
+   
+
+
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Enter City</Form.Label>
               <Form.Control name='city_id' type="text" placeholder="Enter City" onChange={(e)=>setCity_id(e.target.value)} value={city_id} />
@@ -132,21 +155,34 @@ function AddTurf() {
               <Form.Label>Enter district</Form.Label>
               <Form.Control name='district_id' type="text" placeholder="Enter district" onChange={(e)=>setDistrict_id(e.target.value)} value={district_id} />
             </Form.Group>
-      
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Enter category</Form.Label>
-              <Form.Control name='category_id' type="text" placeholder="Enter category" onChange={(e)=>setCategory_id(e.target.value)} value={category_id} />
-            </Form.Group>
+
+  
+            <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Enter Category</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={category_id}
+          label="Enter Category"
+          onChange={(e)=>setCategory_id(e.target.value)} 
+        >
+          {data.map((obj)=>
+          <MenuItem value={obj.id}>{obj.category_name}</MenuItem>
+          )}
+        </Select>
+      </FormControl>
+    </Box>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Enter subCategory</Form.Label>
               <Form.Control name='subCategory_id' type="text" placeholder="Enter subcategory" onChange={(e)=>setSubCategory_id(e.target.value)} value={subCategory_id} />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Is is available</Form.Label>
               <Form.Control name='is_available' type="text" placeholder="Enter is available" onChange={(e)=>setIs_available(e.target.value)} value={is_available} />
-            </Form.Group>
+            </Form.Group> */}
       
             {/* <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Enter</Form.Label>
@@ -163,16 +199,13 @@ function AddTurf() {
                     })}
             </Form.Group> */}
       
-            {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group> */}
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="Check is available" onChange={(e)=>setIs_available(e.target.value)} value={is_available} />
+            </Form.Group>
             <Button variant="primary" type="submit">
               Submit
             </Button>
-            <Link className='ms-5 mb-3 mt-3' to='/'> SignIn</Link>
           </Form>
-      
-      
       
           </div>
         )

@@ -10,20 +10,21 @@ function Category() {
   const [loading,setLoading] = useState(false);
   const [data,setData] = useState([])
 
-
-
+useEffect(()=>{
     setLoading(true);
   axios.get('vendor/category').then(res=>{
     // console.log(res.data)
     setData(res.data)
   }).catch(e=>console.log(e))
   .finally(()=>setLoading(false))
-
+},[]);
   return (  
     <div>
 <Row>
       {loading && <h4>loading...</h4>}
   <h1 className='title'>Categories</h1>
+
+  
 
   {data.map((obj)=>
     <Col lg={4}>
@@ -54,10 +55,7 @@ function Category() {
         <Button variant="primary">Go somewhere</Button>
       </Card.Body>
     </Card>
-
     </Col>
-
-
     <Col lg={4}>
 <Card  className='m-5'>
       <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYrGvP1llQLOgzXDXEUXcqx81jCS_P4uncdw&usqp=CAU' />
@@ -70,7 +68,6 @@ function Category() {
         <Button variant="primary">Go somewhere</Button>
       </Card.Body>
     </Card>
-
     </Col> */}
 
     </Row>

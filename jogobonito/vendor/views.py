@@ -9,9 +9,9 @@ from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 
-from .serializers import VendorRegisterSerializer,TurfSerializer,CategorySerializer
+from .serializers import CitySerializer, DistrictSerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
 from django.contrib.auth.hashers import make_password
-from .models import VendorToken,Vendor,Turf,Category
+from .models import City, District, VendorToken,Vendor,Turf,Category
 from .authentication import create_access_token,create_refresh_token, VendorAuthentication
 from rest_framework import generics
 from rest_framework import viewsets
@@ -133,32 +133,7 @@ class TurfViewSet(viewsets.ModelViewSet):
     search_fields = ('slug','turf_name')
     # pagination_class = TurfViewPagination
 
-    # def post(self, request, *args, **kwargs):
-    #     turf_name = request.data['turf_name']
-    #     slug = request.data['slug']
-    #     size = request.data['size']
-    #     description = request.data['description']
-    #     price = request.data['price']
-    #     image = request.data['image']
-    #     image1 = request.data['image1']
-    #     image2 = request.data['image2']
-    #     image3 = request.data['image3']
-
-    #     Turf.objects.create(turf_name=turf_name,
-    #                         slug=slug,
-    #                         size=size,
-    #                         description=description,
-    #                         price=price,
-    #                         image=image,
-    #                         image1=image1,
-    #                         image2=image2,
-    #                         image3=image3
-    #                         )
-    #     response = Response()
-    #     response.data={
-    #         'message':'Turf created successfuly'
-    #     }
-    #     return response  
+    
 
 @api_view(['POST'])
 # @authentication_classes([VendorAuthentication])
@@ -191,8 +166,16 @@ def addTurf(request):
     except :
         message = {'detail':'something weong!'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
-                
 
+                
+class DistrictViewset(viewsets.ModelViewSet):
+    queryset = District.objects.all()
+    serializer_class = DistrictSerializer
+
+
+class CitytViewset(viewsets.ModelViewSet):
+    queryset = City.objects.all()
+    serializer_class = CitySerializer
 
 # @api_view(['GET'])
 # def TurfView(request,category_slug=None):

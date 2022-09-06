@@ -4,11 +4,10 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 router=DefaultRouter()
-router.register(
-
-    'turfviewset',TurfViewSet, basename='turf'
-)
+router.register('turfviewset',TurfViewSet, basename='turf')
 router.register(r'category',views.CategoryViewSet,basename="category")
+router.register(r'district',views.DistrictViewset,basename="district")
+router.register(r'city',views.CitytViewset,basename="city")
 
 urlpatterns = [
     path('vendorRegister/', views.vendorRegister, name="vendorRegister"),
@@ -18,5 +17,3 @@ urlpatterns = [
     path('category_view/<str:slug>/', views.category_view, name="category_view"),
     # path('TurfView/<str:slug>/', views.TurfView, name="TurfView"),
  ]+router.urls
-
- 
