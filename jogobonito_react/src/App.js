@@ -12,6 +12,7 @@ import Turf from "./components/Turf";
 import BisunessPage from "./pages/BisunessPage";
 import VendorLoginPage from "./pages/VendorLoginPage"
 import AddTurf from "./components/AddTurf";
+import Singleturfpage from './pages/Singleturfpage';
 
 function App(){
   return (
@@ -28,6 +29,8 @@ function App(){
       <Route path='/Bisuness' element ={<BisunessPage/>} />
       <Route path='/VendorLogin' element ={<VendorLoginPage/>} />
 
+
+      <Route path='/singleturf' element ={<Singleturfpage/>} />
 
       <Route path='/Thome' element ={<ThomePage/>} />
       <Route path='/Turf' element ={<Turf/>} />
