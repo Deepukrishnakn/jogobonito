@@ -5,9 +5,10 @@ from rest_framework.routers import DefaultRouter
 
 router=DefaultRouter()
 router.register('turfviewset',TurfViewSet, basename='turf')
-router.register(r'category',views.CategoryViewSet,basename="category")
-router.register(r'district',views.DistrictViewset,basename="district")
-router.register(r'city',views.CitytViewset,basename="city")
+router.register('category',views.CategoryViewSet,basename="category")
+router.register('district',views.DistrictViewset,basename="district")
+router.register('city',views.CityViewset,basename="city")
+router.register('subcate',views.SubcategoryViewset,basename="subcate")
 
 urlpatterns = [
     path('vendorRegister/', views.vendorRegister, name="vendorRegister"),

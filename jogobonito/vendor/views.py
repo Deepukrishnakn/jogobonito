@@ -9,9 +9,9 @@ from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 
-from .serializers import CitySerializer, DistrictSerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
+from .serializers import CitySerializer, DistrictSerializer, SubcategorySerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
 from django.contrib.auth.hashers import make_password
-from .models import City, District, VendorToken,Vendor,Turf,Category
+from .models import City, District, SubCategory, VendorToken,Vendor,Turf,Category
 from .authentication import create_access_token,create_refresh_token, VendorAuthentication
 from rest_framework import generics
 from rest_framework import viewsets
@@ -169,13 +169,20 @@ def addTurf(request):
 
                 
 class DistrictViewset(viewsets.ModelViewSet):
+    print('dfffdf')
     queryset = District.objects.all()
     serializer_class = DistrictSerializer
 
 
-class CitytViewset(viewsets.ModelViewSet):
+class CityViewset(viewsets.ModelViewSet):
     queryset = City.objects.all()
     serializer_class = CitySerializer
+
+
+class SubcategoryViewset(viewsets.ModelViewSet):
+    queryset = SubCategory.objects.all()
+    serializer_class = SubcategorySerializer
+
 
 # @api_view(['GET'])
 # def TurfView(request,category_slug=None):

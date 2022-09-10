@@ -17,6 +17,13 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ['category_name','slug','description','cat_image','id']
 
+
+class SubcategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubCategory
+        fields = '__all__'
+
+
 class DistrictSerializer(serializers.ModelSerializer):
     class Meta:
         model = District
@@ -32,6 +39,7 @@ class SubCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = SubCategory
         fields = '__all__'
+        
 
 class TurfSerializer(serializers.ModelSerializer):
     class Meta:

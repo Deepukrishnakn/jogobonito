@@ -3,9 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import AuthContext from '../context/authContext';
 import axios from "../constants/constants"
-import {useNavigate,Link} from 'react-router-dom'
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 // mui
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -30,8 +27,11 @@ function AddTurf() {
     const [subCategory_id, setSubCategory_id] = useState("");
     const [district_id, setDistrict_id] = useState("");
     const [city_id, setCity_id] = useState("");
-    const [is_available, setIs_available] = useState("");
+    const [is_available, setIs_available] = useState("False")
     const [data,setData] = useState([])
+    const [district,setDistrict] = useState([])
+    const [city,setCity] = useState([])
+    const [subcate,setSubcate] = useState([])
     
     // const [category_id, setCategory_id] = useState("");
     // const handleChange = (event) => {
@@ -76,14 +76,49 @@ function AddTurf() {
 }
 
 useEffect(()=>{
-axios.get('vendor/category').then(res=>{
- console.log(res.data)
-  setData(res.data)
-}).catch(e=>console.log(e))
-// console.log(data)
+  categoryCall()
+  districtCall()
+  cityCall()
+  subcatcall()
 },[]);
 
 
+const categoryCall=()=>{
+  axios.get('vendor/category').then(res=>{
+    console.log(res.data)
+     setData(res.data)
+   }).catch(e=>console.log(e))
+}
+
+const districtCall=()=>{
+  axios.get('vendor/district').then(res=>{
+   console.log(res.data)
+    setDistrict(res.data)
+  }).catch(e=>console.log(e))
+}
+  
+const cityCall=()=>{
+  axios.get('vendor/city').then(res=>{
+   console.log(res.data)
+    setCity(res.data)
+  }).catch(e=>console.log(e))
+}
+  
+const subcatcall=()=>{
+  axios.get('vendor/subcate').then(res=>{
+   console.log(res.data)
+    setSubcate(res.data)
+  }).catch(e=>console.log(e))
+}
+
+console.log(is_available)
+  const handleCheck=()=>{
+    if(is_available==='True'){
+      setIs_available('False')
+    }else{
+      setIs_available('True')
+    }
+  }
 
         return (
           <div>
@@ -136,28 +171,57 @@ axios.get('vendor/category').then(res=>{
               <Form.Control name='image3' type="file" placeholder="upload image4" onChange={(e)=>setImage3(e.target.files[0])}/>
             </Form.Group>
 
-      
-            {/* <DropdownButton id="dropdown-item-button" title="Dropdow" onChange={handleChange} value={category_id}>
-            {data.map((obj)=>
-              <Dropdown.Item  value={obj.slug}> {obj.category_name}</Dropdown.Item>
-            )}
-            </DropdownButton> */}
-
    
 
+<Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Enter district</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={district_id}
+          label="Enter district"
+          onChange={(e)=>setDistrict_id(e.target.value)} 
+        >
+          {district.map((obj)=>
+          <MenuItem value={obj.id}>{obj.district}</MenuItem>
+          )}
+        </Select>
+      </FormControl>
+    </Box> <br/>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+
+
+    <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Enter city</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={city_id}
+          label="Enter city"
+          onChange={(e)=>setCity_id(e.target.value)} 
+        >
+          {city.map((obj)=>
+          <MenuItem value={obj.id}>{obj.city}</MenuItem>
+          )}
+        </Select>
+      </FormControl><br/>
+    </Box>
+
+
+            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Enter City</Form.Label>
               <Form.Control name='city_id' type="text" placeholder="Enter City" onChange={(e)=>setCity_id(e.target.value)} value={city_id} />
-            </Form.Group>
+            </Form.Group> */}
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Enter district</Form.Label>
               <Form.Control name='district_id' type="text" placeholder="Enter district" onChange={(e)=>setDistrict_id(e.target.value)} value={district_id} />
-            </Form.Group>
+            </Form.Group> */}
 
   
-            <Box sx={{ minWidth: 120 }}>
+           <br/> <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Enter Category</InputLabel>
         <Select
@@ -172,12 +236,31 @@ axios.get('vendor/category').then(res=>{
           )}
         </Select>
       </FormControl>
-    </Box>
+    </Box><br/>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+
+
+<Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Enter subcategory</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={subCategory_id}
+          label="Enter Subcategory"
+          onChange={(e)=>setSubCategory_id(e.target.value)} 
+        >
+          {subcate.map((obj)=>
+          <MenuItem value={obj.id}>{obj.name}</MenuItem>
+          )}
+        </Select>
+      </FormControl>
+    </Box> <br/>
+
+            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Enter subCategory</Form.Label>
               <Form.Control name='subCategory_id' type="text" placeholder="Enter subcategory" onChange={(e)=>setSubCategory_id(e.target.value)} value={subCategory_id} />
-            </Form.Group>
+            </Form.Group> */}
 
             {/* <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Is is available</Form.Label>
@@ -200,7 +283,7 @@ axios.get('vendor/category').then(res=>{
             </Form.Group> */}
       
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check is available" onChange={(e)=>setIs_available(e.target.value)} value={is_available} />
+              <Form.Check type="checkbox" label="Check is available" onChange={handleCheck} value={is_available} />
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit
@@ -210,6 +293,6 @@ axios.get('vendor/category').then(res=>{
           </div>
         )
       }
-      
+      //.replace(is_available.charAt(0), is_available.charAt(0).toUpperCase());
 
 export default AddTurf
