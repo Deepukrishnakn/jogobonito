@@ -14,7 +14,7 @@ function Turf() {
         <Row>
         <h1 className='title mt-5'>Find Your Turf</h1>
             <Col lg={4} sm={12} md={6}>
-            <h1 className='title mt-5'>Filters Your Turf</h1>
+            <h1 className='title mt-5'>Filter Your Turf</h1>
             <div className='turfContainer m-5'>
             <div className='turfWrapper'>
                 <div className='turfstSearch'>

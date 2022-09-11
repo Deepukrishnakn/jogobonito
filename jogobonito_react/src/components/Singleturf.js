@@ -1,19 +1,39 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import './Singleturf.css'
 import Carousel from 'react-bootstrap/Carousel';
 import Header from '../components/Header'
 import Navebar from '../components/Navebar'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import {faLocationDot} from "@fortawesome/free-solid-svg-icones"
+import axios from "../constants/constants"
+import { useParams } from 'react-router-dom';
+
+
 function Singleturf() {
+
+
+const [turfdetails, setTurfDetails] = useState([])
+
+const { cate_slug,turf_slug } = useParams();
+
+const getSingleTurf =  async () => {
+  const { data } = await axios.get(`vendor/Turf_details/${cate_slug}/${turf_slug}`)
+  console.log(data)
+  setTurfDetails(data)
+}
+
+useEffect(() => {
+  getSingleTurf();
+},[])
+
+
   return (
     <div>
 
 <Navebar/>
 <Header/>
+{/* {turfdetails.map((obj)=> */}
 <div className='singleturfcontainer'>
   <div className='singleturfwrapper'>
-    <h1 className='singleturftitle'>title</h1>
+    <h1 className='singleturftitle'>{turfdetails.turf_name}</h1>
     <div className='turfaddress'>
       {/* <FontAwesomeIcone icone={faLocationDot}/> */}
         <span>address</span>
@@ -22,7 +42,7 @@ function Singleturf() {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="https://cdn.pixabay.com/photo/2022/09/02/13/35/mountains-7427623__340.jpg"
+          src={turfdetails.image2}
           alt="First slide"
         />
         <Carousel.Caption>
@@ -33,7 +53,7 @@ function Singleturf() {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="https://static7.depositphotos.com/1066611/793/i/950/depositphotos_7932088-stock-photo-taj-mahal-in-india.jpg" alt="" className="turfsingleimg"
+          src="https://static7.depositphotos.com/1066611/793/i/950/depositphotos_7932088-stock-photo-taj-mahal-in-india.jpg"
           alt="Second slide"
         />
 
@@ -65,7 +85,7 @@ function Singleturf() {
     <div className="turfdetails">
      
         <div className="turfdetailsprice">  
-       <h2 className="priceh2"> <b>$945</b> Fore one match</h2>
+       <h2 className="priceh2"> <b>${turfdetails.price}</b> For one match</h2>
         </div>
           <h1 className="priceh1">Perfect for play soccer</h1>
           <span className='turfdetailspan'>
@@ -79,6 +99,7 @@ function Singleturf() {
     </div>
   </div>
 </div>
+{/* )}  */}
 </div>
   )
 }

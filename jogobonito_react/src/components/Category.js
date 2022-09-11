@@ -4,9 +4,11 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Col,Row } from 'react-bootstrap';
 import axios from "../constants/constants"
+import { useNavigate,Link } from 'react-router-dom';
 
 function Category() {
 
+  const navigate = useNavigate()
   const [loading,setLoading] = useState(false);
   const [data,setData] = useState([])
 
@@ -35,7 +37,7 @@ useEffect(()=>{
         <Card.Text>
         {obj.description}
         </Card.Text>
-        <Button variant="primary">Go To Play</Button>
+        <Button variant="primary" onClick={()=>navigate(`/TurfByCategory/${obj.slug}/`)}>Go To Play</Button>
       </Card.Body>
     </Card>
      </Col> 

@@ -115,18 +115,49 @@ class VendorAPIView(APIView):
         serializer=VendorRegisterSerializer(users,many=False)
         return Response(serializer.data)
 
+
+
 @api_view(['GET'])
-def category_view(request,slug):
-    category = Category.objects.all()
-    serializer = CategorySerializer(category, many=True)
-    return Response(serializer.data)
+def Turfs(request,category_slug):
+    categories = None
+    turf = None
+    try:
+        if category_slug is not None:
+            categories=Category.objects.get(slug = category_slug)
+            print(categories)
+            turf = Turf.objects.filter(category=categories)
+            serializer = TurfSerializer(turf ,many=True)
+            return Response(serializer.data) 
+        else:
+            turf = Turf.objects.all()
+            serializer = TurfSerializer(turf ,many=True)
+            return Response(serializer.data) 
+
+    except:
+        package = Turf.objects.all()
+    message = {'detail':'Turf is not available'}
+
+    return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+
+@api_view(['GET'])
+def Turf_details(request,category_slug,turf_slug):
+    try:
+        single_turf = Turf.objects.get(category__slug=category_slug,slug=turf_slug)
+        serializer = TurfSerializer(single_turf ,many=False)
+        return Response(serializer.data) 
+    except:
+        message = {'detail':'Turf is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+
     
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 class TurfViewSet(viewsets.ModelViewSet):
-    queryset = Turf.objects.all()
+    queryset = Turf.objects.all().filter(is_available=True)
     serializer_class = TurfSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter)
     filter_fields = ('slug','turf_name')

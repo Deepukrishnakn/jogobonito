@@ -13,6 +13,7 @@ import BisunessPage from "./pages/BisunessPage";
 import VendorLoginPage from "./pages/VendorLoginPage"
 import AddTurf from "./components/AddTurf";
 import Singleturfpage from './pages/Singleturfpage';
+import TurfByCategory from "./components/TurfByCategory";
 
 function App(){
   return (
@@ -30,7 +31,10 @@ function App(){
       <Route path='/VendorLogin' element ={<VendorLoginPage/>} />
 
 
-      <Route path='/singleturf' element ={<Singleturfpage/>} />
+      <Route path='/singleturf/:cate_slug/:turf_slug' element ={<Singleturfpage/>} />
+      <Route path='/TurfByCategory/:slug' element ={<TurfByCategory/>} />
+
+      
 
       <Route path='/Thome' element ={<ThomePage/>} />
       <Route path='/Turf' element ={<Turf/>} />

@@ -44,6 +44,7 @@ class SubCategorySerializer(serializers.ModelSerializer):
 class TurfSerializer(serializers.ModelSerializer):
     class Meta:
         model = Turf
-        fields = ['turf_name','slug','size','description','price','image','image1','image2','image3','id']
+        fields = '__all__'
+        #['turf_name','slug','size','description','price','image','image1','image2','image3','id']
         #,'category','SubCategory','district','city','is_available'
         

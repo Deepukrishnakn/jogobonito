@@ -15,6 +15,6 @@ urlpatterns = [
     path('postturf/', views.addTurf,name='postturf'),
     path('vendorlogin/',LoginVenndorView.as_view(),name='vendorlogin'),
     path('vendor/',VendorAPIView.as_view(),name='vendor'),
-    path('category_view/<str:slug>/', views.category_view, name="category_view"),
-    # path('TurfView/<str:slug>/', views.TurfView, name="TurfView"),
+    path('Turf_details/<slug:category_slug>/<slug:turf_slug>/', views.Turf_details, name="Turf_details"),
+    path('turfs/<slug:category_slug>/',views.Turfs,name='turfs'),
  ]+router.urls
