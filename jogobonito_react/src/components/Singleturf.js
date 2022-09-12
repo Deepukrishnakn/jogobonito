@@ -30,7 +30,7 @@ useEffect(() => {
 
 <Navebar/>
 <Header/>
-{/* {turfdetails.map((obj)=> */}
+
 <div className='singleturfcontainer'>
   <div className='singleturfwrapper'>
     <h1 className='singleturftitle'>{turfdetails.turf_name}</h1>
@@ -42,12 +42,12 @@ useEffect(() => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src={turfdetails.image2}
-          alt="First slide"
+          src={turfdetails.image}
+          alt={turfdetails.image}
         />
         <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h3>{turfdetails.turf_name}</h3>
+          <p>{turfdetails.description}</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -99,7 +99,6 @@ useEffect(() => {
     </div>
   </div>
 </div>
-{/* )}  */}
 </div>
   )
 }

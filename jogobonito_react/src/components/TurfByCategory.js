@@ -4,19 +4,19 @@ import Header from '../components/Header'
 import Navebar from '../components/Navebar'
 import axios from "../constants/constants"
 import { useParams } from 'react-router-dom';
-
+import './List.css'
 
 function TurfByCategory() {
 
 
-    const [turfdetails, setTurfDetails] = useState([])
+    const [turfbycategory, setturfbycategory] = useState([])
 
     const { slug } = useParams();
     
     const getSingleTurf =  async () => {
       const { data } = await axios.get(`vendor/turfs/${slug}`)
       console.log(data)
-      setTurfDetails(data)
+      setturfbycategory(data)
     }
     
     useEffect(() => {
@@ -31,9 +31,9 @@ function TurfByCategory() {
  <Navebar/>
 <Header/>
 
-{turfdetails.map((obj)=>
+{turfbycategory.map((obj)=>
 <div className='list mt-5 me-5 '>
-<img src={obj.image} alt='' className='listImg'/>
+  <img src={obj.image} alt='uyguy' className='listImg'/>
       <div className='listDesc'>
       <h1 className='listTile'>Turf Name: {obj.turf_name}</h1>
         <span className='listSize'>Turf Size: {obj.size}</span>

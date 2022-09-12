@@ -1,4 +1,5 @@
 from dataclasses import field, fields
+from unicodedata import category
 from rest_framework import serializers
 from .models import Category, City, District,SubCategory,Turf,Vendor
 
@@ -42,7 +43,9 @@ class SubCategorySerializer(serializers.ModelSerializer):
         
 
 class TurfSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(many=False)
     class Meta:
+    
         model = Turf
         fields = '__all__'
         #['turf_name','slug','size','description','price','image','image1','image2','image3','id']

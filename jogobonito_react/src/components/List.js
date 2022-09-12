@@ -1,13 +1,28 @@
-import React, { useState ,useEffect } from 'react'
+import React, { useState ,useEffect, useContext } from 'react'
 import './List.css'
 import axios from "../constants/constants"
+// import HomeContext from '../context/homeContext';
+import { useNavigate,Link } from 'react-router-dom';
 
 function List() {
 
   const [loading,setLoading] = useState(false);
   const [data,setData] = useState([])
+  const navigate = useNavigate()
+
+
+  const [category,setCategory] = useState([])
+
+    const getCategory =  async () => {
+      const { data } = await axios.get('vendor/category')
+      console.log(data)
+      setCategory(data)
+    }
+  // const {category}=useContext(HomeContext)
+  console.log(category)
 
   useEffect (()=>{
+    getCategory()
     setLoading(true);
     axios.get('vendor/turfviewset').then(res=>{
       console.log('turf',res.data.results)
@@ -19,9 +34,14 @@ function List() {
   return (
     <div>
        {loading && <h4>loading...</h4>}
+
+
+
+
 {data.map((obj)=>
+// {category.map((cate)=>
 <div className='list mt-5 me-5 '>
-      <img src={obj.image2} alt='' className='listImg'/>
+      <img src={obj.image} alt='' className='listImg'/>
       <div className='listDesc'>
       <h1 className='listTile'>Turf Name: {obj.turf_name}</h1>
         <span className='listSize'>Turf Size: {obj.size}</span>
@@ -30,11 +50,13 @@ function List() {
         <span className='listPrice'>Price: {obj.price}</span>
       </div>
       <div className='BookingBtn'>
-      <button className='bookbtn'>See Availability</button>
+      <button className='bookbtn' onClick={()=>navigate(`/singleturf/${obj.category.slug}/${obj.slug}/`)}>See Availability</button>
     </div>
     </div>
-
 )}
+{/* )} */}
+
+
 {/* 
     <div className='list me-5'>
       <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoCqQHTNlzdhpmDgCrBrUb7h8i-h7txqEasrruCtyL-mwDnQDrEuCwojKcODpyExdKE9M&usqp=CAU' alt='' className='listImg'/>
