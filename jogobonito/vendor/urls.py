@@ -2,6 +2,8 @@ from . import views
 from .views import LoginVenndorView, VendorAPIView,TurfViewSet
 from django.urls import path
 from rest_framework.routers import DefaultRouter
+from django.conf.urls.static import static
+from django.conf import settings
 
 router=DefaultRouter()
 router.register('turfviewset',TurfViewSet, basename='turf')
@@ -17,4 +19,4 @@ urlpatterns = [
     path('vendor/',VendorAPIView.as_view(),name='vendor'),
     path('Turf_details/<slug:category_slug>/<slug:turf_slug>/', views.Turf_details, name="Turf_details"),
     path('turfs/<slug:category_slug>/',views.Turfs,name='turfs'),
- ]+router.urls
+ ]+router.urls 

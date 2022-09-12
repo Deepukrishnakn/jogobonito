@@ -5,12 +5,13 @@ import Header from '../components/Header'
 import Navebar from '../components/Navebar'
 import axios from "../constants/constants"
 import { useParams } from 'react-router-dom';
-
+import Footer from '../components/Footer'
+import '../components/home.css'
 
 function Singleturf() {
 
 
-const [turfdetails, setTurfDetails] = useState([])
+const [turfdetails, setTurfDetails] = useState("")
 
 const { cate_slug,turf_slug } = useParams();
 
@@ -33,7 +34,7 @@ useEffect(() => {
 
 <div className='singleturfcontainer'>
   <div className='singleturfwrapper'>
-    <h1 className='singleturftitle'>{turfdetails.turf_name}</h1>
+    <h1 className='singleturftitle'>Turf: {turfdetails.turf_name}</h1>
     <div className='turfaddress'>
       {/* <FontAwesomeIcone icone={faLocationDot}/> */}
         <span>address</span>
@@ -42,7 +43,7 @@ useEffect(() => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src={turfdetails.image}
+          src={'http://127.0.0.1:8000'+turfdetails.image}
           alt={turfdetails.image}
         />
         <Carousel.Caption>
@@ -53,27 +54,37 @@ useEffect(() => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="https://static7.depositphotos.com/1066611/793/i/950/depositphotos_7932088-stock-photo-taj-mahal-in-india.jpg"
+          src={'http://127.0.0.1:8000'+turfdetails.image1}
           alt="Second slide"
         />
 
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+<Carousel.Caption>
+          <h3>{turfdetails.turf_name}</h3>
+          <p>{turfdetails.description}</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="https://image.shutterstock.com/image-photo/mountains-under-mist-morning-amazing-260nw-1725825019.jpg"
+          src={'http://127.0.0.1:8000'+turfdetails.image2}
           alt="Third slide"
         />
 
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
+<Carousel.Caption>
+          <h3>{turfdetails.turf_name}</h3>
+          <p>{turfdetails.description}</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={'http://127.0.0.1:8000'+turfdetails.image3}
+          alt="Third slide"
+        />
+
+<Carousel.Caption>
+          <h3>{turfdetails.turf_name}</h3>
+          <p>{turfdetails.description}</p>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
@@ -89,7 +100,7 @@ useEffect(() => {
         </div>
           <h1 className="priceh1">Perfect for play soccer</h1>
           <span className='turfdetailspan'>
-            review..............
+           review..............
           </span>
           <h2>
           
@@ -98,6 +109,10 @@ useEffect(() => {
       
     </div>
   </div>
+</div>
+
+<div className='FooterContainer'>
+  <Footer/>
 </div>
 </div>
   )

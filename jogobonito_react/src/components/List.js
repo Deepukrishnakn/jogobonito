@@ -11,18 +11,7 @@ function List() {
   const navigate = useNavigate()
 
 
-  const [category,setCategory] = useState([])
-
-    const getCategory =  async () => {
-      const { data } = await axios.get('vendor/category')
-      console.log(data)
-      setCategory(data)
-    }
-  // const {category}=useContext(HomeContext)
-  console.log(category)
-
   useEffect (()=>{
-    getCategory()
     setLoading(true);
     axios.get('vendor/turfviewset').then(res=>{
       console.log('turf',res.data.results)

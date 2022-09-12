@@ -44,6 +44,8 @@ class SubCategorySerializer(serializers.ModelSerializer):
 
 class TurfSerializer(serializers.ModelSerializer):
     category = CategorySerializer(many=False)
+    district = DistrictSerializer(many=False)
+    city = CitySerializer(many=False)
     class Meta:
     
         model = Turf

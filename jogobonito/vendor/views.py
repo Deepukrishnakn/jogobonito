@@ -134,10 +134,10 @@ def Turfs(request,category_slug):
             return Response(serializer.data) 
 
     except:
-        package = Turf.objects.all()
-    message = {'detail':'Turf is not available'}
+        turf = Turf.objects.all()
+        message = {'detail':'Turf is not available'}
 
-    return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
 
 
 @api_view(['GET'])
@@ -164,7 +164,7 @@ class TurfViewSet(viewsets.ModelViewSet):
     search_fields = ('slug','turf_name')
     # pagination_class = TurfViewPagination
 
-    
+
 
 @api_view(['POST'])
 # @authentication_classes([VendorAuthentication])
