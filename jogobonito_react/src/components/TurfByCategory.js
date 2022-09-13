@@ -16,14 +16,14 @@ function TurfByCategory() {
 
     const { slug } = useParams();
     
-    const getSingleTurf =  async () => {
+    const getTurfbyCategory =  async () => {
       const { data } = await axios.get(`vendor/turfs/${slug}`)
       console.log(data)
       setturfbycategory(data)
     }
     
     useEffect(() => {
-      getSingleTurf();
+      getTurfbyCategory();
     },[])
     
     

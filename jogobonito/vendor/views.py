@@ -141,6 +141,34 @@ def Turfs(request,category_slug):
 
 
 @api_view(['GET'])
+def Turfs_District(request,id):
+    try:        
+        district=District.objects.get(id=id)
+        print(district)
+        job=Turf.objects.filter(district=district,is_available=True)
+        serializer=TurfSerializer(job,many=True)
+        return Response(serializer.data)
+    except:
+        turf = Turf.objects.all()
+        message = {'detail':'Turf is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+
+@api_view(['GET'])
+def Turfs_City(request,id):
+    try:        
+        city=City.objects.get(id=id)
+        print(city)
+        job=Turf.objects.filter(city=city,is_available=True)
+        serializer=TurfSerializer(job,many=True)
+        return Response(serializer.data)
+    except:
+        turf = Turf.objects.all()
+        message = {'detail':'Turf is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+
+@api_view(['GET'])
 def Turf_details(request,category_slug,turf_slug):
     try:
         single_turf = Turf.objects.get(category__slug=category_slug,slug=turf_slug)

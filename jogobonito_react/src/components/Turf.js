@@ -1,12 +1,35 @@
-import React from 'react'
+import React,{useState,useContext,useEffect} from 'react'
 import './Turf.css';
 import './Category.css';
 import Header from './Header'
 import Navebar from './Navebar'
 import { Row,Col } from 'react-bootstrap';
 import List from './List';
+// mui
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import axios from "../constants/constants"
+
 
 function Turf() {
+
+    const [district,setDistrict] = useState([])
+    const districtCall=()=>{
+        axios.get('vendor/district').then(res=>{
+         console.log(res.data)
+          setDistrict(res.data)
+        }).catch(e=>console.log(e))
+      }
+        
+      useEffect(()=>{
+        
+        districtCall()
+        
+      },[]);
+
   return (
     <div>
         <Navebar/>
@@ -20,16 +43,20 @@ function Turf() {
                 <div className='turfstSearch'>
                     <h1 className='turfTitle'>Filters</h1>
                 
-                {/* <div className=' m-5'>
-                    <label>District</label>
-                    <input className='' type="text"></input>
-                    
-                    <label>City</label>
-                    <input className='' type="text"></input>
-                    
-                    <label>Size</label>
-                    <input className='' type="text"></input>
-                    </div> */}
+                    <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Enter district</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value=''
+          label="Enter district">
+          {district.map((obj)=>
+          <MenuItem value={obj.id}  onClick={()=>navigate(`/singleturf/${obj.category.slug}/${obj.slug}/`)}>{obj.district}</MenuItem>
+          )}
+        </Select>
+      </FormControl>
+    </Box> <br/>
                 </div>
             </div>
         </div>
