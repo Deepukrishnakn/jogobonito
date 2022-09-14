@@ -28,7 +28,7 @@ function Newturf() {
         {data.map((obj)=>
         <Col lg={3}>
         <div className='newturfItem'>
-            <img src={obj.image} alt={obj.image}/>
+            <img src={'http://127.0.0.1:8000'+obj.image} alt={obj.image}/>
             <div className='newturfTitle'>
                 <h1>Name:{obj.turf_name}</h1>
                 <h1>Size:{obj.size}</h1>

@@ -178,18 +178,26 @@ def Turf_details(request,category_slug,turf_slug):
         message = {'detail':'Turf is not available'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST) 
 
-
+@api_view(['GET'])
+def TurfView(request):
+    try:
+        turf = Turf.objects.all()
+        serializer = TurfSerializer(turf ,many=True)
+        return Response(serializer.data) 
+    except:
+        message = {'detail':'Turf is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
     
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-class TurfViewSet(viewsets.ModelViewSet):
-    queryset = Turf.objects.all().filter(is_available=True)
-    serializer_class = TurfSerializer
-    filter_backends = (DjangoFilterBackend, SearchFilter)
-    filter_fields = ('slug','turf_name')
-    search_fields = ('slug','turf_name')
+# class TurfViewSet(viewsets.ModelViewSet):
+#     queryset = Turf.objects.all().filter(is_available=True)
+#     serializer_class = TurfSerializer
+#     filter_backends = (DjangoFilterBackend, SearchFilter)
+#     filter_fields = ('slug','turf_name')
+#     search_fields = ('slug','turf_name')
     # pagination_class = TurfViewPagination
 
 

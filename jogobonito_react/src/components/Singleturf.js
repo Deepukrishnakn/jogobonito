@@ -35,14 +35,16 @@ useEffect(() => {
 {turfdetails ? (
         <div className='singleturfcontainer'>
         <div className='singleturfwrapper'>
-          <h1 className='singleturftitle'>Turf: {turfdetails.turf_name}</h1>
+          <div className='singleturfcard'>
+         <br/> <h1 className='singleturftitle'> {turfdetails.turf_name}</h1>
           <h2 className='turfdetailspan'>
                 {turfdetails.category.category_name}
                 </h2>
-          <div className='turfaddress'>
+          <div className=''>
             {/* <FontAwesomeIcone icone={faLocationDot}/> */}
-            <h3 className='singleturftitle'>Address:<br/> {turfdetails.district.district}</h3><br/>/
-              <span className='singleturftitle' ><br/>{turfdetails.city.city}</span><br/><br/>
+            <h3 className='singleturftitle'>{turfdetails.district.district}</h3>
+              <span className='singleturftitle' >{turfdetails.city.city}</span><br/><br/>
+          </div>
           </div>
           <Carousel fade>
             <Carousel.Item>
@@ -93,6 +95,7 @@ useEffect(() => {
               </Carousel.Caption>
             </Carousel.Item>
           </Carousel>
+          <div className='singleturfcard'>
           <div className="turfdetailstext">
                 <p className="turfdes">{turfdetails.description}
                 </p>
@@ -100,14 +103,14 @@ useEffect(() => {
           <div className="turfdetails">
            
               <div className="turfdetailsprice">  
-             <h2 className="priceh2"> <b>${turfdetails.price}</b> For one match</h2>
+             <h2 className="bookbtnp ms-5"> <b>${turfdetails.price}</b> For one match</h2>
               </div>
                 <h1 className="priceh1">Perfect for play {turfdetails.size}</h1>
                 <h2>
                 
-                  <button className="bookbtn">Reserve or Book Now </button>
+                  <button className="bookbtn me-5">Reserve or Book Now </button>
                 </h2>
-            
+                </div>
           </div>
         </div>
       </div>

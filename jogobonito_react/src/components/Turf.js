@@ -5,6 +5,10 @@ import Header from './Header'
 import Navebar from './Navebar'
 import { Row,Col } from 'react-bootstrap';
 import List from './List';
+import { useNavigate,Link } from 'react-router-dom';
+import Footer from '../components/Footer'
+import '../components/home.css'
+
 // mui
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -15,19 +19,81 @@ import axios from "../constants/constants"
 
 
 function Turf() {
+  let url='http://127.0.0.1:8000'
+  const [loading,setLoading] = useState(false);
+  const navigate = useNavigate()
+
+
+  const [data,setData] = useState([])
+  const [district_id, setDistrict_id] = useState("");
+  const [city_id, setCity_id] = useState("");
+  const [category_id, setCategory_id] = useState("");
+
+const getAllTurf = () =>{
+    setLoading(true);
+    axios.get('vendor/turfviewset').then(res=>{
+      console.log('turf',res.data.results)
+      setData(res.data)
+    }).catch(e=>console.log(e))
+    .finally(()=>setLoading(false))
+  }
+
+  const [category,setCategory] = useState([])
+  const categoryCall=()=>{
+    axios.get('vendor/category').then(res=>{
+      console.log(res.data)
+      setCategory(res.data)
+     }).catch(e=>console.log(e))
+  }
 
     const [district,setDistrict] = useState([])
     const districtCall=()=>{
-        axios.get('vendor/district').then(res=>{
-         console.log(res.data)
-          setDistrict(res.data)
-        }).catch(e=>console.log(e))
-      }
-        
+      axios.get('vendor/district').then(res=>{
+       console.log(res.data)
+        setDistrict(res.data)
+      }).catch(e=>console.log(e))
+    }
+      
+    const [city,setCity] = useState([])
+    const cityCall=()=>{
+      axios.get('vendor/city').then(res=>{
+       console.log(res.data)
+        setCity(res.data)
+      }).catch(e=>console.log(e))
+    }
+
+    const filterDistHandler=(e)=>{
+      console.log(e,'dfdf')
+      axios.get(`vendor/Turfs_District/${e}`).then(res=>{
+        console.log('turfdfdfd',res.data.results)
+        console.log('dfd',res.data)
+        setData(res.data,)
+      })
+    }
+
+    const filterCityHandler=(e)=>{
+      console.log(e,'dfdf')
+      axios.get(`vendor/Turfs_City/${e}`).then(res=>{
+        console.log('turfdfdfd',res.data.results)
+        console.log('dfd',res.data)
+        setData(res.data,)
+      })
+    }
+
+    const filterCategoryHandler=(e)=>{
+      console.log(e,'dfdf')
+      axios.get(`vendor/turfs/${e}`).then(res=>{
+        console.log('category',res.data.results)
+        console.log('dfd',res.data)
+        setData(res.data,)
+      })
+    }
+     
       useEffect(()=>{
-        
+        getAllTurf()
         districtCall()
-        
+        cityCall()
+        categoryCall()
       },[]);
 
   return (
@@ -41,31 +107,85 @@ function Turf() {
             <div className='turfContainer m-5'>
             <div className='turfWrapper'>
                 <div className='turfstSearch'>
-                    <h1 className='turfTitle'>Filters</h1>
-                
-                    <Box sx={{ minWidth: 120 }}>
+                    <h1 className='turfTitle'>Filters</h1><br/>
+
+          
+        <h1 className='filtertitle'>District</h1>   <br/>   
+       <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Enter district</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value=''
+          value={district_id}
           label="Enter district">
           {district.map((obj)=>
-          <MenuItem value={obj.id}  onClick={()=>navigate(`/singleturf/${obj.category.slug}/${obj.slug}/`)}>{obj.district}</MenuItem>
+          <MenuItem    onClick={()=>filterDistHandler(obj.id)} value={obj.id}>{obj.district}</MenuItem>
           )}
         </Select>
       </FormControl>
     </Box> <br/>
+
+    <h1 className='filtertitle'>City</h1><br/>
+    <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Enter city</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={city_id}
+          label="Enter city">
+          {city.map((obj)=>
+          <MenuItem onClick={()=>filterCityHandler(obj.id)} value={obj.id}>{obj.city}</MenuItem>
+          )}
+        </Select>
+      </FormControl>
+    </Box><br/>
+
+    <h1 className='filtertitle'>Category</h1>
+    <br/> <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Enter Category</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={category_id}
+          label="Enter Category">
+          {category.map((obj)=>
+          <MenuItem onClick={()=>filterCategoryHandler(obj.slug)} value={obj.slug}>{obj.category_name}</MenuItem>
+          )}
+        </Select>
+      </FormControl>
+    </Box><br/>
                 </div>
             </div>
         </div>
             </Col>
             <Col lg={8}>
-                <List/>
+ {loading && <h4>loading...</h4>}
+ 
+{data.map((obj)=>
+<div className='list mt-5 me-5 '>
+      <img src={'http://127.0.0.1:8000'+obj.image} alt='' className='listImg'/>
+      <div className='listDesc'>
+      <h1 className='listTile'>Turf Name: {obj.turf_name}</h1>
+        <span className='listSize'>Turf Size: {obj.size}</span>
+        <span className='listDesc'>Turf Desc: {obj.category.category_name}</span>
+        <span className='listcity'>Turf City: {obj.city.city}</span>
+        <span className='listcity'>Turf City: {obj.district.district}</span>
+        <span className='listPrice'>Price: {obj.price}</span>
+      </div>
+      <div className='BookingBtn'>
+      <button className='bookbtn' onClick={()=>navigate(`/singleturf/${obj.category.slug}/${obj.slug}/`)}>See Availability</button>
+    </div>
+    </div>
+)}
             </Col>
         </Row>
-        
+
+   <div className='FooterContainer'>
+  <Footer/>
+</div>
     </div>
   )
 }

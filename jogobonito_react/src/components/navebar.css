@@ -1,3 +1,7 @@
+*{
+    font-family: "Inter";
+}
+
 .navebar{
     height: 50px;
     background-color: #003580;

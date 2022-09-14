@@ -13,6 +13,7 @@
     border-radius: 20px;
     overflow: hidden;
     height: 200px;
+    object-fit: contain;
 }
 .categoryImg{
     width: 100%;
