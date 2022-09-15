@@ -1,3 +1,4 @@
+from accounts.models import Account
 from django.db import models
 from django.urls import reverse
 # Create your models here.
@@ -88,11 +89,21 @@ class Turf(models.Model):
     SubCategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     district = models.ForeignKey(District, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     create_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.turf_name
 
-
-
+class TurfSlot(models.Model):
+    Date = models.DateField()
+    Time = models.TimeField()
+    Slot_No = models.CharField(max_length=255)
+    turf = models.ForeignKey(Turf,blank=True, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(Account,blank=True, null=True, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(Vendor,blank=True, null=True, on_delete=models.CASCADE)
+    is_available = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.Slot_No

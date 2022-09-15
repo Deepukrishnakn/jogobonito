@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, City, District, Turf, SubCategory, Vendor
+from .models import Category, City, District, Turf, SubCategory, TurfSlot, Vendor
 # Register your models here.
 
 
@@ -21,3 +21,4 @@ admin.site.register(SubCategory, SubCategoryAdmin)
 admin.site.register(District)
 admin.site.register(City)
 admin.site.register(Vendor)
+admin.site.register(TurfSlot)

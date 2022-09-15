@@ -1,4 +1,4 @@
-
+from rest_framework.decorators import api_view,authentication_classes
 import datetime
 from django.contrib import messages,auth
 from .authentication import create_access_token,create_refresh_token, JWTAuthentication,decode_refresh_token
@@ -20,6 +20,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.shortcuts import render,redirect
 
+from vendor.models import TurfSlot
+from vendor.serializers import SlotSerializer
 @api_view(['POST'])
 def registeruser(request):
     data = request.data
@@ -243,3 +245,20 @@ def resetpassword_validate(request,uidb64,token):
     else:
         print('no')
         return render(request,'accounts/reset_password.html')
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+def BookSlot(request,id):
+    try:
+        book = TurfSlot.objects.get(id=id)
+        book.user=request.user
+        book.is_available=False
+        book.save()
+
+        serializer = SlotSerializer(book,many=False)
+        message = {'detail':'Slot posted Successfuly'}
+        return Response(serializer.data)
+    except:
+        message = {'detail':'something weong!'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)

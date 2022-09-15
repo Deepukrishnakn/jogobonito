@@ -1,8 +1,8 @@
 from dataclasses import field, fields
 from unicodedata import category
 from rest_framework import serializers
-from .models import Category, City, District,SubCategory,Turf,Vendor
-
+from .models import Category, City, District,SubCategory,Turf, TurfSlot,Vendor
+from accounts.serializers import RegisterSerializer
 
 class VendorRegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -52,4 +52,13 @@ class TurfSerializer(serializers.ModelSerializer):
         fields = '__all__'
         #['turf_name','slug','size','description','price','image','image1','image2','image3','id']
         #,'category','SubCategory','district','city','is_available'
+
+
+class SlotSerializer(serializers.ModelSerializer):
+    vendor = VendorRegisterSerializer(many=False)
+    user = RegisterSerializer(many=False)
+    turf = TurfSerializer(many=False)
+    class Meta:
+        model = TurfSlot
+        fields = '__all__'
         

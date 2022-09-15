@@ -7,10 +7,11 @@ import axios from "../constants/constants"
 import { useParams } from 'react-router-dom';
 import Footer from '../components/Footer'
 import '../components/home.css'
+import { useNavigate,Link } from 'react-router-dom';
 
 function Singleturf() {
 
-
+const navigate = useNavigate()
 const [turfdetails, setTurfDetails] = useState('')
 
 const { cate_slug,turf_slug } = useParams();
@@ -108,7 +109,7 @@ useEffect(() => {
                 <h1 className="priceh1">Perfect for play {turfdetails.size}</h1>
                 <h2>
                 
-                  <button className="bookbtn me-5">Reserve or Book Now </button>
+                  <button className="bookbtn me-5" onClick={()=>navigate(`/getslot/${turfdetails.id}`)}>Reserve or Book Now </button>
                 </h2>
                 </div>
           </div>

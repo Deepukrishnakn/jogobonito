@@ -22,6 +22,8 @@ urlpatterns = [
     path('turfs/<slug:category_slug>/',views.Turfs,name='turfs'),
     path('Turfs_District/<int:id>/',views.Turfs_District,name='Turfs_District'),
     path('Turfs_City/<int:id>/',views.Turfs_City,name='Turfs_City'),
+    path('GetSlot/<int:id>/',views.GetSlot,name='GetSlot'),
+    path('addSlot/',views.addSlot,name='addSlot'),
  
  ]+router.urls 
  

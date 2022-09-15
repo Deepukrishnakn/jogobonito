@@ -1,6 +1,4 @@
 import datetime
-from email.mime import image
-from django.contrib import auth
 from django.contrib.auth.hashers import check_password
 from rest_framework import status,exceptions
 from rest_framework.decorators import api_view,authentication_classes
@@ -9,9 +7,9 @@ from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 
-from .serializers import CitySerializer, DistrictSerializer, SubcategorySerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
+from .serializers import CitySerializer, DistrictSerializer, SlotSerializer, SubcategorySerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
 from django.contrib.auth.hashers import make_password
-from .models import City, District, SubCategory, VendorToken,Vendor,Turf,Category
+from .models import City, District, SubCategory, TurfSlot, VendorToken,Vendor,Turf,Category
 from .authentication import create_access_token,create_refresh_token, VendorAuthentication
 from rest_framework import generics
 from rest_framework import viewsets
@@ -203,13 +201,14 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 @api_view(['POST'])
-# @authentication_classes([VendorAuthentication])
+@authentication_classes([VendorAuthentication])
 def addTurf(request):
 
     data = request.data
     print(data)
     try:
-        print('its ok')
+        print('its add turf')
+        print(request.user)
         turfs = Turf.objects.create(
             turf_name = request.data['turf_name'],
             slug = request.data['slug'],
@@ -224,7 +223,8 @@ def addTurf(request):
             SubCategory_id = request.data['SubCategory'],
             district_id = request.data['district'],
             city_id = request.data['city'],
-            is_available = request.data['is_available'],
+            vendor = request.user,
+            is_available = request.data['is_available']
         )
 
         serializer = TurfSerializer(turfs,many=False)
@@ -236,7 +236,6 @@ def addTurf(request):
 
                 
 class DistrictViewset(viewsets.ModelViewSet):
-    print('dfffdf')
     queryset = District.objects.all()
     serializer_class = DistrictSerializer
 
@@ -251,19 +250,46 @@ class SubcategoryViewset(viewsets.ModelViewSet):
     serializer_class = SubcategorySerializer
 
 
-# @api_view(['GET'])
-# def TurfView(request,category_slug=None):
-#     categories = None
-#     print(category_slug)
-#     turf = None
+@api_view(['POST'])
+@authentication_classes([VendorAuthentication])
+def addSlot(request):
 
-#     if  category_slug != None:
-#         categories = get_object_or_404(Category,slug=category_slug)
-#         serializer = Turf.objects.filter(category=categories, is_available=True)
-#     else:
-#         turf = Turf.objects.all()
-#         serializer = TurfSerializer(turf, many=True)
-#     return Response(serializer.data)
+    data = request.data
+    print(data)
+    try:
+        print('its add slot')
+        print(request.user)
+        slots = TurfSlot.objects.create(
+            Date = request.data['Date'],
+            Time = request.data['Time'],
+            Slot_No = request.data['Slot_No'],
+            turf_id = request.data['turf'],
+            is_available = request.data['is_available'],
+            vendor = request.user
+        )
+
+        serializer = SlotSerializer(slots,many=False)
+        message = {'detail':'Slot posted Successfuly'}
+        return Response(serializer.data)
+    except :
+        message = {'detail':'something weong!'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+# @authentication_classes([VendorAuthentication])
+def GetSlot(request,id):
+    try:
+        now = datetime.datetime.now()
+        turf = Turf.objects.get(id=id)
+        slot = TurfSlot.objects.filter(turf=turf,Date__gte=now,Time__gte=now)
+        serializer = SlotSerializer(slot,many=True)
+        return Response(serializer.data)
+    except:
+        message = {'detail':'Sloat is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+
 
 
 

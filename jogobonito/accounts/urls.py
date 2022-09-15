@@ -11,6 +11,7 @@ urlpatterns = [
     path('logout/',LogoutAPIView.as_view()),
     path('forgotpassword/', views.forgotpassword, name="forgotpassword"),
     path('resetpassword_validate/<uidb64>/<token>/', views.resetpassword_validate, name='resetpassword_validate'),
+    path('BookSlot/<int:id>/', views.BookSlot, name="BookSlot"),
     # path('resetpassword/', views.resetpassword, name='resetpassword'),
 #   path('resetpassword_validate/<uidb64>/<token>',views.resetpassword_validate,name='resetpassword_validate'),
  ]

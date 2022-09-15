@@ -52,9 +52,9 @@ class VendorAuthentication(BaseAuthentication):
             if auth and len(auth) == 2:
                   token = auth[1].decode('utf-8')
                   id = decode_access_token(token)
-                  print(id)
+                  # print(id)
                   vendor = Vendor.objects.get(pk=id)
-                  print(vendor)
+                  # print(vendor)
                   if vendor.is_Vendor:
                         return (vendor, None)
                   

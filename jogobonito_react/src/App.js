@@ -14,6 +14,8 @@ import VendorLoginPage from "./pages/VendorLoginPage"
 import AddTurf from "./components/AddTurf";
 import Singleturfpage from './pages/Singleturfpage';
 import TurfByCategory from "./components/TurfByCategory";
+import SlotPage from "./pages/SlotPage";
+
 
 function App(){
   return (
@@ -39,6 +41,8 @@ function App(){
       <Route path='/Thome' element ={<ThomePage/>} />
       <Route path='/Turf' element ={<Turf/>} />
 
+
+      <Route path='/getslot/:Turf_id' element ={<SlotPage/>} />
       <Route path='/addturf' element ={<AddTurf/>} />
 
 
