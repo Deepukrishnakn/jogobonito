@@ -24,5 +24,6 @@ urlpatterns = [
     # path('turf/', include('turf.urls')),
     path('vendor/', include('vendor.urls')),
     path('mastar/', include('mastar.urls')),
+    path('payment/',include("payments.urls")),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

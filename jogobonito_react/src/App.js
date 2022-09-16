@@ -15,6 +15,7 @@ import AddTurf from "./components/AddTurf";
 import Singleturfpage from './pages/Singleturfpage';
 import TurfByCategory from "./components/TurfByCategory";
 import SlotPage from "./pages/SlotPage";
+import Payment from "./components/Payment";
 
 
 function App(){
@@ -44,6 +45,8 @@ function App(){
 
       <Route path='/getslot/:Turf_id' element ={<SlotPage/>} />
       <Route path='/addturf' element ={<AddTurf/>} />
+
+      <Route path='/payment' element ={<Payment/>} />
 
 
       {/* <Route path='/Category' element ={<CategoryPage/>} /> */}

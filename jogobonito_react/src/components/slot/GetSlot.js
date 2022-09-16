@@ -25,6 +25,51 @@ function GetSlot() {
   setSlot(data)
   }
 
+//   const loadScript = (src) => {
+// return new Promise((resolve) =>{
+//   const script = document.createElement('script')
+//   script.src = src
+
+//   script.onabort = () => {
+//     resolve(true)
+//   }
+
+
+//   script.onerror = () => {
+//      resolve(false)
+//   }
+
+//   document.body.appendChild(script)
+// })
+//   }
+
+// const displayRazorpay = async (price) => {
+//   const res = await loadScript('http://checkout.razorpay.com/v1/checkout.js')
+// }
+// if (!src) {
+//   alert('You are offline ')
+//   return
+// }
+
+// const options = {
+//   key: 'rzp_test_FqfpAM5lIo4SFl',
+//   currency: "INR",
+//   price: price * 100,
+//   name: 'deepu',
+
+//   handler: function (response){
+
+//     alert(response.rezorpay_payment_id)
+//     alert("payment success")
+//   },
+//   prefill:{
+//     name: 'deepu'
+//   }
+//   // if(response.rezorpay_payment_id)
+// };
+//     const paymentObject = new window.Razorpzy(options)
+//     paymentObject.open()
+
   useEffect(()=>{
     getslot();
   },[])
@@ -48,132 +93,38 @@ function GetSlot() {
         <Card.Text>
         Date: {obj.Time}
         </Card.Text>
-        <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
-
-      <Modal show={show} onHide={handleClose} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        <Button variant="primary">
+book
+</Button>
       </Card.Body>
     </Card>
     </Col>
 
 )}
 
-    {/* <Col lg={3}>
-<Card  className='m-5'>
-      <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYrGvP1llQLOgzXDXEUXcqx81jCS_P4uncdw&usqp=CAU' />
-      <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
-
-      <Modal show={show} onHide={handleClose} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      </Card.Body>
-    </Card>
-    </Col>
-
-
-
-
-
-    <Col lg={3}>
-<Card  className='m-5'>
-      <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYrGvP1llQLOgzXDXEUXcqx81jCS_P4uncdw&usqp=CAU' />
-      <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
-
-      <Modal show={show} onHide={handleClose} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      </Card.Body>
-    </Card>
-    </Col>
-
-
-
-
-    <Col lg={3}>
-<Card  className='m-5'>
-      <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYrGvP1llQLOgzXDXEUXcqx81jCS_P4uncdw&usqp=CAU' />
-      <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
-
-      <Modal show={show} onHide={handleClose} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      </Card.Body>
-    </Card>
-    </Col> */}
 </Row>
     </>
   )
 }
 
 export default GetSlot
+
+
+{/* <Button variant="primary" onClick={handleShow}>
+Launch demo modal
+</Button>
+
+<Modal show={show} onHide={handleClose} animation={false}>
+<Modal.Header closeButton>
+  <Modal.Title>Modal heading</Modal.Title>
+</Modal.Header>
+<Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+<Modal.Footer>
+  <Button variant="secondary" onClick={handleClose}>
+    Close
+  </Button>
+  <Button variant="primary" onClick={handleClose}>
+    Save Changes
+  </Button>
+</Modal.Footer>
+</Modal> */}

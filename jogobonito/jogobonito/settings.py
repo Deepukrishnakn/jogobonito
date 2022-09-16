@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'accounts',
     'vendor',
     'mastar',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -161,6 +162,10 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 
+
+#razorpay keys
+RAZORPAY_ID = config('RAZORPAY_ID')
+RAZORPAY_KEY = config('RAZORPAY_KEY')
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
