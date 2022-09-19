@@ -27,7 +27,9 @@ function Vnavebar() {
           >
             <Nav.Link href=""onClick={()=>navigate('/vhome/')}>Home</Nav.Link>
             <Nav.Link href="" onClick={()=>navigate('/addturf/')}>Add Turf</Nav.Link>
-            <NavDropdown title="" id="navbarScrollingDropdown">
+            <Nav.Link href="" onClick={()=>navigate('/addSlot/')}>Add Slot</Nav.Link>
+            <Nav.Link href="" onClick={()=>navigate('/turftable/')}>Turfs</Nav.Link>
+            <NavDropdown title="Account" id="navbarScrollingDropdown">
               <NavDropdown.Item href=""> <Link to='/'>Login</Link></NavDropdown.Item>
               <NavDropdown.Item href="" onClick={vendorlogout}>
                 Log out

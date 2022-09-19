@@ -18,6 +18,7 @@ import SlotPage from "./pages/SlotPage";
 import Payment from "./components/Payment";
 import VhomePage from "./pages/VhomePage";
 import AddSlot from "./components/Vendor/AddSlot";
+import VturfTable from "./components/Vendor/VturfTable";
 
 function App(){
   return (
@@ -48,6 +49,7 @@ function App(){
       <Route path='/addturf' element ={<AddTurf/>} />
       <Route path='/vhome' element ={<VhomePage/>} />
       <Route path='/addslot' element ={<AddSlot/>} />
+      <Route path='/turftable' element ={<VturfTable/>} />
       
 
       <Route path='/payment' element ={<Payment/>} />

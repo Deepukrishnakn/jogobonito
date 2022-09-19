@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext} from 'react';
-import Card from 'react-bootstrap/Card';
-import { useParams } from 'react-router-dom';
+import Table from 'react-bootstrap/Table';
 import { Row,Col } from 'react-bootstrap';
 import axios from "../../constants/constants"
 import Button from 'react-bootstrap/Button';
 import authContext from '../../context/authContext'
 import { useNavigate,Link } from 'react-router-dom';
+import Vnavebar from './Vnavebar';
 
-function Vhome() {
+function VturfTable() {
     const {VendorAuthTokens} =useContext(authContext)
    
     const navigate = useNavigate()
@@ -28,31 +28,50 @@ function Vhome() {
         getfurfbyvendor()
       },[])
   return (
+
     <div>
+      <Vnavebar/>
        {turf ? (
         <Row>
       {loading && <h4>loading...</h4>}
 <h1 className='title mt-5'>Your Turfs</h1>
-        {turf.map((obj)=>
-      <Col lg={3}>
-<Card  className='m-5'>
-      <Card.Img variant="top" src={'http://127.0.0.1:8000'+obj.image} />
-      <Card.Body>
-        <Card.Title>{obj.turf_name}</Card.Title>
-        <Card.Text>
-        District: {obj.district.district}
-        </Card.Text>
-        <Card.Text>
-        City: {obj.city.city}
-        </Card.Text>
-        <Button variant="primary" onClick={()=>navigate(`/getslot/${obj.id}`)}>
-View Slots
-</Button>
-      </Card.Body>
-    </Card>
+     
+      <Col lg={12}>
+ <Table striped bordered hover className='m-5 me-5'>
+      <thead>
+        <tr className=''>
+          <th>No.</th>
+          <th>Turf Name</th>
+          {/* <th>Image</th> */}
+          <th>Size</th>
+          <th>Category</th>
+          <th>District</th>
+          <th>City</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      {turf.map((obj)=>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>{obj.turf_name}</td>
+          {/* <td><img src={'http://127.0.0.1:8000'+obj.image}/></td> */}
+          <td>{obj.size}</td>
+          <td>{obj.category.category_name}</td>
+          <td>{obj.district.district}</td>
+          <td>{obj.city.city}</td>
+          <td>edit</td>
+          <td>delete</td>
+        </tr>
+      
+      
+      </tbody>
+      )}
+    </Table>
     </Col>
 
-)}
+
 
 </Row>
 ) : (
@@ -62,4 +81,4 @@ View Slots
   )
 }
 
-export default Vhome
+export default VturfTable

@@ -104,7 +104,7 @@ function GetSlot() {
         Date: {obj.Time}
         </Card.Text>
         <Button variant="primary">
-book
+Edit
 </Button>
       </Card.Body>
     </Card>

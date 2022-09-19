@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 
 
-from .serializers import CitySerializer, DistrictSerializer, SlotSerializer, SubcategorySerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
+from .serializers import CitySerializer, DistrictSerializer, SlotEditSerializer, SlotSerializer, SubcategorySerializer, TurfEditSerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
 from django.contrib.auth.hashers import make_password
 from .models import City, District, SubCategory, TurfSlot, VendorToken,Vendor,Turf,Category
 from .authentication import create_access_token,create_refresh_token, VendorAuthentication
@@ -264,7 +264,7 @@ def addSlot(request):
             Date = request.data['Date'],
             Time = request.data['Time'],
             Slot_No = request.data['Slot_No'],
-            turf_id = request.data['turf'],
+            turf_id = request.data['turf_id'],
             is_available = request.data['is_available'],
             vendor = request.user
         )
@@ -305,8 +305,38 @@ def turf_view_by_vendor(request):
 
 
 
+@api_view(['PUT'])
+@authentication_classes([VendorAuthentication])
+def editturf(request,id):
+    try:
+        turf=Turf.objects.get(id=id)
+        edit=TurfEditSerializer(instance=turf,data=request.data)
+        if edit.is_valid():
+            edit.save()
+        return Response(edit.data)
+    except:
+        response=Response()
+        response.data={
+            'message':'somthing Wrong '
+        }
+        return response  
 
 
+@api_view(['PUT'])
+@authentication_classes([VendorAuthentication])
+def editturf(request,id):
+    try:
+        slot=TurfSlot.objects.get(id=id)
+        edit=SlotEditSerializer(instance=slot,data=request.data)
+        if edit.is_valid():
+            edit.save()
+        return Response(edit.data)
+    except:
+        response=Response()
+        response.data={
+            'message':'somthing Wrong '
+        }
+        return response  
     
 
 

@@ -25,6 +25,7 @@ urlpatterns = [
     path('GetSlot/<int:id>/',views.GetSlot,name='GetSlot'),
     path('addSlot/',views.addSlot,name='addSlot'),
     path('turf_view_by_vendor/',views.turf_view_by_vendor,name='turf_view_by_vendor'),
- 
+    path('editturf/<int:id>/',views.editturf,name='editturf'),
+
  ]+router.urls 
  

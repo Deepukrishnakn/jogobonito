@@ -1,4 +1,5 @@
 from dataclasses import field, fields
+from pyexpat import model
 from unicodedata import category
 from rest_framework import serializers
 from .models import Category, City, District,SubCategory,Turf, TurfSlot,Vendor
@@ -61,4 +62,14 @@ class SlotSerializer(serializers.ModelSerializer):
     class Meta:
         model = TurfSlot
         fields = '__all__'
-        
+
+
+class TurfEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Turf
+        fields = ['turf_name','slug','size','description','price','image','image1','image2','image3']
+
+class SlotEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TurfSlot
+        fields = ['Date','Time','turf']
