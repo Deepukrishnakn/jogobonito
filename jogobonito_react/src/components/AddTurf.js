@@ -1,7 +1,6 @@
 import React,{useState,useContext,useEffect} from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import AuthContext from '../context/authContext';
 import axios from "../constants/constants"
 // mui
 import Box from '@mui/material/Box';
@@ -9,9 +8,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Vnavebar from './Vendor/Vnavebar';
+import authContext from '../context/authContext';
 
 function AddTurf() {
-  const {VendorAuthTokens} =useContext(AuthContext)
+  const {VendorAuthTokens} =useContext(authContext)
 
  
     const [turfName, setTurfname] = useState("");
@@ -122,7 +123,8 @@ console.log(is_available)
 
         return (
           <div>
-      
+            <Vnavebar/>
+      <h1 className='title mb-5 mt-5'>Add Your Turf</h1>
       <Form className=' m-5' onSubmit={HandleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Enter turf Name</Form.Label>

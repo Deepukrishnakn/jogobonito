@@ -24,7 +24,7 @@ urlpatterns = [
     path('Turfs_City/<int:id>/',views.Turfs_City,name='Turfs_City'),
     path('GetSlot/<int:id>/',views.GetSlot,name='GetSlot'),
     path('addSlot/',views.addSlot,name='addSlot'),
+    path('turf_view_by_vendor/',views.turf_view_by_vendor,name='turf_view_by_vendor'),
  
  ]+router.urls 
- 
  

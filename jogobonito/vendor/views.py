@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 
+
 from .serializers import CitySerializer, DistrictSerializer, SlotSerializer, SubcategorySerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
 from django.contrib.auth.hashers import make_password
 from .models import City, District, SubCategory, TurfSlot, VendorToken,Vendor,Turf,Category
@@ -277,13 +278,26 @@ def addSlot(request):
 
 
 @api_view(['GET'])
-# @authentication_classes([VendorAuthentication])
+@authentication_classes([VendorAuthentication])
 def GetSlot(request,id):
     try:
         now = datetime.datetime.now()
         turf = Turf.objects.get(id=id)
         slot = TurfSlot.objects.filter(turf=turf,Date__gte=now,Time__gte=now)
         serializer = SlotSerializer(slot,many=True)
+        return Response(serializer.data)
+    except:
+        message = {'detail':'Sloat is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+
+@api_view(['GET'])
+@authentication_classes([VendorAuthentication])
+def turf_view_by_vendor(request):
+    try:
+        vendor = request.user
+        turf = Turf.objects.filter(vendor=vendor)
+        serializer = TurfSerializer(turf,many=True)
         return Response(serializer.data)
     except:
         message = {'detail':'Sloat is not available'}

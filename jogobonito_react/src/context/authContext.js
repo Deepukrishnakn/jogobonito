@@ -41,13 +41,14 @@ const userLogin= async (email,password)=>{
 console.log(authTokens)
 
   }
-const logoutUser = async()=>{
+const vendorlogout = async()=>{
     await axios.post('account/logout/',).then((response)=>{
         console.log(response.data)
       }) 
     setAuthTokens(null)           
     setUser(null)
     localStorage.removeItem('authTokens')
+    localStorage.removeItem('user')
     navigate('/')
 }
 let userLogout = () => {
@@ -55,7 +56,7 @@ let userLogout = () => {
     setUser(null)
     localStorage.removeItem('authTokens')
     localStorage.removeItem('user')
-    navigate( '/' )   
+    navigate( '/VendorLogin' )   
 }
   
 console.log(error)
@@ -74,7 +75,7 @@ const vendorLogin= async (email,password)=>{
         if(response.data.token){
             localStorage.setItem('authTokens',JSON.stringify(response.data))
             localStorage.setItem('user',JSON.stringify(jwt_decode(response.data.token)))
-            navigate('/Thome')
+            navigate('/vhome')
         }
 
        if(response.data.message){
@@ -92,15 +93,16 @@ console.log(VendorAuthTokens)
         user:user,
         phone_number:phone_number,
         setPhone_number:setPhone_number,
-        userLogin:userLogin,
-        logoutUser:logoutUser,
+        vendorlogout:vendorlogout,
         userLogout:userLogout,
+        userLogin:userLogin,
         message:message,
         setMessage:setMessage,
         error:error,
         vendor:vendor,
         vendorLogin:vendorLogin,
-
+        authTokens:authTokens,
+        VendorAuthTokens:VendorAuthTokens,
 
     }
     return(

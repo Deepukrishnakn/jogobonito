@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext} from 'react';
 import { Row,Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -9,21 +9,31 @@ import Card from 'react-bootstrap/Card';
 import axios from "../../constants/constants"
 import { useParams } from 'react-router-dom';
 import '../List.css'
+import authContext from '../../context/authContext'
 
 function GetSlot() {
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  let {authTokens,} = useContext(authContext)
+    // const [show, setShow] = useState(false);
+    // const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
 
   const {Turf_id} = useParams();
 
   const [loading,setLoading] = useState(false);
   const [Slot,setSlot] = useState([])
   const getslot =  async () => {
-  const { data } = await axios.get(`vendor/GetSlot/${Turf_id}/`)
-  console.log(data)
-  setSlot(data)
-  }
+  const { data } = await axios.get(`vendor/GetSlot/${Turf_id}/`,
+  {headers:{Authorization:`Bearer ${authTokens?.token}`}}).then((response)=>{
+    if (response.status===200){
+      console.log("success")            
+      setSlot(response.data)
+    }
+  }).catch((err)=>{
+    console.log(err.response.data.detail,"erorr").finally(()=>setLoading(false))
+    
+  })}
+  
+  
 
 //   const loadScript = (src) => {
 // return new Promise((resolve) =>{
@@ -71,7 +81,7 @@ function GetSlot() {
 //     paymentObject.open()
 
   useEffect(()=>{
-    getslot();
+    getslot()
   },[])
   return (
     <>
@@ -79,7 +89,7 @@ function GetSlot() {
       <Header/>
 
       <Row>
-
+      {loading && <h4>loading...</h4>}
 <h1 className='title mt-5'>Find Your Time</h1>
         {Slot.map((obj)=>
       <Col lg={3}>
