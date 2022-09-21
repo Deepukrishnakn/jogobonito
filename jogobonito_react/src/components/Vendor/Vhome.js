@@ -45,7 +45,7 @@ function Vhome() {
         <Card.Text>
         City: {obj.city.city}
         </Card.Text>
-        <Button variant="primary" onClick={()=>navigate(`/getslot/${obj.id}`)}>
+        <Button variant="primary" onClick={()=>navigate(`/getallslot/${obj.id}`)}>
 View Slots
 </Button>
       </Card.Body>

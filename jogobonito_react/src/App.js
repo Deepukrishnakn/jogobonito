@@ -15,10 +15,13 @@ import AddTurf from "./components/AddTurf";
 import Singleturfpage from './pages/Singleturfpage';
 import TurfByCategory from "./components/TurfByCategory";
 import SlotPage from "./pages/SlotPage";
-import Payment from "./components/Payment";
+// import Payment from "./components/Payment";
 import VhomePage from "./pages/VhomePage";
 import AddSlot from "./components/Vendor/AddSlot";
 import VturfTable from "./components/Vendor/VturfTable";
+import GetAllSlots from "./components/slot/GetAllSlots";
+import UpdateTurf from "./components/Vendor/UpdateTurf";
+import UpdateSlot from "./components/Vendor/UpdateSlot";
 
 function App(){
   return (
@@ -46,13 +49,15 @@ function App(){
 
 {/* vendpr */}
       <Route path='/getslot/:Turf_id' element ={<SlotPage/>} />
+      <Route path='/getallslot/:Turf_id' element ={<GetAllSlots/>} />
       <Route path='/addturf' element ={<AddTurf/>} />
       <Route path='/vhome' element ={<VhomePage/>} />
       <Route path='/addslot' element ={<AddSlot/>} />
       <Route path='/turftable' element ={<VturfTable/>} />
-      
+      <Route path='/updateturf/:id' element ={<UpdateTurf/>} />
+      <Route path='/updateslot/:id' element ={<UpdateSlot/>}/>
 
-      <Route path='/payment' element ={<Payment/>} />
+      {/* <Route path='/payment' element ={<Payment/>} /> */}
 
 
       {/* <Route path='/Category' element ={<CategoryPage/>} /> */}

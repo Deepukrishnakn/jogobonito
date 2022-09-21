@@ -1,21 +1,22 @@
 import React,{useState,useContext,useEffect} from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import axios from "../constants/constants"
+import axios from "../../constants/constants"
+import { useParams } from 'react-router-dom'
 // mui
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Vnavebar from './Vendor/Vnavebar';
-import authContext from '../context/authContext';
+import Vnavebar from '../../components/Vendor/Vnavebar';
+import authContext from '../../context/authContext';
 
-function AddTurf() {
+function UpdateTurf() {
   const {VendorAuthTokens} =useContext(authContext)
-
+  
  
-    const [turfName, setTurfname] = useState("");
+    const [turf_Name, setTurfname] = useState("");
     const [slug, setSlug] = useState("");
     const [size, setSize] = useState("");
     const [description, setDescription] = useState("");
@@ -41,14 +42,37 @@ function AddTurf() {
    
     // };
 
+    const {id}= useParams()
+
+    const loadTurf = async () => {
+        const {data} = await axios.get(`vendor/Turfall/${id}/`,
+        {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`, 'content-type': 'multipart/form-data'} } );
+        console.log(data)
+        setTurfname(data.turf_name)
+        setSlug(data.slug)
+        setSize(data.size)
+        setDescription(data.description)
+        setprice(data.price)
+        setImage(data.image)
+        setImage1(data.image1)
+        setImage2(data.image2)
+        setImage3(data.image3)
+        setSubCategory_id(data.SubCategory.name)
+        setDistrict_id(data.district.district)
+        setCity_id(data.city.city)
+        setCategory_id(data.category.category)
+        setIs_available('true')
+
+    }
+  
 
 
     const HandleSubmit = async(e) => {
       console.log(category_id)
       e.preventDefault()
-        console.log(turfName)
+        console.log(turf_Name)
         const turfData = new FormData();
-        turfData.append('turf_name',turfName)
+        turfData.append('turf_name',turf_Name)
         turfData.append('slug',slug)
         turfData.append('size',size)
         turfData.append('description',description)
@@ -63,7 +87,7 @@ function AddTurf() {
         turfData.append('city',city_id)
         turfData.append('is_available',is_available)
         
-    await axios.post('vendor/postturf/',turfData,    
+    await axios.patch(`vendor/editturf/${id}/`,turfData,    
     {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`,  'content-type': 'multipart/form-data'} } ).then((response)=>{
       console.log(response.data)
       if (response.status===200){
@@ -81,6 +105,7 @@ useEffect(()=>{
   districtCall()
   cityCall()
   subcatcall()
+  loadTurf()
 },[]);
 
 
@@ -128,7 +153,7 @@ console.log(is_available)
       <Form className=' m-5' onSubmit={HandleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Enter turf Name</Form.Label>
-              <Form.Control name='turfName' type="text" placeholder="Enter turf name" onChange={(e)=>setTurfname(e.target.value)} value={turfName} />
+              <Form.Control name='turfName' type="text" placeholder="Enter turf name" onChange={(e)=>setTurfname(e.target.value)} value={turf_Name} />
               <Form.Text className="text-muted">
               </Form.Text>
             </Form.Group>
@@ -241,7 +266,6 @@ console.log(is_available)
     </Box><br/>
 
 
-
 <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Enter subcategory</InputLabel>
@@ -272,4 +296,4 @@ console.log(is_available)
       }
       //.replace(is_available.charAt(0), is_available.charAt(0).toUpperCase());
 
-export default AddTurf
+export default UpdateTurf

@@ -16,7 +16,7 @@ function VturfTable() {
     const getfurfbyvendor = () =>{
         setLoading(true);
         axios.get('vendor/turf_view_by_vendor',
-        {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`} } ).then(res=>{
+        {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`}}).then(res=>{
           console.log('turf',res.data)
           setTurf(res.data)
           console.log(res.data)
@@ -42,7 +42,7 @@ function VturfTable() {
         <tr className=''>
           <th>No.</th>
           <th>Turf Name</th>
-          {/* <th>Image</th> */}
+          <th>Price</th>
           <th>Size</th>
           <th>Category</th>
           <th>District</th>
@@ -57,12 +57,13 @@ function VturfTable() {
           <td>1</td>
           <td>{obj.turf_name}</td>
           {/* <td><img src={'http://127.0.0.1:8000'+obj.image}/></td> */}
+          <td>{obj.price}</td>
           <td>{obj.size}</td>
           <td>{obj.category.category_name}</td>
           <td>{obj.district.district}</td>
           <td>{obj.city.city}</td>
-          <td>edit</td>
-          <td>delete</td>
+          <td><Button variant="success" className="bookbtn me-5" onClick={()=>navigate(`/updateturf/${obj.id}`)}>EDIT</Button></td>
+          {/* <td><Button variant="danger"onClick={(e) => deleteBook(obj.id,e)}>DELETE</Button></td> */}
         </tr>
       
       

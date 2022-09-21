@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 
+from accounts.authentication import JWTAuthentication
+
 
 from .serializers import CitySerializer, DistrictSerializer, SlotEditSerializer, SlotSerializer, SubcategorySerializer, TurfEditSerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
 from django.contrib.auth.hashers import make_password
@@ -101,6 +103,19 @@ class LoginVenndorView(APIView):
                 'message':'Your Not a Vendor'
             }
             return response  
+    
+class VendorLogoutAPIView(APIView):
+    def post(self, request):
+        refresh_token=request.COOKIES.get('refresh_token')
+        VendorToken.objects.filter(token=refresh_token).delete()
+        
+        response = Response()
+        response.delete_cookie(key='refresh_token')
+        response.data={
+            'message':'logout'
+        }
+        return response        
+
 
 
 
@@ -249,12 +264,21 @@ class CityViewset(viewsets.ModelViewSet):
 class SubcategoryViewset(viewsets.ModelViewSet):
     queryset = SubCategory.objects.all()
     serializer_class = SubcategorySerializer
+    
+@authentication_classes([VendorAuthentication])
+class TurfViewset(viewsets.ModelViewSet):
+    queryset = Turf.objects.all()
+    serializer_class = TurfSerializer
+
+@authentication_classes([VendorAuthentication])
+class SlotallViewset(viewsets.ModelViewSet):
+    queryset = TurfSlot.objects.all()
+    serializer_class = SlotSerializer
 
 
 @api_view(['POST'])
 @authentication_classes([VendorAuthentication])
 def addSlot(request):
-
     data = request.data
     print(data)
     try:
@@ -278,7 +302,7 @@ def addSlot(request):
 
 
 @api_view(['GET'])
-@authentication_classes([VendorAuthentication])
+@authentication_classes([JWTAuthentication])
 def GetSlot(request,id):
     try:
         now = datetime.datetime.now()
@@ -304,8 +328,7 @@ def turf_view_by_vendor(request):
         return Response(message,status=status.HTTP_400_BAD_REQUEST) 
 
 
-
-@api_view(['PUT'])
+@api_view(['PATCH'])
 @authentication_classes([VendorAuthentication])
 def editturf(request,id):
     try:
@@ -322,9 +345,10 @@ def editturf(request,id):
         return response  
 
 
-@api_view(['PUT'])
+
+@api_view(['PATCH'])
 @authentication_classes([VendorAuthentication])
-def editturf(request,id):
+def editslot(request,id):
     try:
         slot=TurfSlot.objects.get(id=id)
         edit=SlotEditSerializer(instance=slot,data=request.data)
@@ -337,6 +361,19 @@ def editturf(request,id):
             'message':'somthing Wrong '
         }
         return response  
+
+
+@api_view(['GET'])
+@authentication_classes([VendorAuthentication])
+def Get_all_Slot(request,id):
+    try:
+        turf = Turf.objects.get(id=id)
+        slot = TurfSlot.objects.filter(turf=turf)
+        serializer = SlotSerializer(slot,many=True)
+        return Response(serializer.data)
+    except:
+        message = {'detail':'Sloat is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
     
 
 

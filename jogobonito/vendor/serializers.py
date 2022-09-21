@@ -65,11 +65,14 @@ class SlotSerializer(serializers.ModelSerializer):
 
 
 class TurfEditSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(many=False)
+    district = DistrictSerializer(many=False)
+    city = CitySerializer(many=False)
     class Meta:
         model = Turf
-        fields = ['turf_name','slug','size','description','price','image','image1','image2','image3']
+        fields = ['turf_name','slug','size','description','price','image','image1','image2','image3','SubCategory','category','district','city','is_available']
 
 class SlotEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = TurfSlot
-        fields = ['Date','Time','turf']
+        fields = ['Date','Time','turf','is_available','Slot_No']

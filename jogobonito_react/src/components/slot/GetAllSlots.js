@@ -1,29 +1,32 @@
 import React, { useEffect, useState, useContext} from 'react';
 import { Row,Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Header from '../Header';
-import Navebar from '../Navebar';
+// import Modal from 'react-bootstrap/Modal';
+// import Header from '../Header';
+// import Navebar from '../Navebar';
 import '../slot/Slot.css'
 import Card from 'react-bootstrap/Card';
 import axios from "../../constants/constants"
 import { useParams } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import '../List.css'
 import authContext from '../../context/authContext'
+import Vnavebar from '../Vendor/Vnavebar';
 
-function GetSlot() {
-  let {authTokens,} = useContext(authContext)
+function GetAllSlots() {
+  let {VendorAuthTokens,} = useContext(authContext)
     // const [show, setShow] = useState(false);
     // const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
 
+  const navigate = useNavigate()
   const {Turf_id} = useParams();
 
   const [loading,setLoading] = useState(false);
   const [Slot,setSlot] = useState([])
   const getslot =  async () => {
-  const { data } = await axios.get(`vendor/GetSlot/${Turf_id}/`,
-  {headers:{Authorization:`Bearer ${authTokens}`}}).then((response)=>{
+  const { data } = await axios.get(`vendor/Get_all_Slot/${Turf_id}/`,
+  {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`}}).then((response)=>{
     if (response.status===200){
       console.log("success")            
       setSlot(response.data)
@@ -85,9 +88,8 @@ function GetSlot() {
   },[])
   return (
     <>
-      <Navebar/>
-      <Header/>
-
+    
+<Vnavebar/>
       <Row>
       {loading && <h4>loading...</h4>}
 <h1 className='title mt-5'>Find Your Time</h1>
@@ -103,8 +105,8 @@ function GetSlot() {
         <Card.Text>
         Date: {obj.Time}
         </Card.Text>
-        <Button variant="primary">
-Book It
+        <Button variant="primary" onClick={()=>navigate(`/updateslot/${obj.id}`)}>
+Edit
 </Button>
       </Card.Body>
     </Card>
@@ -117,7 +119,7 @@ Book It
   )
 }
 
-export default GetSlot
+export default GetAllSlots
 
 
 {/* <Button variant="primary" onClick={handleShow}>
