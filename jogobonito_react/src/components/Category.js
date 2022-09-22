@@ -37,7 +37,7 @@ useEffect(()=>{
         <Card.Text>
         {obj.description}
         </Card.Text>
-        <Button variant="primary" onClick={()=>navigate(`/TurfByCategory/${obj.slug}/`)}>Go To Play</Button>
+        <Button variant="primary" className='buttons' onClick={()=>navigate(`/TurfByCategory/${obj.slug}/`)}>Go To Play</Button>
       </Card.Body>
     </Card>
      </Col> 

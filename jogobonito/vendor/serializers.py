@@ -8,7 +8,7 @@ from accounts.serializers import RegisterSerializer
 class VendorRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
-        fields = ['first_name','last_name','email','phone_number','password','confirm_password','turf_name','district','city','turf_address','description','id']
+        fields = '__all__'
         extra_kwargs ={
             'password':{'write_only':True},
             'confirm_password':{'write_only':True}

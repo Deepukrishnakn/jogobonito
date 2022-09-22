@@ -10,12 +10,12 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 function UpdateSlot() {
 
   const {VendorAuthTokens} =useContext(authContext)
-
+  const Navigate = useNavigate()
   const [Date, setDate] = useState("");
   const [Time, setTime] = useState("");
   const [Slot_No, setSlot_No] = useState("");
@@ -27,7 +27,7 @@ function UpdateSlot() {
 
   const loadeSlot = async() => {
     const {data} = await axios.get(`vendor/Slotall/${id}/`,
-    {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`,  'content-type': 'multipart/form-data'} });
+    {headers:{Authorization:`Bearer ${VendorAuthTokens}`,  'content-type': 'multipart/form-data'} });
     setDate(data.Date)
     setTime(data.Time)
     setIs_available('true')
@@ -47,9 +47,10 @@ function UpdateSlot() {
       slotData.append('is_available',is_available)
       
   await axios.patch(`vendor/Slotall/${id}/`,slotData,    
-  {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`,  'content-type': 'multipart/form-data'} } ).then((response)=>{
+  {headers:{Authorization:`Bearer ${VendorAuthTokens}`,  'content-type': 'multipart/form-data'} } ).then((response)=>{
     console.log(response.data)
     if (response.status===200){
+      Navigate('/vhome')
       console.log("success")
     }
   })  
@@ -94,7 +95,7 @@ function UpdateSlot() {
   return (
     <div>
 <Vnavebar/>
-<h1 className='title mb-5 mt-5'>Add Your Turf</h1>
+<h1 className='title mb-5 mt-5'>Update Your Slot</h1>
 <Form className='m-5' onSubmit={HandleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Enter Date</Form.Label>

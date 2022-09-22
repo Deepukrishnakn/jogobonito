@@ -16,7 +16,7 @@ function Vhome() {
     const getfurfbyvendor = () =>{
         setLoading(true);
         axios.get('vendor/turf_view_by_vendor',
-        {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`} } ).then(res=>{
+        {headers:{Authorization:`Bearer ${VendorAuthTokens}`} } ).then(res=>{
           console.log('turf',res.data)
           setTurf(res.data)
           console.log(res.data)

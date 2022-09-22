@@ -4,7 +4,7 @@ import { Col,Row } from 'react-bootstrap';
 
 function LoginPage() {
   return (
-    <div>
+    <div className=''>
 <Row>
    <Col lg={4}>
 

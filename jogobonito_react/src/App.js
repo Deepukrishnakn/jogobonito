@@ -22,6 +22,7 @@ import VturfTable from "./components/Vendor/VturfTable";
 import GetAllSlots from "./components/slot/GetAllSlots";
 import UpdateTurf from "./components/Vendor/UpdateTurf";
 import UpdateSlot from "./components/Vendor/UpdateSlot";
+import VendorProfile from "./components/Vendor/VendorProfile";
 
 function App(){
   return (
@@ -56,7 +57,7 @@ function App(){
       <Route path='/turftable' element ={<VturfTable/>} />
       <Route path='/updateturf/:id' element ={<UpdateTurf/>} />
       <Route path='/updateslot/:id' element ={<UpdateSlot/>}/>
-
+      <Route path="/vendorprofile" element ={<VendorProfile/>}/>
       {/* <Route path='/payment' element ={<Payment/>} /> */}
 
 

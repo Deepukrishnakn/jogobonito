@@ -16,7 +16,7 @@ class Vendor(models.Model):
     city           = models.CharField(max_length=200)
     turf_address   = models.TextField(max_length=200)
     description    = models.TextField(max_length=255, blank=True)
-    image          = models.ImageField(upload_to='photos/products')
+    # image          = models.ImageField(upload_to='photos/products')
     create_date    = models.DateTimeField(auto_now_add=True)
     modified_date  = models.DateTimeField(auto_now=True)
     is_Vendor      = models.BooleanField(default=True)

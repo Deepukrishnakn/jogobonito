@@ -12,8 +12,15 @@ import { useNavigate,Link } from 'react-router-dom';
 import '../List.css'
 import authContext from '../../context/authContext'
 import Vnavebar from '../Vendor/Vnavebar';
+import Modal from 'react-bootstrap/Modal';
 
 function GetAllSlots() {
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   let {VendorAuthTokens,} = useContext(authContext)
     // const [show, setShow] = useState(false);
     // const handleClose = () => setShow(false);
@@ -26,7 +33,7 @@ function GetAllSlots() {
   const [Slot,setSlot] = useState([])
   const getslot =  async () => {
   const { data } = await axios.get(`vendor/Get_all_Slot/${Turf_id}/`,
-  {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`}}).then((response)=>{
+  {headers:{Authorization:`Bearer ${VendorAuthTokens}`}}).then((response)=>{
     if (response.status===200){
       console.log("success")            
       setSlot(response.data)
@@ -35,6 +42,18 @@ function GetAllSlots() {
     console.log(err.response.data.detail,"erorr").finally(()=>setLoading(false))
     
   })}
+
+
+const deleteSlot = async (id,e) => {
+  await axios.delete(`vendor/Slotall/${id}/`,{headers:{Authorization:`Bearer ${VendorAuthTokens}`} })
+  .then((response)=>{
+      getslot()
+      handleClose()
+  }).catch((err)=>{
+    console.log(err.response.data.detail,"erorr").finally(()=>setLoading(false))
+    
+  })}
+
   
   
 
@@ -92,22 +111,46 @@ function GetAllSlots() {
 <Vnavebar/>
       <Row>
       {loading && <h4>loading...</h4>}
-<h1 className='title mt-5'>Find Your Time</h1>
+<h1 className='title mt-5'> Your Slots</h1>
         {Slot.map((obj)=>
       <Col lg={3}>
 <Card  className='m-5'>
       <Card.Img variant="top" src={'http://127.0.0.1:8000'+obj.turf.image} />
       <Card.Body>
+
         <Card.Title>{obj.turf.turf_name}</Card.Title>
+        <div className='newturfTitle'>
         <Card.Text>
         Date: {obj.Date}
         </Card.Text>
         <Card.Text>
-        Date: {obj.Time}
+        Time: {obj.Time}
         </Card.Text>
-        <Button variant="primary" onClick={()=>navigate(`/updateslot/${obj.id}`)}>
-Edit
-</Button>
+        <Card.Text>
+        No. : {obj.Slot_No}
+        </Card.Text>
+</div>
+        <Button variant="success"  className='m-4' onClick={()=>navigate(`/updateslot/${obj.id}`)}>Edit</Button>
+         <Button variant="danger" onClick={handleShow}>
+          DELETE
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+       <h5 style={{color:'red'}}>Are You sure you want to delete?</h5> 
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="danger" className="bookbtn"  onClick={(e) => deleteSlot(obj.id,e)}>DELETE</Button>
+        </Modal.Footer>
+      </Modal>
+
+
       </Card.Body>
     </Card>
     </Col>

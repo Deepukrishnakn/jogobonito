@@ -1,0 +1,21 @@
+/* .bg{
+    overflow: hidden;
+    object-fit: fill;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT31SHsYcN_7Y4vqwJwS5bBCscP5qN-av0JRA&usqp=CAU);
+} */
+
+.vendor-profile{
+    border: 6rem;
+    width: 1024px;
+    height: 500px;
+    background-color: rgb(225, 238, 235);
+    margin-top: 3rem;
+}
+
+.proimg{
+    margin-top: 2rem;
+    border-radius: 50%;
+}

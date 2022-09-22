@@ -23,7 +23,7 @@ function GetSlot() {
   const [Slot,setSlot] = useState([])
   const getslot =  async () => {
   const { data } = await axios.get(`vendor/GetSlot/${Turf_id}/`,
-  {headers:{Authorization:`Bearer ${authTokens}`}}).then((response)=>{
+  {headers:{Authorization:`Bearer ${authTokens?.token}`}}).then((response)=>{
     if (response.status===200){
       console.log("success")            
       setSlot(response.data)

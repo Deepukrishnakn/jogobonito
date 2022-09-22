@@ -2,7 +2,9 @@ import React,{useState,useContext,useEffect} from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from "../../constants/constants"
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
+
+
 // mui
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -13,8 +15,14 @@ import Vnavebar from '../../components/Vendor/Vnavebar';
 import authContext from '../../context/authContext';
 
 function UpdateTurf() {
+
+  // const [show, setShow] = useState(false);
+
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
+
   const {VendorAuthTokens} =useContext(authContext)
-  
+  const Navigate = useNavigate()
  
     const [turf_Name, setTurfname] = useState("");
     const [slug, setSlug] = useState("");
@@ -46,7 +54,7 @@ function UpdateTurf() {
 
     const loadTurf = async () => {
         const {data} = await axios.get(`vendor/Turfall/${id}/`,
-        {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`, 'content-type': 'multipart/form-data'} } );
+        {headers:{Authorization:`Bearer ${VendorAuthTokens}`, 'content-type': 'multipart/form-data'} } );
         console.log(data)
         setTurfname(data.turf_name)
         setSlug(data.slug)
@@ -57,10 +65,10 @@ function UpdateTurf() {
         setImage1(data.image1)
         setImage2(data.image2)
         setImage3(data.image3)
-        setSubCategory_id(data.SubCategory.name)
-        setDistrict_id(data.district.district)
-        setCity_id(data.city.city)
-        setCategory_id(data.category.category)
+        setSubCategory_id(data.SubCategory)
+        setDistrict_id(data.district)
+        setCity_id(data.city)
+        setCategory_id(data.category)
         setIs_available('true')
 
     }
@@ -77,20 +85,21 @@ function UpdateTurf() {
         turfData.append('size',size)
         turfData.append('description',description)
         turfData.append('price',price)
-        turfData.append('image',image,)
-        turfData.append('image1',image1)
-        turfData.append('image2',image2)
-        turfData.append('image3',image3)
+        // turfData.append('image',image,)
+        // turfData.append('image1',image1)
+        // turfData.append('image2',image2)
+        // turfData.append('image3',image3)
         turfData.append('category',category_id)
         turfData.append('SubCategory',subCategory_id)
         turfData.append('district',district_id)
         turfData.append('city',city_id)
         turfData.append('is_available',is_available)
         
-    await axios.patch(`vendor/editturf/${id}/`,turfData,    
-    {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`,  'content-type': 'multipart/form-data'} } ).then((response)=>{
+    await axios.patch(`vendor/Turfall/${id}/`,turfData,    
+    {headers:{Authorization:`Bearer ${VendorAuthTokens}`,  'content-type': 'multipart/form-data'} } ).then((response)=>{
       console.log(response.data)
       if (response.status===200){
+        Navigate('/vhome')
         console.log("success")
       }
     })  
@@ -149,7 +158,7 @@ console.log(is_available)
         return (
           <div>
             <Vnavebar/>
-      <h1 className='title mb-5 mt-5'>Add Your Turf</h1>
+      <h1 className='title mb-5 mt-5'>Update Your Turf</h1>
       <Form className=' m-5' onSubmit={HandleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Enter turf Name</Form.Label>

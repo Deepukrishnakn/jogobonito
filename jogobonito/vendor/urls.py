@@ -29,7 +29,7 @@ urlpatterns = [
     path('Get_all_Slot/<int:id>/',views.Get_all_Slot,name='Get_all_Slot'),
     path('addSlot/',views.addSlot,name='addSlot'),
     path('turf_view_by_vendor/',views.turf_view_by_vendor,name='turf_view_by_vendor'),
-    path('editturf/<int:id>/',views.editturf,name='editturf'),
+    # path('editturf/<int:id>/',views.editturf,name='editturf'),
     path('editslot/<int:id>/',views.editslot,name='editslot'),
 
  ]+router.urls 

@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
+from django.contrib import messages,auth
 
 from accounts.authentication import JWTAuthentication
 
@@ -81,7 +82,7 @@ class LoginVenndorView(APIView):
             return response  
 
         # vendor = auth.authenticate(email=email, password=password)      
-        if Vendor.is_active:
+        if vendor.is_active:
             access_token = create_access_token(vendor.id)
             refresh_token = create_refresh_token(vendor.id)
             print("ooooo")
@@ -108,7 +109,6 @@ class VendorLogoutAPIView(APIView):
     def post(self, request):
         refresh_token=request.COOKIES.get('refresh_token')
         VendorToken.objects.filter(token=refresh_token).delete()
-        
         response = Response()
         response.delete_cookie(key='refresh_token')
         response.data={
@@ -117,18 +117,14 @@ class VendorLogoutAPIView(APIView):
         return response        
 
 
-
-
 class VendorAPIView(APIView):
     authentication_classes = [VendorAuthentication]
-        
     def get(self, request):
         print('kittiyoo')
         user=request.user
         users=Vendor.objects.get(email=user.email)
         serializer=VendorRegisterSerializer(users,many=False)
         return Response(serializer.data)
-
 
 
 @api_view(['GET'])
@@ -328,21 +324,21 @@ def turf_view_by_vendor(request):
         return Response(message,status=status.HTTP_400_BAD_REQUEST) 
 
 
-@api_view(['PATCH'])
-@authentication_classes([VendorAuthentication])
-def editturf(request,id):
-    try:
-        turf=Turf.objects.get(id=id)
-        edit=TurfEditSerializer(instance=turf,data=request.data)
-        if edit.is_valid():
-            edit.save()
-        return Response(edit.data)
-    except:
-        response=Response()
-        response.data={
-            'message':'somthing Wrong '
-        }
-        return response  
+# @api_view(['PATCH'])
+# @authentication_classes([VendorAuthentication])
+# def editturf(request,id):
+#     try:
+#         turf=Turf.objects.get(id=id)
+#         edit=TurfEditSerializer(instance=turf,data=request.data)
+#         if edit.is_valid():
+#             edit.save()
+#         return Response(edit.data)
+#     except:
+#         response=Response()
+#         response.data={
+#             'message':'somthing Wrong '
+#         }
+#         return response  
 
 
 

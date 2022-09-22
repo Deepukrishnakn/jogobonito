@@ -2,6 +2,7 @@ import React,{useState,useContext,useEffect} from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from "../constants/constants"
+import {navigate, useNavigate} from 'react-router-dom'
 // mui
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -13,7 +14,7 @@ import authContext from '../context/authContext';
 
 function AddTurf() {
   const {VendorAuthTokens} =useContext(authContext)
-
+const navigate = useNavigate()
  
     const [turfName, setTurfname] = useState("");
     const [slug, setSlug] = useState("");
@@ -64,9 +65,10 @@ function AddTurf() {
         turfData.append('is_available',is_available)
         
     await axios.post('vendor/postturf/',turfData,    
-    {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`,  'content-type': 'multipart/form-data'} } ).then((response)=>{
+    {headers:{Authorization:`Bearer ${VendorAuthTokens}`,  'content-type': 'multipart/form-data'} } ).then((response)=>{
       console.log(response.data)
       if (response.status===200){
+        navigate('/vhome')
         console.log("success")
       }
     })  

@@ -19,11 +19,31 @@
 }
 
 .newturfTitle>h1{
-    font-size: 18px; 
-    background-color: antiquewhite;  
+    font-family: "Inter";
+    padding: 1rem;
+    font-size: 25px; 
+    background-color: rgb(241, 245, 13);
+    border-radius: 5px; 
+    font-weight: bold;
 }
 
 .newturfTitle>h2{
-    font-size: 14px;
-    background-color: antiquewhite;  
+    padding: 1rem;
+    font-family: "Inter";
+    color: azure;
+    border-radius: 5px;
+    font-size: 30px;
+    background-color: rgb(6, 99, 4);  
+    font-weight: bold;
+}    
+
+.buttons{
+    padding: 1rem;
+    background-color: #49259e;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+   
 }    

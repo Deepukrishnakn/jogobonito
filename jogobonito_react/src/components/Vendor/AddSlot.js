@@ -10,9 +10,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import {Link,navigate, useNavigate} from 'react-router-dom';
 
 function AddSlot() {
 
+  const navigate = useNavigate()
   const {VendorAuthTokens} =useContext(authContext)
 
   const [Date, setDate] = useState("");
@@ -34,9 +36,10 @@ function AddSlot() {
       slotData.append('is_available',is_available)
       
   await axios.post('vendor/addSlot/',slotData,    
-  {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`,  'content-type': 'multipart/form-data'} } ).then((response)=>{
+  {headers:{Authorization:`Bearer ${VendorAuthTokens}`,  'content-type': 'multipart/form-data'} } ).then((response)=>{
     console.log(response.data)
     if (response.status===200){
+      navigate('/vhome')
       console.log("success")
     }
   })  
@@ -48,7 +51,7 @@ function AddSlot() {
 
 
 const turfCall=()=>{
-  axios.get('vendor/turf_view_by_vendor',{headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`} }).then(res=>{
+  axios.get('vendor/turf_view_by_vendor',{headers:{Authorization:`Bearer ${VendorAuthTokens}`} }).then(res=>{
     console.log(res.data)
      setTurf(res.data)
      {turf.map ((o) =>
@@ -80,7 +83,7 @@ const turfCall=()=>{
   return (
     <div>
 <Vnavebar/>
-<h1 className='title mb-5 mt-5'>Add Your Turf</h1>
+<h1 className='title mb-5 mt-5'>Add Your Slot</h1>
 <Form className='m-5' onSubmit={HandleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Enter Date</Form.Label>

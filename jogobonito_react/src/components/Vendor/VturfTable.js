@@ -6,30 +6,57 @@ import Button from 'react-bootstrap/Button';
 import authContext from '../../context/authContext'
 import { useNavigate,Link } from 'react-router-dom';
 import Vnavebar from './Vnavebar';
+// import '../../components/Vendor/Vhome.css'
+
+import Modal from 'react-bootstrap/Modal';
 
 function VturfTable() {
+
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
     const {VendorAuthTokens} =useContext(authContext)
    
     const navigate = useNavigate()
+
     const [loading,setLoading] = useState(false);
     const [turf,setTurf] = useState([])
     const getfurfbyvendor = () =>{
         setLoading(true);
         axios.get('vendor/turf_view_by_vendor',
-        {headers:{Authorization:`Bearer ${VendorAuthTokens?.token}`}}).then(res=>{
+        {headers:{Authorization:`Bearer ${VendorAuthTokens}`}}).then(res=>{
           console.log('turf',res.data)
           setTurf(res.data)
           console.log(res.data)
         }).catch(e=>console.log(e))
         .finally(()=>setLoading(false))
       }
+
+
+      const deleteTurf = async (id,e) => {
+        e.preventDefault();
+        await axios.delete(`vendor/Turfall/${id}/`,{headers:{Authorization:`Bearer ${VendorAuthTokens}`} })
+        .then((response)=>{
+          if (response.status===200){
+            console.log("success")            
+            getfurfbyvendor()
+            handleClose()
+          }
+      handleClose()
+        }).catch((err)=>{
+          console.log(err.response.data.detail,"erorr").finally(()=>setLoading(false))
+          
+        })}
     
     useEffect(()=>{
         getfurfbyvendor()
       },[])
   return (
 
-    <div>
+    <div className=''>
       <Vnavebar/>
        {turf ? (
         <Row>
@@ -62,11 +89,30 @@ function VturfTable() {
           <td>{obj.category.category_name}</td>
           <td>{obj.district.district}</td>
           <td>{obj.city.city}</td>
-          <td><Button variant="success" className="bookbtn me-5" onClick={()=>navigate(`/updateturf/${obj.id}`)}>EDIT</Button></td>
-          {/* <td><Button variant="danger"onClick={(e) => deleteBook(obj.id,e)}>DELETE</Button></td> */}
+          <td><Button variant="success" className="bookbtn" onClick={()=>navigate(`/updateturf/${obj.id}`)}>EDIT</Button></td>
+          {/* <td><Button variant="danger" className="bookbtn"  onClick={(e) => deleteTurf(obj.id,e)}>DELETE</Button></td> */}
+   
+
+
+          <td>   <Button variant="danger" className="bookbtn" onClick={handleShow}>
+          DELETE
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+       <h5 style={{color:'red'}}>Are You sure you want to delete?</h5> 
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="danger" className="bookbtn"  onClick={(e) => deleteTurf(obj.id,e)}>DELETE</Button>
+        </Modal.Footer>
+      </Modal></td>
         </tr>
-      
-      
       </tbody>
       )}
     </Table>
