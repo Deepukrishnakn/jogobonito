@@ -6,7 +6,7 @@ from rest_framework import status,exceptions
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
-
+from django.core.mail import send_mail
 from accounts.models import UserToken
 from .serializer import VendorActivatSerializer
 from rest_framework.response import Response
@@ -20,6 +20,11 @@ def ActivetVendor(request, id):
     change = VendorActivatSerializer(instance=edit, data=request.data)
     if change.is_valid():
         change.save()
+    send_mail('Hello  ',
+                'Thank You For Join with Jogobonito ,Your Application is Aproved ',
+                'deepukrishna25@gmail.com'
+                ,[edit.email]   
+                ,fail_silently=False)
     return Response(change.data)
 
 

@@ -184,37 +184,6 @@ def forgotpassword(request):
         message = {'detail':'Account doses not exist'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
     
-# @api_view(['POST'])       
-# def resetpassword_validate(request, uidb64, token):
-#     try:
-#         uid = urlsafe_base64_decode(uidb64).decode()
-#         user = Account._default_manager.get(pk=uid)
-#     except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
-#         user = None
-#     if user is not None and default_token_generator.check_token(user, token):
-#         request.session['uid'] = uid
-#         message={'detail': 'pleace reset your password'}
-#         return Response(message, status=status.HTTP_200_OK)
-#     else:
-#         message.error(request, 'This link has been expired!')
-#         return Response(message, status=status.HTTP_400_BAD_REQUEST)
-
-# @api_view(['POST'])
-# def resetpassword(request):
-#         password = request.data['password']
-#         confirm_password = request.data['confirm_password']
-        
-#         if password == confirm_password:
-#             uid = request.session.get('uid')
-#             user = Account.objects.get(pk=uid)
-#             user.set_password(password)
-#             user.save()
-#             message={'detail':'password reset successful'}
-#             return Response(message, status=status.HTTP_200_OK)
-        
-#         else:
-#             message={'detail':'password do not match!'}
-#             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
 def resetpassword_validate(request,uidb64,token):

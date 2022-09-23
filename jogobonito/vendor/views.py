@@ -7,11 +7,17 @@ from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 from django.contrib import messages,auth
-
+from django.core.mail import send_mail
 from accounts.authentication import JWTAuthentication
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import EmailMessage
+from django.shortcuts import render
 
-
-from .serializers import CitySerializer, DistrictSerializer, SlotEditSerializer, SlotSerializer, SubcategorySerializer, TurfEditSerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
+from .serializers import CitySerializer, DistrictSerializer, SlotEditSerializer, SlotSerializer, SubcategorySerializer, TurfEditSerializer, VendorEditSerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
 from django.contrib.auth.hashers import make_password
 from .models import City, District, SubCategory, TurfSlot, VendorToken,Vendor,Turf,Category
 from .authentication import create_access_token,create_refresh_token, VendorAuthentication
@@ -50,6 +56,11 @@ def vendorRegister(request):
             # image=data['image'],
         )
 
+        send_mail('Hello  ',
+                'Thank You For Join with Jogobonito ,Your Application is underprocess ',
+                'deepukrishna25@gmail.com'
+                ,[vendor.email]   
+                ,fail_silently=False)
         serializer = VendorRegisterSerializer(vendor,many=False)
         message = {'detail':'vendor Registration send Successfuly'}
         return Response(serializer.data)
@@ -104,6 +115,35 @@ class LoginVenndorView(APIView):
                 'message':'Your Not a Vendor'
             }
             return response  
+
+
+class VendorForgotAPIV(APIView):
+    def post(self,request):
+        data = request.data
+        print(data)
+        email = data['email']
+        # if Registrationz.objects.filter(email=email).exists():
+        vendor = Vendor.objects.filter(email=email).first()
+        print(vendor)
+
+        #reset password mail
+
+        current_site = get_current_site(request)
+        print(current_site)
+        mail_subject = 'Reset Your Password'
+        message = render_to_string('vendorz/reset.html', {
+            'vendor': vendor,
+            'domain': current_site,
+            'uid': urlsafe_base64_encode(force_bytes(vendor.id)),
+            'token': default_token_generator.make_token(vendor),
+        })
+        to_email = email
+        send_email = EmailMessage(mail_subject,message,to=[to_email])
+        send_email.send()
+
+        message={f'detail':'email sented to  {email}'}
+        return Response(message,status=status.HTTP_200_OK)
+
     
 class VendorLogoutAPIView(APIView):
     def post(self, request):
@@ -125,6 +165,28 @@ class VendorAPIView(APIView):
         users=Vendor.objects.get(email=user.email)
         serializer=VendorRegisterSerializer(users,many=False)
         return Response(serializer.data)
+
+
+# @api_view(['PATCH'])
+# @authentication_classes([VendorAuthentication])
+# def VendorEdit(request,id):
+#     try:
+#         user=Vendor.objects.get(id=id)
+#         edit=VendorEditSerializer(instance=user,data=request.data)
+#         if edit.is_valid():
+#             edit.save()
+#         return Response(edit.data)
+#     except:
+#         response=Response()
+#         response.data={
+#             'message':'somthing Wrong '
+#         }
+#         return response  
+
+# vendor CRUD operations ............
+class AllvendorViewset(viewsets.ModelViewSet):
+    queryset = Vendor.objects.all()
+    serializer_class = VendorRegisterSerializer
 
 
 @api_view(['GET'])

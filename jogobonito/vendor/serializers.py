@@ -76,3 +76,9 @@ class SlotEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = TurfSlot
         fields = ['Date','Time','turf','is_available','Slot_No']
+
+
+class VendorEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vendor
+        fields = ['first_name','last_name','phone_number']
