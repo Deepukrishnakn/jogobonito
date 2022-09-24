@@ -10,13 +10,17 @@ import authContext from '../../context/authContext'
 import axios from "../../constants/constants"
 import {Navigate, useNavigate} from 'react-router-dom'
 
+
 function VendorProfile() {
   
   const {VendorAuthTokens} =useContext(authContext)
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    
+  const [show1, setShow1] = useState(false);
+  const handleClose1 = () => setShow1(false);
+  const handleShow1 = () => setShow1(true);
+
     const [vendor,setVendor] = useState('')
 
   
@@ -82,7 +86,7 @@ useEffect(() => {
             <div className='col-md-6'>
             <Nav className="justify-content-center mt-5" activeKey="/home">
         <Nav.Item>
-        <Button variant="" onClick={handleShow}>
+        <Button variant="" onClick={handleShow} className='me-5'>
         Update
       </Button>
 
@@ -121,18 +125,35 @@ useEffect(() => {
       </Modal>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="link-1">Link</Nav.Link>
+          {/* <Nav.Link eventKey="link-1">Link</Nav.Link> */}
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="link-2">Link</Nav.Link>
+          {/* <Nav.Link eventKey="link-2">Link</Nav.Link> */}
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="disabled" disabled>
-            Disabled
-          </Nav.Link>
+           <Button variant="" onClick={handleShow1} className='me-5'>
+        Your Details
+      </Button>
+
+      <Modal show={show1} onHide={handleClose1}>
+        <Modal.Header closeButton>
+          <Modal.Title>Details </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+           <h3>Full Name: {vendor.first_name +"  "+ last_name}</h3><br/>
+           <h6>Email: {vendor.email}</h6><br/>
+           <h6>phone number: {vendor.phone_number}</h6><br/>
+           <h6>City: {vendor.city}</h6><br/>
+           <h6>Turf address: {vendor.turf_address}</h6><br/>
+           <h6>District: {vendor.district}</h6><br/>
+           <h6>District: {vendor.district}</h6><br/>
+          </div>
+        </Modal.Body>
+      </Modal>
         </Nav.Item>
       </Nav>
-      <p className="text-center mt-4 mb-4">Or right-aligned</p>
+      <p className="text-center mt-4 mb-4"></p>
 
             </div>
 

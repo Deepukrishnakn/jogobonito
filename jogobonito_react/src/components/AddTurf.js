@@ -11,6 +11,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Vnavebar from './Vendor/Vnavebar';
 import authContext from '../context/authContext';
+import { handleBreakpoints } from '@mui/system';
 
 function AddTurf() {
   const {VendorAuthTokens} =useContext(authContext)
@@ -81,7 +82,6 @@ const navigate = useNavigate()
 useEffect(()=>{
   categoryCall()
   districtCall()
-  cityCall()
   subcatcall()
 },[]);
 
@@ -96,17 +96,24 @@ const categoryCall=()=>{
 const districtCall=()=>{
   axios.get('vendor/district').then(res=>{
    console.log(res.data)
+   if (res.status===200){
     setDistrict(res.data)
+  }
+   
   }).catch(e=>console.log(e))
 }
-  
-const cityCall=()=>{
-  axios.get('vendor/city').then(res=>{
+
+
+
+console.log(district_id)
+const cityCall=(id)=>{
+  console.log(district_id)
+  axios.get(`vendor/City_by_district/${district_id}/`).then(res=>{
    console.log(res.data)
     setCity(res.data)
   }).catch(e=>console.log(e))
 }
-  
+
 const subcatcall=()=>{
   axios.get('vendor/subcate').then(res=>{
    console.log(res.data)
@@ -122,7 +129,10 @@ console.log(is_available)
       setIs_available('True')
     }
   }
-
+const handler=(id)=>{
+setDistrict_id(id)
+cityCall(id)
+}
         return (
           <div>
             <Vnavebar/>
@@ -185,7 +195,7 @@ console.log(is_available)
           id="demo-simple-select"
           value={district_id}
           label="Enter district"
-          onChange={(e)=>setDistrict_id(e.target.value)} 
+          onChange={(e)=>handler(e.target.value)} 
         >
           {district.map((obj)=>
           <MenuItem value={obj.id}>{obj.district}</MenuItem>

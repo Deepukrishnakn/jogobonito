@@ -1,4 +1,5 @@
 import datetime
+from unicodedata import category
 from django.contrib.auth.hashers import check_password
 from rest_framework import status,exceptions
 from rest_framework.decorators import api_view,authentication_classes
@@ -26,6 +27,7 @@ from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination  import LimitOffsetPagination
+from django.contrib.auth import  authenticate
 
 # Create your views here.
 
@@ -73,18 +75,25 @@ class LoginVenndorView(APIView):
     def post(self,request):
         
         email = request.data['email']
+        print(email)
+       
         password = request.data['password']
+        print(password)
 
-        vendor = Vendor.objects.filter(email=email).first()
-        passwords =vendor.password
-        
-        if vendor is None:
+        vendorz = Vendor.objects.filter(email=email).exists()
+        #
+
+        if  not vendorz :
+            print('ddddd')
             response = Response()
             response.data={
                 'message':'Email Inncorect'
             }
             return response 
 
+        vendor = Vendor.objects.filter(email=email).first()
+        passwords =vendor.password
+        print(passwords,'jjjj')
         if  not check_password(password, passwords) :
             response = Response()
             response.data={
@@ -92,7 +101,8 @@ class LoginVenndorView(APIView):
             }
             return response  
 
-        # vendor = auth.authenticate(email=email, password=password)      
+        # vendor = auth.authenticate(email=email, password=password)  
+        print(vendor,'ddddd')
         if vendor.is_active:
             access_token = create_access_token(vendor.id)
             refresh_token = create_refresh_token(vendor.id)
@@ -116,34 +126,6 @@ class LoginVenndorView(APIView):
             }
             return response  
 
-
-class VendorForgotAPIV(APIView):
-    def post(self,request):
-        data = request.data
-        print(data)
-        email = data['email']
-        # if Registrationz.objects.filter(email=email).exists():
-        vendor = Vendor.objects.filter(email=email).first()
-        print(vendor)
-
-        #reset password mail
-
-        current_site = get_current_site(request)
-        print(current_site)
-        mail_subject = 'Reset Your Password'
-        message = render_to_string('vendorz/reset.html', {
-            'vendor': vendor,
-            'domain': current_site,
-            'uid': urlsafe_base64_encode(force_bytes(vendor.id)),
-            'token': default_token_generator.make_token(vendor),
-        })
-        to_email = email
-        send_email = EmailMessage(mail_subject,message,to=[to_email])
-        send_email.send()
-
-        message={f'detail':'email sented to  {email}'}
-        return Response(message,status=status.HTTP_200_OK)
-
     
 class VendorLogoutAPIView(APIView):
     def post(self, request):
@@ -166,6 +148,60 @@ class VendorAPIView(APIView):
         serializer=VendorRegisterSerializer(users,many=False)
         return Response(serializer.data)
 
+
+@api_view(['POST'])
+@authentication_classes([VendorAuthentication])
+def change_password(request):
+    data = request.data
+    user=request.user
+    print(user,'user')
+    current_password =data['current_password']
+    new_password = data['new_password']
+    confirm_password = data['confirm_password']
+    user = Vendor.objects.get(email=request.user)
+    if new_password == confirm_password:
+        if authenticate(email=user, password=current_password):
+            print('ok')
+        else:
+            print('not oke')
+        success = user.check_password(current_password)
+
+        if authenticate(email=request.user, password=current_password):
+            print('ok')
+        if success:
+            user.set_password(new_password)
+            user.save()
+            #auth logout(request)
+            message={'success':'plece enter valid current password'}
+            return Response(message,status=status.HTTP_400_BAD_REQUEST)
+        else:
+            message={'success':'plece enter valid current password'}
+            return Response(message,status=status.HTTP_400_BAD_REQUEST)
+
+    else:
+        message={'success':'password reset successfully'}
+        return Response(message,status=status.HTTP_200_OK)
+
+    
+    
+@api_view(['POST'])
+def resetPassword(request):
+    data=request.data
+    password =data['password']
+    confirm_password =data['confirm_password']
+
+    if password == confirm_password:
+        uid =request.session.get('uid')
+        print(uid)
+        user=Vendor.objects.get(id=uid)
+        user.set_password(password)
+        user.save()
+        message={'success':'plece enter valid current password'}
+        return Response(message,status=status.HTTP_200_OK)
+
+    else:
+        message={'error':'password missmatch'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST)
 
 # @api_view(['PATCH'])
 # @authentication_classes([VendorAuthentication])
@@ -231,12 +267,40 @@ def Turfs_City(request,id):
     try:        
         city=City.objects.get(id=id)
         print(city)
-        job=Turf.objects.filter(city=city,is_available=True)
-        serializer=TurfSerializer(job,many=True)
+        turf=Turf.objects.filter(city=city,is_available=True)
+        serializer=TurfSerializer(turf,many=True)
         return Response(serializer.data)
     except:
         turf = Turf.objects.all()
         message = {'detail':'Turf is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+
+@api_view(['GET'])
+def City_by_district(request,id):
+    try:        
+        district=District.objects.get(id=id)
+        print(district)
+        city=City.objects.filter(district=district)
+        serializer=CitySerializer(city,many=True)
+        return Response(serializer.data)
+    except:
+        city = City.objects.all()
+        message = {'detail':'city is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+
+@api_view(['GET'])
+def Subcate_by_Cate(request,id):
+    try:        
+        category=Category.objects.get(id=id)
+        print(category)
+        Subcate=City.objects.filter(category=category)
+        serializer=SubcategorySerializer(Subcate,many=True)
+        return Response(serializer.data)
+    except:
+        Subcate = SubCategory.objects.all()
+        message = {'detail':'Subcategory is not available'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST) 
 
 

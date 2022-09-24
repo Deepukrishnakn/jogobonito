@@ -23,6 +23,7 @@ import GetAllSlots from "./components/slot/GetAllSlots";
 import UpdateTurf from "./components/Vendor/UpdateTurf";
 import UpdateSlot from "./components/Vendor/UpdateSlot";
 import VendorProfile from "./components/Vendor/VendorProfile";
+import UpdateCategory from "./components/Mastar/UpdateCategory";
 
 function App(){
   return (
@@ -58,6 +59,7 @@ function App(){
       <Route path='/updateturf/:id' element ={<UpdateTurf/>} />
       <Route path='/updateslot/:id' element ={<UpdateSlot/>}/>
       <Route path="/vendorprofile" element ={<VendorProfile/>}/>
+      <Route path="/allcategory/" element ={<UpdateCategory/>}/>
       {/* <Route path='/payment' element ={<Payment/>} /> */}
 
 

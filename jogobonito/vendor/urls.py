@@ -1,5 +1,5 @@
 from . import views
-from .views import LoginVenndorView, VendorAPIView,VendorLogoutAPIView,VendorForgotAPIV
+from .views import LoginVenndorView, VendorAPIView,VendorLogoutAPIView
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from django.conf.urls.static import static
@@ -17,7 +17,7 @@ router.register('Allvendor',views.AllvendorViewset,basename="Allvendor")
 
 urlpatterns = [
     path('vendorRegister/', views.vendorRegister, name="vendorRegister"),
-    path('vendorforgotpassword/',VendorForgotAPIV.as_view(),name='vendorforgotpassword'),
+    # path('vendorforgotpassword/',VendorForgotAPIV.as_view(),name='vendorforgotpassword'),
     path('postturf/', views.addTurf,name='postturf'),
     path('turfviewset/', views.TurfView,name='turfviewset'),
     path('vendorlogin/',LoginVenndorView.as_view(),name='vendorlogin'),
@@ -33,6 +33,10 @@ urlpatterns = [
     path('turf_view_by_vendor/',views.turf_view_by_vendor,name='turf_view_by_vendor'),
     # path('editvendor/<int:id>/',views.VendorEdit,name='editvendor'),
     path('editslot/<int:id>/',views.editslot,name='editslot'),
+    path('City_by_district/<int:id>/',views.City_by_district,name='City_by_district'),
+    path('Subcate_by_Cate/<int:id>/',views.Subcate_by_Cate,name='Subcate_by_Cate'),
+    path('change_password/',views.change_password,name='change_password'),
+  
 
  ]+router.urls 
  

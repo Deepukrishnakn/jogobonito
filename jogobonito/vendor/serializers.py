@@ -82,3 +82,9 @@ class VendorEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
         fields = ['first_name','last_name','phone_number']
+
+
+class VendorchangepasswordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vendor
+        fields = ['confirm_password','password']
