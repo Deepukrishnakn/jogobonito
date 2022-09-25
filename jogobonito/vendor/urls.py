@@ -14,6 +14,7 @@ router.register('subcate',views.SubcategoryViewset,basename="subcate")
 router.register('Turfall',views.TurfViewset,basename="Turfall")
 router.register('Slotall',views.SlotallViewset,basename="Slotall")
 router.register('Allvendor',views.AllvendorViewset,basename="Allvendor")
+router.register('searchturf',views.SerchTurfViewSet,basename="searchturf")
 
 urlpatterns = [
     path('vendorRegister/', views.vendorRegister, name="vendorRegister"),

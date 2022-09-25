@@ -24,6 +24,7 @@ import UpdateTurf from "./components/Vendor/UpdateTurf";
 import UpdateSlot from "./components/Vendor/UpdateSlot";
 import VendorProfile from "./components/Vendor/VendorProfile";
 import UpdateCategory from "./components/Mastar/UpdateCategory";
+import Searchturf from "./components/Searchturf";
 
 function App(){
   return (
@@ -48,6 +49,7 @@ function App(){
 
       <Route path='/Thome' element ={<ThomePage/>} />
       <Route path='/Turf' element ={<Turf/>} />
+      <Route path='/Search/:key' element ={<Searchturf/>} />
 
 {/* vendpr */}
       <Route path='/getslot/:Turf_id' element ={<SlotPage/>} />

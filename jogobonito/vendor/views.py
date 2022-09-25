@@ -328,12 +328,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-# class TurfViewSet(viewsets.ModelViewSet):
-#     queryset = Turf.objects.all().filter(is_available=True)
-#     serializer_class = TurfSerializer
-#     filter_backends = (DjangoFilterBackend, SearchFilter)
-#     filter_fields = ('slug','turf_name')
-#     search_fields = ('slug','turf_name')
+class SerchTurfViewSet(viewsets.ModelViewSet):
+    queryset = Turf.objects.all().filter(is_available=True)
+    serializer_class = TurfSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter)
+    filter_fields = ('slug','turf_name')
+    search_fields = ('slug','turf_name','category__category_name','district__district','city__city','size')
     # pagination_class = TurfViewPagination
 
 

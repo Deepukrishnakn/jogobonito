@@ -1,12 +1,33 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFutbol } from '@fortawesome/free-solid-svg-icons'
 import './Header.css'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useNavigate,Link } from 'react-router-dom';
+import axios from "../constants/constants"
+
+
 
 function Header() {
+
+  const [key, setKey] = useState("");
+  const navigate = useNavigate()
+
+
+  const HandleSearch=(e)=>{
+    setKey(key)
+    if (key!=''){
+      console.log(key,'rrrrrrrrrrrrrrrrrrrrrrrrr')
+      // window.location.href='/Search/'+key
+      navigate(`/Search/${key}`)
+    }
+  }
+
+  // useEffect (()=>{
+
+  // },[key])
+
   return (
     <div className='header'>
           <div className='headerContainer'>
@@ -38,9 +59,10 @@ function Header() {
               type="search"
               placeholder="Search"
               className="me-2"
-              aria-label="Search"
+              aria-label='Search'
+              onChange={(e)=>setKey(e.target.value)} value={key}
             />
-            <Button className='me-5' variant="outline-success">Search</Button>
+            <Button type='submit' className='me-5' variant="outline-warning" onClick={HandleSearch}>Search</Button>
           </Form>
           </div>
           </div>
