@@ -8,6 +8,7 @@ import List from './List';
 import { useNavigate,Link } from 'react-router-dom';
 import Footer from '../components/Footer'
 import '../components/home.css'
+import {Pagination} from 'antd'
 
 // mui
 import Box from '@mui/material/Box';
@@ -19,6 +20,7 @@ import axios from "../constants/constants"
 
 
 function Turf() {
+
   let url='http://127.0.0.1:8000'
   const [loading,setLoading] = useState(false);
   const navigate = useNavigate()
@@ -34,6 +36,7 @@ const getAllTurf = () =>{
     axios.get('vendor/turfviewset').then(res=>{
       console.log('turf',res.data.results)
       setData(res.data)
+      setTotal(res.data.length)
     }).catch(e=>console.log(e))
     .finally(()=>setLoading(false))
   }
@@ -85,7 +88,7 @@ const getAllTurf = () =>{
       axios.get(`vendor/turfs/${e}`).then(res=>{
         console.log('category',res.data.results)
         console.log('dfd',res.data)
-        setData(res.data,)
+        setData(res.data)
       })
     }
      
@@ -94,7 +97,28 @@ const getAllTurf = () =>{
         districtCall()
         cityCall()
         categoryCall()
+        
       },[]);
+      const [total, setTotal] = useState('')
+      const [page,setPage] = useState(1)
+      const [dataPerPage, setDataPerPage] = useState(3)
+
+const indexOfLastPage = page + dataPerPage;
+const indexOfFirst = indexOfLastPage - dataPerPage
+const currentData = data.slice(indexOfFirst, indexOfLastPage)
+
+const onShowSizeChange = (current, pageSize) => {
+  setDataPerPage(pageSize)
+}
+
+const itemRender = (current, type, originalElement) => {
+  if(type === 'prev'){
+    return <a>Previous</a>
+  }
+  if(type === 'next'){
+    return <a>next</a>
+  }
+}
 
   return (
     <div>
@@ -164,12 +188,12 @@ const getAllTurf = () =>{
             <Col lg={8}>
  {loading && <h4>loading...</h4>}
  
-{data.map((obj)=>
+{currentData.map((obj)=>
 <div className='list mt-5 me-5 '>
       <img src={'http://127.0.0.1:8000'+obj.image} alt='' className='listImg'/>
       <div className='listDesc'>
       <h1 className='listTile'>Turf Name: {obj.turf_name}</h1>
-        <span className='listSize'>Turf Size: {obj.size}</span>
+        <span className='listSize'>Turf Size:key={obj.id} {obj.size}</span>
         <span className='listDesc'>Turf Desc: {obj.category.category_name}</span>
         <span className='listcity'>Turf City: {obj.city.city}</span>
         <span className='listcity'>Turf City: {obj.district.district}</span>
@@ -180,6 +204,19 @@ const getAllTurf = () =>{
     </div>
     </div>
 )}
+
+<Pagination 
+onChange={(value) => setPage(value)}
+pageSize={dataPerPage}
+total={total}
+current={page}
+// showSizeChanger
+// showQuickJumper
+onShowSizeChange={onShowSizeChange}
+itemRender={itemRender}
+pageClassName={'page-item'}
+pageLinkClassName={'page-link'}
+/>
             </Col>
         </Row>
 

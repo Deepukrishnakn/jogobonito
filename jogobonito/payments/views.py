@@ -1,8 +1,8 @@
-
+import json
 import razorpay
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,authentication_classes
 from .serializers import OrderSerializer
 from .models import Order
 from django.conf import settings
@@ -10,10 +10,11 @@ from django.conf import settings
 from accounts.authentication import JWTAuthentication
 
 @api_view(['POST'])
-# @authentication_classes([JWTAuthentications])
+@authentication_classes([JWTAuthentication])
 def start_payment(request):   
     amount = request.data['amount']
-    name = request.data['name']    
+    name = request.data['name']  
+    # slot = request.data['slot']  
    
     client = razorpay.Client(auth=(settings.RAZORPAY_ID,settings.RAZORPAY_KEY))
 
@@ -30,6 +31,7 @@ def start_payment(request):
     # function
     order = Order.objects.create(order_product=name, 
                                  order_amount=amount, 
+                                #  slot=slot,
                                  order_payment_id=payment['id'])
 
     serializer = OrderSerializer(order)
@@ -50,11 +52,11 @@ def start_payment(request):
 
 
 @api_view(['POST'])
-# @authentication_classes([JWTAuthentications])
+@authentication_classes([JWTAuthentication])
 def handle_payment_success(request):
     # request.data is coming from frontend
     # res = json.loads(request.data["response"])
-    res=request.data['response']
+    res = json.loads(request.data["response"])
     print(res,'response is hweww')
 
     """res will be:
@@ -72,49 +74,34 @@ def handle_payment_success(request):
     for key in res.keys():
         if key == 'razorpay_order_id':
             ord_id = res[key]
-            print(ord_id,'order id')
         elif key == 'razorpay_payment_id':
             raz_pay_id = res[key]
-            print(raz_pay_id,'pay id')
         elif key == 'razorpay_signature':
             raz_signature = res[key]
-            print(raz_signature ,'signature')
     # get order by payment_id which we've created earlier with isPaid=False
     order = Order.objects.get(order_payment_id=ord_id)
-    print(order,'order')
-    print(11)
     # we will pass this whole data in razorpay client to verify the payment
     data = {
         'razorpay_order_id': ord_id,
         'razorpay_payment_id': raz_pay_id,
         'razorpay_signature': raz_signature
     }
-    print(22)
+  
     client = razorpay.Client(auth=(settings.RAZORPAY_ID,settings.RAZORPAY_KEY))
-    print(33)
+   
     # checking if the transaction is valid or not by passing above data dictionary in 
     # razorpay client if it is "valid" then check will return None
     check = client.utility.verify_payment_signature(data)
-    print(44)
-    print(check)
-    if check is  None:
-        print("Redirect to error url or error page")
-        response=Response()
-        response.data = {
-            'error': 'payment successfully received!'
-        }
-        return response
-    print(55)
+    if check is None:
+       
+        return Response({'error': 'Something went wrong'})
+
     # if payment is successful that means check is None then we will turn isPaid=True
-    ord= Order.objects.get(order_payment_id=ord_id)
-    print(ord)
-    ord.isPaid =True 
-    ord.save()
-    
-    print(66)
-    response=Response()
-    response.data = {
-        'message': 'payment successfully completed'
+    order.isPaid = True
+    order.save()
+
+    data = {
+        'message': 'payment successfully received!'
     }
-    print(77)
-    return response
+
+    return Response(data)

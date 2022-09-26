@@ -1,102 +1,120 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react'
 
-
-function loadScript(src) {
-	return new Promise((resolve) => {
-		const script = document.createElement('script')
-		script.src = src
-		script.onload = () => {
-			resolve(true)
-		}
-		script.onerror = () => {
-			resolve(false)
-		}
-		document.body.appendChild(script)
-	})
-}
+import React, { useState,useContext } from "react";
+import axios from "../constants/constants"
+import authContext from '../context/authContext'
 
 function Payment() {
-    const [productDetails, setProductDetails] = useState()
-    const [selectedItemAmount, setSelectedItemAmount] = useState()
+  const [name, setName] = useState("");
+  const [amount, setAmount] = useState("");
+  let {authTokens,} = useContext(authContext)
 
-    useEffect(() => {
-        getProduct()
-    }, [])
+// this function will handel payment when user submit his/her money
+// and it will confim if payment is successfull or not
+  const handlePaymentSuccess = async (response) => {
+    try {
+      let bodyData = new FormData();
 
-    const getProduct = () => {
-        return axios
-        .get(`https://fakestoreapi.com/products/${Math.floor(Math.random() * 10) + 11}`)
+      // we will send the response we've got from razorpay to the backend to validate the payment
+      bodyData.append("response", JSON.stringify(response));
+
+      await axios.post('payment/payment/success/',bodyData,{headers:{Authorization:`Bearer ${authTokens?.token}`}})
         .then((res) => {
-            setProductDetails(res.data)
-            setSelectedItemAmount((res.data.price * 75.61 * 100).toFixed(2))
+          console.log("Everything is OK!");
+          setName("");
+          setAmount("");
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log(console.error());
     }
+  };
 
-    async function displayRazorpay() {
-		const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+  // this will load a script tag which will open up Razorpay payment card to make //transactions
+  const loadScript = () => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    document.body.appendChild(script);
+  };
 
-		if (!res) {
-			alert('Failure loading the Razorpay SDK. PLease make sure you are connected to the internet')
-			return
-		}
-    
-    const orderData = await axios.post('http://127.0.0.1:8000/payment/createOrder/', {
-      amount: selectedItemAmount
-    })
+  const showRazorpay = async () => {
+    const res = await loadScript();
 
-    const { amount, currency, order_id } = orderData.data
+    let bodyData = new FormData();
 
-    
-		const options = {
-            key: "<key_id>", // Enter the Key ID generated from the Dashboard
-            amount: amount.toString(),
-            currency: currency,
-            name: "Test Company",
-            description: "Test Transaction",
-            order_id: order_id,
-            handler: async function (response) {
-                const razorpay_paymentId = response.razorpay_payment_id
-                const razorpay_orderId = response.razorpay_order_id
-                const razorpay_signature = response.razorpay_signature
+    // we will pass the amount and product name to the backend using form data
+    bodyData.append("amount", amount.toString());
+    bodyData.append("name", name);
 
-                const res = await axios.post('http://127.0.0.1:8000/payment/verifySignature/', {
-                  razorpay_paymentId,
-                  razorpay_orderId,
-                  razorpay_signature
-                })
+    const data = await axios.post('payment/pay/',bodyData,{headers:{Authorization:`Bearer ${authTokens?.token}`}}).then((res) => {
+      return res;
+    });
 
-                alert(res.data.status)
-            },
-            prefill: {
-                name: "John Doe",
-                email: "doejon@example.com",
-                contact: "9999999999",
-            },
-            theme: {
-                color: "#61dafb",
-            },
-        };
-		const paymentObject = new window.Razorpay(options)
-		paymentObject.open()
-	}
+    // in data we will receive an object from the backend with the information about the payment
+    //that has been made by the user
+
+    var options = {
+      key_id: process.env.REACT_APP_PUBLIC_KEY, // in react your environment variable must start with REACT_APP_
+      key_secret: process.env.REACT_APP_SECRET_KEY,
+      amount: data.data.payment.amount,
+      currency: "INR",
+      name: "Org. Name",
+      description: "Test teansaction",
+      image: "", // add image url
+      order_id: data.data.payment.id,
+      handler: function (response) {
+        // we will handle success by calling handlePaymentSuccess method and
+        // will pass the response that we've got from razorpay
+        handlePaymentSuccess(response);
+      },
+      prefill: {
+        name: "User's name",
+        email: "User's email",
+        contact: "User's phone",
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    var rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
+
   return (
-    <div className="App">
-    {
-      productDetails && (
-        <div className="card">
-          <img src={productDetails.image} alt="Denim Jeans" />
-          <div className='details'>
-            <h1>{productDetails.title.substring(0, 20) + "..."}</h1>
-            <p className="price">{"₹ " + (productDetails.price * 75.61).toFixed(2)}</p>
-            <p>{productDetails.description.substring(0, 70) + "..."}</p>
-            <button onClick={displayRazorpay}>BUY</button>
-          </div>
+    <div className="container" style={{ marginTop: "20vh" }}>
+      <form>
+        <h1>Payment page</h1>
+
+        <div className="form-group">
+          <label htmlFor="name">Product name</label>
+          <input
+            type="text"
+            className="form-control"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </div>
-      )
-    }
-  </div> 
+        <div className="form-group">
+          <label htmlFor="exampleInputPassword1">Amount</label>
+          <input
+            type="text"
+            className="form-control"
+            id="amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </div>
+      </form>
+      <button onClick={showRazorpay} className="btn btn-primary btn-block">
+        Pay with razorpay
+      </button>
+    </div>
   );
 }
 

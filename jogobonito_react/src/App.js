@@ -25,6 +25,7 @@ import UpdateSlot from "./components/Vendor/UpdateSlot";
 import VendorProfile from "./components/Vendor/VendorProfile";
 import UpdateCategory from "./components/Mastar/UpdateCategory";
 import Searchturf from "./components/Searchturf";
+import Payment from "./components/Payment";
 
 function App(){
   return (
@@ -62,7 +63,7 @@ function App(){
       <Route path='/updateslot/:id' element ={<UpdateSlot/>}/>
       <Route path="/vendorprofile" element ={<VendorProfile/>}/>
       <Route path="/allcategory/" element ={<UpdateCategory/>}/>
-      {/* <Route path='/payment' element ={<Payment/>} /> */}
+      <Route path='/payment' element ={<Payment/>} />
 
 
       {/* <Route path='/Category' element ={<CategoryPage/>} /> */}

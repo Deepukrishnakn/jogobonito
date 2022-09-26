@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from "../constants/constants"
 import {navigate, useNavigate} from 'react-router-dom'
+
 // mui
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -16,7 +17,7 @@ import { handleBreakpoints } from '@mui/system';
 function AddTurf() {
   const {VendorAuthTokens} =useContext(authContext)
 const navigate = useNavigate()
- 
+
     const [turfName, setTurfname] = useState("");
     const [slug, setSlug] = useState("");
     const [size, setSize] = useState("");
@@ -107,8 +108,8 @@ const districtCall=()=>{
 
 console.log(district_id)
 const cityCall=(id)=>{
-  console.log(district_id)
-  axios.get(`vendor/City_by_district/${district_id}/`).then(res=>{
+  console.log(id,'dddd')
+  axios.get(`vendor/City_by_district/${id}/`).then(res=>{
    console.log(res.data)
     setCity(res.data)
   }).catch(e=>console.log(e))
