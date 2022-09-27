@@ -28,7 +28,7 @@ const userLogin= async (email,password)=>{
         setErr(response.data.message) 
         console.log(response.data.message,'user')
         if(response.data.token){
-            localStorage.setItem('authTokens',JSON.stringify(response.data))
+            localStorage.setItem('authTokens',JSON.stringify(response.data.token))
             localStorage.setItem('user',JSON.stringify(jwt_decode(response.data.token)))
             navigate('/Thome')
         }

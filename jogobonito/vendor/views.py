@@ -17,6 +17,9 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.shortcuts import render
+from payments.serializers import OrderSerializer
+
+from payments.models import Order
 
 from .serializers import CitySerializer, DistrictSerializer, SlotEditSerializer, SlotSerializer, SubcategorySerializer, TurfEditSerializer, VendorEditSerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
 from django.contrib.auth.hashers import make_password
@@ -317,7 +320,7 @@ def Turf_details(request,category_slug,turf_slug):
 @api_view(['GET'])
 def TurfView(request):
     try:
-        turf = Turf.objects.all()
+        turf = Turf.objects.filter(is_available=True)
         serializer = TurfSerializer(turf ,many=True)
         return Response(serializer.data) 
     except:
@@ -429,11 +432,58 @@ def GetSlot(request,id):
     try:
         now = datetime.datetime.now()
         turf = Turf.objects.get(id=id)
-        slot = TurfSlot.objects.filter(turf=turf,Date__gte=now,Time__gte=now)
+        slot = TurfSlot.objects.filter(turf=turf,Date__gte=now,Time__gte=now,Is_booked=False)
         serializer = SlotSerializer(slot,many=True)
         return Response(serializer.data)
     except:
-        message = {'detail':'Sloat is not available'}
+        message = {'detail':'Slot is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+
+# @api_view(['GET'])
+# @authentication_classes([VendorAuthentication])
+# def GetBookedSlot(request):
+#     try:
+#         vendor = request.user
+#         slot = TurfSlot.objects.filter(vendor=vendor,Is_booked=True)
+#         print(slot)
+#         order = Order.objects.filter(slot__in=slot)
+#         print(order)
+#         serializer = SlotSerializer(slot,many=True)
+#         return Response(serializer.data)
+#     except:
+#         message = {'detail':'Sloat is not available'}
+#         return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+@api_view(['GET'])
+@authentication_classes([VendorAuthentication])
+def GetOrder(request):
+    try:
+        vendor = request.user
+        slot = TurfSlot.objects.filter(vendor=vendor,Is_booked=True)
+        print(slot)
+        order = Order.objects.filter(slot__in=slot)
+        print(order)
+        serializer = OrderSerializer(order,many=True)
+        return Response(serializer.data)
+    except:
+        message = {'detail':'Slot is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+
+@api_view(['GET'])
+@authentication_classes([VendorAuthentication])
+def GetSingleOrder(request,id):
+    try:
+        vendor = request.user
+        slot = TurfSlot.objects.filter(vendor=vendor,Is_booked=True)
+        print(slot)
+        order = Order.objects.get(id=id)
+        print(order)
+        serializer = OrderSerializer(order,many=False)
+        return Response(serializer.data)
+    except:
+        message = {'detail':'Slot is not available'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST) 
 
 
@@ -446,7 +496,7 @@ def turf_view_by_vendor(request):
         serializer = TurfSerializer(turf,many=True)
         return Response(serializer.data)
     except:
-        message = {'detail':'Sloat is not available'}
+        message = {'detail':'Slot is not available'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST) 
 
 
@@ -494,7 +544,7 @@ def Get_all_Slot(request,id):
         serializer = SlotSerializer(slot,many=True)
         return Response(serializer.data)
     except:
-        message = {'detail':'Sloat is not available'}
+        message = {'detail':'Slot is not available'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST) 
     
 

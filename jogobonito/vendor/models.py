@@ -105,6 +105,7 @@ class TurfSlot(models.Model):
     user = models.ForeignKey(Account,blank=True, null=True, on_delete=models.CASCADE)
     vendor = models.ForeignKey(Vendor,blank=True, null=True, on_delete=models.CASCADE)
     is_available = models.BooleanField(default=True)
+    Is_booked = models.BooleanField(default=False)
     
     def __str__(self):
         return self.Slot_No

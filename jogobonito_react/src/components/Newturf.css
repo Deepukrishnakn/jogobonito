@@ -22,7 +22,7 @@
     font-family: "Inter";
     padding: 1rem;
     font-size: 25px; 
-    background-color: rgb(241, 245, 13);
+    background-color: rgb(152, 228, 31);
     border-radius: 5px; 
     font-weight: bold;
 }
@@ -39,7 +39,7 @@
 
 .buttons{
     padding: 1rem;
-    background-color: #49259e;
+    background-color: #8968d6;
     color: white;
     font-weight: bold;
     border: none;

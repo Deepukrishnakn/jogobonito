@@ -39,7 +39,7 @@ function Vnavebar() {
   const handleShow4 = () => setShow4(true);
 
 
-  const {VendorAuthTokens} =useContext(authContext)
+  const {VendorAuthTokens,vendor} =useContext(authContext)
 
   const [cate_name, setCatename] = useState("");
   const [slug, setSlug] = useState("");
@@ -201,15 +201,16 @@ useEffect(() => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
+            <Nav.Link className='me-5 vnave' href="" onClick={()=>navigate('/Vhome/')}>HOme</Nav.Link>
             <Nav.Link className='me-5 vnave' href="" onClick={()=>navigate('/addturf/')}>Add Turf</Nav.Link>
             <Nav.Link className='me-5 vnave' href="" onClick={()=>navigate('/addSlot/')}>Add Slot</Nav.Link>
             <Nav.Link className='me-5 vnave' href="" onClick={()=>navigate('/turftable/')}>Turfs</Nav.Link>
             <NavDropdown className='vnave me-5' title="Account" >
           
-              <NavDropdown.Item href="" className='vnave'> <Link to='/VendorLogin'>Login</Link></NavDropdown.Item>
-              <NavDropdown.Item href="" lassName='me-5 vnave' onClick={vendorlogout}>
+            {vendor ?   <NavDropdown.Item href="" lassName='me-5 vnave' onClick={vendorlogout}>
                 Log out
-              </NavDropdown.Item>
+              </NavDropdown.Item>:<NavDropdown.Item href="" className='vnave'> <Link to='/VendorLogin'>Login</Link></NavDropdown.Item>
+             }
               <NavDropdown.Divider />
               <NavDropdown.Item lassName='me-5 vnave' href="#Vendorprofile" onClick={()=>navigate('/Vendorprofile/')}>
                Profile
@@ -409,6 +410,7 @@ useEffect(() => {
           </Button>
         </Modal.Footer>
       </Modal><br/><br/>
+      <Button  variant=''  className='me-5 ' href="" onClick={()=>navigate('/bookedslot/')}>Booked Slots Details</Button><br/><br/>
 
 
         </Offcanvas.Body>

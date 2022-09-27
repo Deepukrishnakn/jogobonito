@@ -129,6 +129,9 @@ const deleteSlot = async (id,e) => {
         <Card.Text>
         No. : {obj.Slot_No}
         </Card.Text>
+        <Card.Text>
+        Status: {obj.Is_booked===true ? <h3 className='booked'>Booked!!!</h3>: 'Not Booked'}
+        </Card.Text>
 </div>
         <Button variant="success"  className='m-4' onClick={()=>navigate(`/updateslot/${obj.id}`)}>Edit</Button>
          <Button variant="danger" onClick={handleShow}>

@@ -3,6 +3,8 @@ import razorpay
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,authentication_classes
+
+from .models import TurfSlot
 from .serializers import OrderSerializer
 from .models import Order
 from django.conf import settings
@@ -14,7 +16,7 @@ from accounts.authentication import JWTAuthentication
 def start_payment(request):   
     amount = request.data['amount']
     name = request.data['name']  
-    # slot = request.data['slot']  
+    slot = request.data['slot']  
    
     client = razorpay.Client(auth=(settings.RAZORPAY_ID,settings.RAZORPAY_KEY))
 
@@ -31,8 +33,9 @@ def start_payment(request):
     # function
     order = Order.objects.create(order_product=name, 
                                  order_amount=amount, 
-                                #  slot=slot,
-                                 order_payment_id=payment['id'])
+                                 order_payment_id=payment['id'],
+                                 slot_id=slot,
+                               )
 
     serializer = OrderSerializer(order)
 
@@ -54,6 +57,7 @@ def start_payment(request):
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
 def handle_payment_success(request):
+    slot_id = request.data['slot'] 
     # request.data is coming from frontend
     # res = json.loads(request.data["response"])
     res = json.loads(request.data["response"])
@@ -97,8 +101,14 @@ def handle_payment_success(request):
         return Response({'error': 'Something went wrong'})
 
     # if payment is successful that means check is None then we will turn isPaid=True
+    slot = TurfSlot.objects.get(id=slot_id)
+    slot.user = request.user
+    print(slot.user)
+    slot.Is_booked=True
+    slot.save()
     order.isPaid = True
     order.save()
+
 
     data = {
         'message': 'payment successfully received!'

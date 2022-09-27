@@ -10,10 +10,12 @@ import AuthProvider from '../context/authContext';
 import "./Login.css";
 import { useNavigate,Link } from 'react-router-dom';
 import jogobonitologo from "../img/jogobonitologo.jpg";
+import authContext from '../context/authContext'
 
 function Nave() {
   let {userLogout} = useContext(AuthProvider)
-
+  const {AuthTokens,user} =useContext(authContext)
+  console.log(user,'rertetgegegherghehg')
   return (
     <div>
 <Navbar bg="black" expand="lg">
@@ -28,9 +30,9 @@ function Nave() {
           <Link to='/home' className='m-2 nave' style={{'textDecoration': 'None', 'color':'white',}}><img alt='' className='logo' src={jogobonitologo} /></Link> 
            <Link to='/home' className='m-2 nave' style={{'textDecoration': 'None', 'color':'white',}}> <h6 className='ms-5'>Home</h6> </Link> 
            <Link to='/home' className='m-2 nave' style={{'textDecoration': 'None', 'color':'white',}}> <h6 className='ms-5 nave'>Business</h6> </Link> 
-           <Link to='/Register' className='m-2 nave' style={{'textDecoration': 'None', 'color':'white',}}> <h6 className='ms-5'>SignUp</h6> </Link>  
-           <h6 className='ms-5 nave m-2'  onClick={userLogout}>Logout</h6> 
-            
+           {user?   <h6 className='ms-5 nave m-2'  onClick={userLogout}>Logout</h6>:
+          <Link to='/Register' className='m-2 nave' style={{'textDecoration': 'None', 'color':'white',}}><h6 className='ms-5'>SignUp</h6> </Link> }
+           
             {/* <NavDropdown style={{'textDecoration': 'None', 'backgroundColor':"white",}} title="Link" id="">
               <NavDropdown.Item href="#action3"><Link to='/Register' className='nave' style={{'textDecoration': 'None', 'color':'black',}}> <h6 className='ms-5'>SignUp</h6> </Link>  </NavDropdown.Item>
               <NavDropdown.Item href="#action4">
