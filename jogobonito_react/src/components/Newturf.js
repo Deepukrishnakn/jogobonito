@@ -28,7 +28,7 @@ function Newturf() {
         <Row>
         {loading && <h4>loading...</h4>}
         <h1 className='title mb-5'>Find Your Turf</h1>
-        {data.map((obj)=>
+        {data.slice(0,4).map((obj)=>
         <Col lg={3}>
         <div className='newturfItem'>
             <img src={'http://127.0.0.1:8000'+obj.image} alt={obj.image}/>

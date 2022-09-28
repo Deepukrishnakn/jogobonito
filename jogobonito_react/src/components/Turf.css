@@ -41,3 +41,14 @@
     font-family: "Inter";
 }
 
+.pagination{
+    align-items: center;
+    margin-left: 45rem;
+    
+}
+
+.page-link{
+    background-color: #febb02;
+    text-align: center;
+}
+

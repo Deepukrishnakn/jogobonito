@@ -1,3 +1,4 @@
+from email.policy import default
 from accounts.models import Account
 from django.db import models
 from django.urls import reverse
@@ -21,7 +22,8 @@ class Vendor(models.Model):
     last_login     = models.DateTimeField(auto_now=True)
     modified_date  = models.DateTimeField(auto_now=True)
     is_Vendor      = models.BooleanField(default=True)
-    is_active      = models.BooleanField(default=False)
+    is_Paid        = models.BooleanField(default=False)
+    is_active      = models.BooleanField(default=False,blank=True)
     
     def __str__(self):
         return self.email

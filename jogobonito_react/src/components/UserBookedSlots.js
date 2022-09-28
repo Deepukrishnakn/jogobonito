@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useContext} from 'react';
 import Table from 'react-bootstrap/Table';
 import { Row,Col } from 'react-bootstrap';
-import axios from "../../constants/constants"
-import authContext from '../../context/authContext'
-import { useNavigate,Link } from 'react-router-dom';
-import Vnavebar from './Vnavebar';
+import axios from "../constants/constants"
+import authContext from '../context/authContext'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Header from '../components/Header'
+import Navebar from '../components/Navebar'
 
-function BookedSlots() {
+function UserBookedSlots() {
 
-    const {VendorAuthTokens} =useContext(authContext)
+    const {authTokens} =useContext(authContext)
     const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -20,10 +20,10 @@ function BookedSlots() {
     const [loading,setLoading] = useState(false);
     const [order,setOrder] = useState([])
     const [singleOrder,setSingleOrder] = useState('')
-    const getBookedSlot = () =>{
+    const getUserBookedSlot = () =>{
         setLoading(true);
-        axios.get('vendor/GetOrder',
-        {headers:{Authorization:`Bearer ${VendorAuthTokens}`}}).then(res=>{
+        axios.get('account/GetUserOrder',
+        {headers:{Authorization:`Bearer ${authTokens}`}}).then(res=>{
           console.log('turf',res.data)
           setOrder(res.data)
           console.log(res.data)
@@ -32,10 +32,10 @@ function BookedSlots() {
       }
 
 
-      const GetSingleOrder = (id,e) =>{
+      const GetUserSingleOrder = (id,e) =>{
         setLoading(true);
-        axios.get(`vendor/GetSingleOrder/${id}`,
-        {headers:{Authorization:`Bearer ${VendorAuthTokens}`}}).then(res=>{
+        axios.get(`account/GetUserSingleOrder/${id}`,
+        {headers:{Authorization:`Bearer ${authTokens}`}}).then(res=>{
           console.log('turf',res.data)
           setSingleOrder(res.data)
           console.log(res.data)
@@ -45,15 +45,16 @@ function BookedSlots() {
       }
 
    useEffect(() => {
-    getBookedSlot()
-    GetSingleOrder()
+    getUserBookedSlot()
+    GetUserSingleOrder()
    }, [])
    
 
   return (
     <div>
         
-        <Vnavebar/>
+<Navebar/>
+<Header/>
       
         <Row>
       {loading && <h4>loading...</h4>}
@@ -64,7 +65,7 @@ function BookedSlots() {
       <thead>
         <tr className=''>
           <th>No.</th>
-          <th>User Name</th>
+          <th>Manager Name</th>
           <th>Turf Name</th>
           <th>Date</th>
           <th>Time</th>
@@ -78,7 +79,7 @@ function BookedSlots() {
       <tbody>
         <tr>
           <td>{index+1}</td>
-          <td>{obj.slot.user.first_name}</td>
+          <td>{obj.slot.vendor.first_name}</td>
           <td>{obj.slot.turf.turf_name}</td>
           <td>{obj.slot.Date}</td>
           <td>{obj.slot.Time}</td>
@@ -86,7 +87,7 @@ function BookedSlots() {
           {/* <td>{obj.turf.size}</td>
           <td>{obj.turf.city.city}</td> */}
         {/* <td><Button variant="success" className="bookbtn" onClick={}>EDIT</Button></td>  */}
-          <td><Button variant="" className=""  onClick={(e) => GetSingleOrder(obj.id,e)}>Details</Button></td>
+          <td><Button variant="info" className=""  onClick={(e) => GetUserSingleOrder(obj.id,e)}>Details</Button></td>
         </tr>
       </tbody>
       )}
@@ -102,9 +103,9 @@ function BookedSlots() {
 </Modal.Header>
 <Modal.Body>
 <div>
- <h3>User Name: {singleOrder.slot.user.first_name +"  "+ singleOrder.slot.user.last_name}</h3><br/>
- <h6>Email: {singleOrder.slot.user.email}</h6><br/>
- <h6>phone number: {singleOrder.slot.user.phone_number}</h6><br/>
+ <h3>Manager Name: {singleOrder.slot.vendor.first_name +"  "+ singleOrder.slot.user.last_name}</h3><br/>
+ <h6>Manager Email: {singleOrder.slot.vendor.email}</h6><br/>
+ <h6>Manager phone number: {singleOrder.slot.vendor.phone_number}</h6><br/>
  <h6>Booked date: {singleOrder.order_date}</h6><br/>
  <h6>Order ID: {singleOrder.order_payment_id}</h6><br/>
  <h6>Booked Slot: {singleOrder.order_product}</h6><br/>
@@ -120,4 +121,4 @@ function BookedSlots() {
   )
 }
 
-export default BookedSlots
+export default UserBookedSlots

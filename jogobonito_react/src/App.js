@@ -1,6 +1,6 @@
 import "./components/app.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter, Route, Routes } from 'react-router-dom'  
+import {BrowserRouter, Route, Routes, UNSAFE_RouteContext } from 'react-router-dom'  
 import { AuthProvider } from './context/authContext';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -27,6 +27,8 @@ import UpdateCategory from "./components/Mastar/UpdateCategory";
 import Searchturf from "./components/Searchturf";
 import Payment from "./components/Payment";
 import BookedSlots from "./components/Vendor/BookedSlots";
+import UserProfile from "./components/UserProfile";
+import UserBookedSlots from "./components/UserBookedSlots";
 
 function App(){
   return (
@@ -36,7 +38,7 @@ function App(){
      <AuthProvider>
       <Routes>
       <Route path='/Register' element ={<RegisterPage/>} />
-      <Route path='/' element ={<LoginPage/>} />
+      <Route path='/Login' element ={<LoginPage/>} />
       <Route path='/Nave' element ={<HomePage/>} />
       <Route path='/Verify' element ={<VerifyPage/>} />
       <Route path='/ForgotPassword' element ={<ForgotpassPage/>} />
@@ -46,15 +48,18 @@ function App(){
 
       <Route path='/singleturf/:cate_slug/:turf_slug' element ={<Singleturfpage/>} />
       <Route path='/TurfByCategory/:slug' element ={<TurfByCategory/>} />
-
+      <Route path='/UserBookedSlot/' element ={<UserBookedSlots/>} />
       
 
-      <Route path='/Thome' element ={<ThomePage/>} />
+      <Route path='/' element ={<ThomePage/>} />
       <Route path='/Turf' element ={<Turf/>} />
       <Route path='/Search/:key' element ={<Searchturf/>} />
 
+{/* user */}
+<Route path='/getslot/:Turf_id' element ={<SlotPage/>} />
+<Route path="/userprofile" element = {<UserProfile/>} />
+
 {/* vendpr */}
-      <Route path='/getslot/:Turf_id' element ={<SlotPage/>} />
       <Route path='/getallslot/:Turf_id' element ={<GetAllSlots/>} />
       <Route path='/addturf' element ={<AddTurf/>} />
       <Route path='/vhome' element ={<VhomePage/>} />

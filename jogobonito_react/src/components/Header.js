@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React,{useContext,useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFutbol } from '@fortawesome/free-solid-svg-icons'
 import './Header.css'
@@ -6,10 +6,12 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useNavigate,Link } from 'react-router-dom';
 import axios from "../constants/constants"
+import AuthContext from '../context/authContext';
 
 
 
 function Header() {
+  let {authTokens,user} = useContext(AuthContext)
 
   const [key, setKey] = useState("");
   const navigate = useNavigate()
@@ -40,7 +42,7 @@ function Header() {
           
                <div className='headerlistItem active'>
                <FontAwesomeIcon icon={faFutbol} />
-               <Link to='/thome'><span className='turfbtn'>Home</span></Link>
+               <Link to='/'><span className='turfbtn'>Home</span></Link>
                </div>
           
                <div className='headerlistItem'>
@@ -54,6 +56,7 @@ function Header() {
           I once cried because I had no shoes to play soccer, but one day, I met a man who had no feet.
           </p>
           <Link to='/Register'><button className='headerBtn'>Sign In / Sign Up</button></Link>
+          <Link to='/userprofile'><button className='headerBtn ms-3'>My Account</button></Link>
           <Form className="d-flex mt-3">
             <Form.Control
               type="search"

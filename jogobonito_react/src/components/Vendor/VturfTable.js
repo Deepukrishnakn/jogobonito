@@ -78,10 +78,10 @@ function VturfTable() {
           <th>Delete</th>
         </tr>
       </thead>
-      {turf.map((obj)=>
+      {turf.map((obj,index)=>
       <tbody>
         <tr>
-          <td>1</td>
+          <td>{index+1}</td>
           <td>{obj.turf_name}</td>
           {/* <td><img src={'http://127.0.0.1:8000'+obj.image}/></td> */}
           <td>{obj.price}</td>

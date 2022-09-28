@@ -35,7 +35,7 @@ function GetSlot() {
    
   }).catch((err)=>{
     console.log(err.response.data.detail,"erorr").finally(()=>setLoading(false))
-    setErr(err.response.data.message)
+    setErr(err.data.detail)
       console.log(err.data.detail)
     
   })}
@@ -84,7 +84,7 @@ function GetSlot() {
     let bodyData = new FormData();
 
     // we will pass the amount and product name to the backend using form data
-    bodyData.append("amount", slotPrice);
+    bodyData.append("amount", slotPrice*.2);
     console.log(slotPrice)
     bodyData.append("name", Slot_No);
     bodyData.append("slot", slotId);

@@ -3,7 +3,7 @@ import razorpay
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,authentication_classes
-
+from django.core.mail import send_mail
 from .models import TurfSlot
 from .serializers import OrderSerializer
 from .models import Order
@@ -108,7 +108,11 @@ def handle_payment_success(request):
     slot.save()
     order.isPaid = True
     order.save()
-
+    send_mail('Hello  ',
+            'payment successfully received! ,Thank You For Booked Slot with Jogobonito ,Your can check your profile',
+            'deepukrishna25@gmail.com'
+            ,[slot.user.email]   
+            ,fail_silently=False)
 
     data = {
         'message': 'payment successfully received!'

@@ -18,6 +18,8 @@
 .proimg{
     margin-top: 2rem;
     border-radius: 50%;
+    width: 300px;
+    height: 300px;
 }
 .vnave{
     color: blueviolet;

@@ -30,7 +30,8 @@ const userLogin= async (email,password)=>{
         if(response.data.token){
             localStorage.setItem('authTokens',JSON.stringify(response.data.token))
             localStorage.setItem('user',JSON.stringify(jwt_decode(response.data.token)))
-            navigate('/Thome')
+            navigate('/')
+            
         }
 
        if(response.data.message){
@@ -56,7 +57,7 @@ let userLogout = () => {
     setUser(null)
     localStorage.removeItem('authTokens')
     localStorage.removeItem('user')
-    navigate( '/' )   
+    navigate( '/Login' )   
 }
   
 console.log(error)

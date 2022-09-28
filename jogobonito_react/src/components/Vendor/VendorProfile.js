@@ -67,7 +67,7 @@ function VendorProfile() {
 useEffect(() => {
   Getvendor()
   
-}, [])
+},[])
 
 
   return (
@@ -78,9 +78,9 @@ useEffect(() => {
           
 <div className='container vendor-profile'>
         <div className='row'>
-            <div className='col-md-4'>
-                <img className='proimg' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZAOFKU7ypGZZY3_HADJafnSctPMFkCizHPw&usqp=CAU' alt='' srcSet=''/>
-                <h2 className='m-3'>{vendor.first_name +'  '+ vendor.last_name}</h2>
+            <div className='col-md-4 ms-5'>
+                <img className='proimg' src='https://images.news18.com/ibnlive/uploads/2022/02/tite.jpg' alt='' srcSet=''/>
+                <h2 className='ms-5 mt-3'>{vendor.first_name +'  '+ vendor.last_name}</h2>
             </div>
 
             <div className='col-md-6'>
@@ -147,7 +147,7 @@ useEffect(() => {
            <h6>City: {vendor.city}</h6><br/>
            <h6>Turf address: {vendor.turf_address}</h6><br/>
            <h6>District: {vendor.district}</h6><br/>
-           <h6>District: {vendor.district}</h6><br/>
+          
           </div>
         </Modal.Body>
       </Modal>

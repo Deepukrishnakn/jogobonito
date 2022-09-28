@@ -10,6 +10,9 @@ from django.contrib.auth.hashers import make_password
 from .models import Account, UserToken
 from .serializers import RegisterSerializer, VerifyOtpSerializer
 from .verify import send,check
+from rest_framework import viewsets
+from django.contrib.auth import  authenticate
+
 # Create your views here.
 # email verification
 from django.contrib.sites.shortcuts import get_current_site
@@ -19,9 +22,10 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.shortcuts import render,redirect
-
 from vendor.models import TurfSlot
 from vendor.serializers import SlotSerializer
+from payments.models import Order
+from payments.serializers import OrderSerializer
 @api_view(['POST'])
 def registeruser(request):
     data = request.data
@@ -218,6 +222,40 @@ def resetpassword_validate(request,uidb64,token):
 
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
+def userchangepassword(request):
+    data = request.data
+    user=request.user
+    print(user,'user')
+    current_password =data['current_password']
+    new_password = data['new_password']
+    confirm_password = data['confirm_password']
+    user = Account.objects.get(email=request.user)
+    if new_password == confirm_password:
+        if Account(email=user, password=current_password):
+            print('ok')
+        else:
+            print('not oke')
+        success = user.check_password(current_password)
+
+        if authenticate(email=request.user, password=current_password):
+            print('ok')
+        if success:
+            user.set_password(new_password)
+            user.save()
+            #auth logout(request)
+            message={'detail':'password reset successfully'}
+            return Response(message,status=status.HTTP_200_OK)
+        else:
+            message={'detail':'plece enter valid current password'}
+            return Response(message,status=status.HTTP_400_BAD_REQUEST)
+
+    else:
+        message={'detail':'password are not match'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
 def BookSlot(request,id):
     try:
         book = TurfSlot.objects.get(id=id)
@@ -231,3 +269,39 @@ def BookSlot(request,id):
     except:
         message = {'detail':'something weong!'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+@authentication_classes([JWTAuthentication])
+class AllUserViewset(viewsets.ModelViewSet):
+    queryset = Account.objects.all()
+    serializer_class = RegisterSerializer
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+def GetUserOrder(request):
+    try:
+        user = request.user
+        slot = TurfSlot.objects.filter(user=user,Is_booked=True)
+        print(slot)
+        order = Order.objects.filter(slot__in=slot)
+        print(order)
+        serializer = OrderSerializer(order,many=True)
+        return Response(serializer.data)
+    except:
+        message = {'detail':'Slot is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+def GetUserSingleOrder(request,id):
+    try:
+        user = request.user 
+        slot = TurfSlot.objects.filter(user=user,Is_booked=True)
+        print(slot)
+        order = Order.objects.get(id=id)
+        print(order)
+        serializer = OrderSerializer(order,many=False)
+        return Response(serializer.data)
+    except:
+        message = {'detail':'Slot is not available'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST) 

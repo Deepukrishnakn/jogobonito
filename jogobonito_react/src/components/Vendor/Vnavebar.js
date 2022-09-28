@@ -207,7 +207,7 @@ useEffect(() => {
             <Nav.Link className='me-5 vnave' href="" onClick={()=>navigate('/turftable/')}>Turfs</Nav.Link>
             <NavDropdown className='vnave me-5' title="Account" >
           
-            {vendor ?   <NavDropdown.Item href="" lassName='me-5 vnave' onClick={vendorlogout}>
+            {VendorAuthTokens ?   <NavDropdown.Item href="" lassName='me-5 vnave' onClick={vendorlogout}>
                 Log out
               </NavDropdown.Item>:<NavDropdown.Item href="" className='vnave'> <Link to='/VendorLogin'>Login</Link></NavDropdown.Item>
              }
@@ -417,7 +417,7 @@ useEffect(() => {
       </Offcanvas>
             
           </Nav>
-          <Form className="d-flex">
+           <Form className="d-flex">
             <Form.Control
               type="search"
               placeholder="Search"
@@ -425,7 +425,7 @@ useEffect(() => {
               aria-label="Search"
             />
             <Button variant="outline-success">Search</Button>
-          </Form>
+          </Form> 
         </Navbar.Collapse>
       </Container>
     </Navbar>

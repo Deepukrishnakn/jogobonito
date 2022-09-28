@@ -4,6 +4,8 @@ import Form from 'react-bootstrap/Form';
 import "./Login.css";
 import AuthContext from '../context/authContext';
 import { useNavigate,Link } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 function VendorLogin() {
   const [email,setEmail]= useState('')
@@ -57,7 +59,9 @@ console.log(error)
 <div>
 <Form className='login_form' onSubmit={loginHandler}>
       <Form.Group className=" ms-5 me-5" controlId="formBasicEmail">
-      {  error &&(<> <h6 style={{color:'red'}}>{error}</h6>  <br/></>) }
+      {  error?( <Stack sx={{ width: '100%' }} spacing={2}>
+      <Alert severity="error">{error} — check it out!</Alert>
+        </Stack>):''}
         <Form.Label>Email address</Form.Label>
         <Form.Control className='' type="email" onChange={(e)=>setEmail(e.target.value)} value={email} placeholder="Enter email" />
         <Form.Text className="text-muted">

@@ -4,6 +4,9 @@ import Form from 'react-bootstrap/Form';
 import AuthContext from '../context/authContext';
 import axios from "../constants/constants"
 import {useNavigate,Link} from 'react-router-dom'
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+
 function BusinessRegistretion() {
 
 
@@ -60,7 +63,7 @@ function BusinessRegistretion() {
       console.log(response.data)
       if (response.data.phone_number){
 
-        navigate('/Thome')
+        navigate('/')
       }else{
        console.log("ok")
       }
@@ -164,7 +167,9 @@ function BusinessRegistretion() {
 
 
 <Form className=' m-5' onSubmit={vendorRegisterHandler}>
-{  err &&(<> <h6 style={{color:'red'}}>{err}</h6>  <br/></>) }
+ {  err?( <Stack sx={{ width: '100%' }} spacing={2}>
+      <Alert severity="error">{err} — check it out!</Alert>
+        </Stack>):''}
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Enter First Name</Form.Label>
         <Form.Control name='first_name' type="text" placeholder="Enter First Name" onChange={(e)=>setFirst_name(e.target.value)} value={first_name} />

@@ -8,7 +8,7 @@ import List from './List';
 import { useNavigate,Link } from 'react-router-dom';
 import Footer from '../components/Footer'
 import '../components/home.css'
-import {Pagination} from 'antd'
+import Pagination from '../components/Pagination';
 
 // mui
 import Box from '@mui/material/Box';
@@ -24,7 +24,9 @@ function Turf() {
   let url='http://127.0.0.1:8000'
   const [loading,setLoading] = useState(false);
   const navigate = useNavigate()
-
+           
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(3);
 
   const [data,setData] = useState([])
   const [district_id, setDistrict_id] = useState("");
@@ -36,7 +38,6 @@ const getAllTurf = () =>{
     axios.get('vendor/turfviewset').then(res=>{
       console.log('turf',res.data.results)
       setData(res.data)
-      setTotal(res.data.length)
     }).catch(e=>console.log(e))
     .finally(()=>setLoading(false))
   }
@@ -99,27 +100,14 @@ const getAllTurf = () =>{
         categoryCall()
         
       },[]);
-      const [total, setTotal] = useState('')
-      const [page,setPage] = useState(1)
-      const [dataPerPage, setDataPerPage] = useState(3)
+     
+// get current post
 
-const indexOfLastPage = page + dataPerPage;
-const indexOfFirst = indexOfLastPage - dataPerPage
-const currentData = data.slice(indexOfFirst, indexOfLastPage)
-
-const onShowSizeChange = (current, pageSize) => {
-  setDataPerPage(pageSize)
-}
-
-const itemRender = (current, type, originalElement) => {
-  if(type === 'prev'){
-    return <a>Previous</a>
-  }
-  if(type === 'next'){
-    return <a>next</a>
-  }
-}
-
+const indexOfLastPost = currentPage * postsPerPage;
+const indexOfFirstPost = indexOfLastPost - indexOfLastPost;
+const currentPost = data.slice(indexOfFirstPost, indexOfLastPost);
+// change page 
+const paginate = pageNumber => setCurrentPage(pageNumber);
   return (
     <div>
         <Navebar/>
@@ -188,7 +176,7 @@ const itemRender = (current, type, originalElement) => {
             <Col lg={8}>
  {loading && <h4>loading...</h4>}
  
-{currentData.map((obj)=>
+{currentPost.map((obj)=>
 <div className='list mt-5 me-5 '>
       <img src={'http://127.0.0.1:8000'+obj.image} alt='' className='listImg'/>
       <div className='listDesc'>
@@ -205,21 +193,13 @@ const itemRender = (current, type, originalElement) => {
     </div>
 )}
 
-<Pagination 
-onChange={(value) => setPage(value)}
-pageSize={dataPerPage}
-total={total}
-current={page}
-// showSizeChanger
-// showQuickJumper
-onShowSizeChange={onShowSizeChange}
-itemRender={itemRender}
-pageClassName={'page-item'}
-pageLinkClassName={'page-link'}
-/>
+
             </Col>
         </Row>
-
+<Pagination postsPerPage={postsPerPage} 
+totalPosts={data.length}
+paginate={paginate}
+/>
    <div className='FooterContainer'>
   <Footer/>
 </div>
