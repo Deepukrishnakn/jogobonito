@@ -6,9 +6,13 @@ import axios from "../../constants/constants"
 import Button from 'react-bootstrap/Button';
 import authContext from '../../context/authContext'
 import { useNavigate,Link } from 'react-router-dom';
+import Pagination from '../../components/Pagination';
 
 function Vhome() {
     const {VendorAuthTokens} =useContext(authContext)
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(3);
    
     const navigate = useNavigate()
     const [loading,setLoading] = useState(false);
@@ -27,13 +31,22 @@ function Vhome() {
     useEffect(()=>{
         getfurfbyvendor()
       },[])
+
+      // get current post
+
+const indexOfLastPost = currentPage * postsPerPage;
+const indexOfFirstPost = indexOfLastPost - indexOfLastPost;
+const currentPost = turf.slice(indexOfFirstPost, indexOfLastPost);
+// change page 
+const paginate = pageNumber => setCurrentPage(pageNumber);
+
   return (
     <div>
        {turf ? (
         <Row>
       {loading && <h4>loading...</h4>}
 <h1 className='title mt-5'>Your Turfs</h1>
-        {turf.map((obj)=>
+        {currentPost.map((obj)=>
       <Col lg={3}>
 <Card  className='m-5'>
       <Card.Img variant="top" src={'http://127.0.0.1:8000'+obj.image} />
@@ -55,9 +68,14 @@ View Slots
 )}
 
 </Row>
+
 ) : (
        ''
       )}
+      <Pagination postsPerPage={postsPerPage} 
+totalPosts={turf.length}
+paginate={paginate}
+/>
     </div>
   )
 }

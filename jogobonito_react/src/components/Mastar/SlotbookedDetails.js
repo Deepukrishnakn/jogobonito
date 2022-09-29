@@ -4,14 +4,13 @@ import { Row,Col } from 'react-bootstrap';
 import axios from "../../constants/constants"
 import authContext from '../../context/authContext'
 import { useNavigate,Link } from 'react-router-dom';
-import Vnavebar from './Vnavebar';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Pagination from '../../components/Pagination';
 
-function BookedSlots() {
+function SlotbookedDetails() {
 
-    const {VendorAuthTokens} =useContext(authContext)
+    const {authTokens} =useContext(authContext)
     const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -24,8 +23,8 @@ function BookedSlots() {
     const [singleOrder,setSingleOrder] = useState('')
     const getBookedSlot = () =>{
         setLoading(true);
-        axios.get('vendor/GetOrder',
-        {headers:{Authorization:`Bearer ${VendorAuthTokens}`}}).then(res=>{
+        axios.get('mastar/userorders',
+        {headers:{Authorization:`Bearer ${authTokens}`}}).then(res=>{
           console.log('turf',res.data)
           setOrder(res.data)
           console.log(res.data)
@@ -36,8 +35,8 @@ function BookedSlots() {
 
       const GetSingleOrder = (id,e) =>{
         setLoading(true);
-        axios.get(`vendor/GetSingleOrder/${id}`,
-        {headers:{Authorization:`Bearer ${VendorAuthTokens}`}}).then(res=>{
+        axios.get(`mastar/userorders/${id}`,
+        {headers:{Authorization:`Bearer ${authTokens}`}}).then(res=>{
           console.log('turf',res.data)
           setSingleOrder(res.data)
           console.log(res.data)
@@ -62,7 +61,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
   return (
     <div>
         
-        <Vnavebar/>
+       
       
         <Row>
       {loading && <h4>loading...</h4>}
@@ -75,9 +74,10 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
           <th>No.</th>
           <th>User Name</th>
           <th>Turf Name</th>
+          <th>Vendor Name</th>
           <th>Date</th>
           <th>Time</th>
-          <th>Price</th>
+          <th>Paid Amount</th>
           {/* <th>Size</th>
           <th>City</th> */}
           <th>Order ID</th>
@@ -89,6 +89,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
           <td>{index+1}</td>
           <td>{obj.slot.user.first_name}</td>
           <td>{obj.slot.turf.turf_name}</td>
+          <td>{obj.slot.vendor.first_name}</td>
           <td>{obj.slot.Date}</td>
           <td>{obj.slot.Time}</td>
           <td>{obj.slot.turf.price}</td>
@@ -132,4 +133,4 @@ paginate={paginate}
   )
 }
 
-export default BookedSlots
+export default SlotbookedDetails

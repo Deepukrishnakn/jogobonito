@@ -111,3 +111,15 @@ class TurfSlot(models.Model):
     
     def __str__(self):
         return self.Slot_No
+
+
+class VendorOrder(models.Model):
+    order_amount = models.CharField(max_length=25)
+    order_payment_id = models.CharField(max_length=100)
+    isPaid = models.BooleanField(default=False)
+    order_date = models.DateTimeField(auto_now=True)
+    vendor = models.ForeignKey(Vendor,blank=True, null=True, on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.order_payment_id

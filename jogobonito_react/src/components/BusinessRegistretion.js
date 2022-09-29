@@ -1,7 +1,6 @@
 import React,{useState,useContext} from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import AuthContext from '../context/authContext';
 import axios from "../constants/constants"
 import {useNavigate,Link} from 'react-router-dom'
 import Alert from '@mui/material/Alert';
@@ -62,8 +61,8 @@ function BusinessRegistretion() {
     }).then((response)=>{
       console.log(response.data)
       if (response.data.phone_number){
-
-        navigate('/')
+        localStorage.setItem('vendor_id',response.data.id)
+        navigate('/Bisuness')
       }else{
        console.log("ok")
       }
@@ -156,11 +155,99 @@ function BusinessRegistretion() {
     setturf_nameErr(turf_nameErr)
     setcityErr(cityErr)
     setdistrictErr(districtErr)
-
     return isValid
   }
 
 
+  const [name, setName] = useState("");
+  const [amount, setAmount] = useState("");
+ 
+
+// this function will handel payment when user submit his/her money
+// and it will confim if payment is successfull or not
+  const handlePaymentSuccess = async (response) => {
+    try {
+      let bodyData = new FormData();
+
+      // we will send the response we've got from razorpay to the backend to validate the payment
+      bodyData.append("response", JSON.stringify(response));
+      bodyData.append("vendor", localStorage.getItem('vendor_id'));
+      
+      await axios.post('vendor/payment/success/',bodyData)
+        .then((res) => {
+          console.log("Everything is OK!");
+          localStorage.removeItem('vendor_id')
+          navigate('/')
+          setName("");
+          setAmount("");
+          
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log(console.error());
+    }
+  };
+
+  // this will load a script tag which will open up Razorpay payment card to make //transactions
+  const loadScript = () => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    document.body.appendChild(script);
+  };
+
+  const showRazorpay = async () => {
+    const res = await loadScript();
+
+    let bodyData = new FormData();
+
+    // we will pass the amount and product name to the backend using form data
+    bodyData.append("amount", 2000);
+    bodyData.append("name", first_name);
+    bodyData.append("vendor", localStorage.getItem('vendor_id'));
+
+    const data = await axios.post('vendor/pay/',bodyData).then((res) => {
+      return res;
+    });
+
+    // in data we will receive an object from the backend with the information about the payment
+    //that has been made by the user
+
+    var options = {
+      key_id: process.env.REACT_APP_PUBLIC_KEY, // in react your environment variable must start with REACT_APP_
+      key_secret: process.env.REACT_APP_SECRET_KEY,
+      amount: data.data.payment.amount,
+      currency: "INR",
+      name: "Org. Name",
+      description: "Test teansaction",
+      image: "", // add image url
+      order_id: data.data.payment.id,
+      handler: function (response) {
+        // we will handle success by calling handlePaymentSuccess method and
+        // will pass the response that we've got from razorpay
+        handlePaymentSuccess(response);
+      },
+      prefill: {
+        name: first_name,
+        email: email,
+        contact: phone_number,
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    var rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
+  const paymentHandler=()=>{
+    showRazorpay()
+   
+  }
 
   return (
     <div>
@@ -279,9 +366,11 @@ function BusinessRegistretion() {
       <Button variant="primary" type="submit">
         Submit
       </Button>
-      <Link className='ms-5 mb-3 mt-3' to='/'> SignIn</Link>
+      <Link className='ms-5 mb-3 mt-3' to='/Login'> SignIn</Link>
     </Form>
-
+    <Button variant="success" className='ms-5 mb-5' onClick={paymentHandler}>
+        Pay for Registaretion
+      </Button>
 
 
     </div>

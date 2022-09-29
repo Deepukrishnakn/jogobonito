@@ -87,7 +87,7 @@ console.log(error)
         Submit
       </Button>
       <Link className='ms-5 mb-3 mt-3' to='/Register'> SignUp</Link>
-      <Link className='ms-5 mb-3' to='/'> SignIn</Link>
+      <Link className='ms-5 mb-3' to='/Login'> SignIn</Link>
       <Link className='mb-3 ms-5 me-5' to='/ForgotPassword'> ForgotPassword</Link> 
     </Form>
     </div>

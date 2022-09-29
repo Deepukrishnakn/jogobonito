@@ -39,7 +39,8 @@ urlpatterns = [
     path('City_by_district/<int:id>/',views.City_by_district,name='City_by_district'),
     path('Subcate_by_Cate/<int:id>/',views.Subcate_by_Cate,name='Subcate_by_Cate'),
     path('change_password/',views.change_password,name='change_password'),
-  
+    path('pay/', views.start_payment, name="payment"),
+    path('payment/success/',views.handle_payment_success, name="payment_success"),
 
  ]+router.urls 
  

@@ -2,7 +2,7 @@ from dataclasses import field, fields
 from pyexpat import model
 from unicodedata import category
 from rest_framework import serializers
-from .models import Category, City, District,SubCategory,Turf, TurfSlot,Vendor
+from .models import Category, City, District,SubCategory,Turf, TurfSlot,Vendor,VendorOrder
 from accounts.serializers import RegisterSerializer
 
 class VendorRegisterSerializer(serializers.ModelSerializer):
@@ -88,3 +88,13 @@ class VendorchangepasswordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
         fields = ['confirm_password','password']
+
+
+
+class VendorOrderSerializer(serializers.ModelSerializer):
+    order_date = serializers.DateTimeField(format="%d %B %Y %I:%M %p")
+
+    class Meta:
+        model = VendorOrder
+        fields = '__all__'
+        depth = 2

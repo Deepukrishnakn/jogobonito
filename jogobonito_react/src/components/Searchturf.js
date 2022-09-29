@@ -8,6 +8,7 @@ import List from './List';
 import { useNavigate,Link, useParams } from 'react-router-dom';
 import Footer from '../components/Footer'
 import '../components/home.css'
+import Pagination from '../components/Pagination';
 
 // mui
 import Box from '@mui/material/Box';
@@ -23,6 +24,8 @@ function Searchturf() {
   const [loading,setLoading] = useState(false);
   const navigate = useNavigate()
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(3);
 
   const [data,setData] = useState([])
   const [datas,setDatas] = useState([])
@@ -90,13 +93,21 @@ const getAllTurf = () =>{
         setData(res.data,)
       })
     }
-     
+
       useEffect(()=>{
         getAllTurf()
         districtCall()
         cityCall()
         categoryCall()
       },[]);
+
+      // get current post
+
+const indexOfLastPost = currentPage * postsPerPage;
+const indexOfFirstPost = indexOfLastPost - indexOfLastPost;
+const currentPost = datas.slice(indexOfFirstPost, indexOfLastPost);
+// change page 
+const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -183,7 +194,7 @@ const getAllTurf = () =>{
     </div>
 )}
 
-{datas.map((obj)=>
+{currentPost.map((obj)=>
 <div className='list mt-5 me-5 '>
       <img src={obj.image} alt='' className='listImg'/>
       <div className='listDesc'>
@@ -191,7 +202,7 @@ const getAllTurf = () =>{
         <span className='listSize'>Turf Size: {obj.size}</span>
         <span className='listDesc'>Turf Desc: {obj.category.category_name}</span>
         <span className='listcity'>Turf City: {obj.city.city}</span>
-        <span className='listcity'>Turf City: {obj.district.district}</span>
+        <span className='listcity'>Turf district: {obj.district.district}</span>
         <span className='listPrice'>Price: {obj.price}</span>
       </div>
       <div className='BookingBtn'>
@@ -201,6 +212,10 @@ const getAllTurf = () =>{
 )}
             </Col>
         </Row>
+        <Pagination postsPerPage={postsPerPage} 
+totalPosts={datas.length}
+paginate={paginate}
+/>
 
    <div className='FooterContainer'>
   <Footer/>

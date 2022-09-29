@@ -13,8 +13,12 @@ import '../List.css'
 import authContext from '../../context/authContext'
 import Vnavebar from '../Vendor/Vnavebar';
 import Modal from 'react-bootstrap/Modal';
+import Pagination from '../../components/Pagination';
 
 function GetAllSlots() {
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(4);
 
   const [show, setShow] = useState(false);
 
@@ -54,57 +58,16 @@ const deleteSlot = async (id,e) => {
     
   })}
 
-  
-  
-
-//   const loadScript = (src) => {
-// return new Promise((resolve) =>{
-//   const script = document.createElement('script')
-//   script.src = src
-
-//   script.onabort = () => {
-//     resolve(true)
-//   }
-
-
-//   script.onerror = () => {
-//      resolve(false)
-//   }
-
-//   document.body.appendChild(script)
-// })
-//   }
-
-// const displayRazorpay = async (price) => {
-//   const res = await loadScript('http://checkout.razorpay.com/v1/checkout.js')
-// }
-// if (!src) {
-//   alert('You are offline ')
-//   return
-// }
-
-// const options = {
-//   key: 'rzp_test_FqfpAM5lIo4SFl',
-//   currency: "INR",
-//   price: price * 100,
-//   name: 'deepu',
-
-//   handler: function (response){
-
-//     alert(response.rezorpay_payment_id)
-//     alert("payment success")
-//   },
-//   prefill:{
-//     name: 'deepu'
-//   }
-//   // if(response.rezorpay_payment_id)
-// };
-//     const paymentObject = new window.Razorpzy(options)
-//     paymentObject.open()
-
   useEffect(()=>{
     getslot()
   },[])
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - indexOfLastPost;
+  const currentPost = Slot.slice(indexOfFirstPost, indexOfLastPost);
+  // change page 
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
   return (
     <>
     
@@ -112,7 +75,7 @@ const deleteSlot = async (id,e) => {
       <Row>
       {loading && <h4>loading...</h4>}
 <h1 className='title mt-5'> Your Slots</h1>
-        {Slot.map((obj)=>
+        {currentPost.map((obj)=>
       <Col lg={3}>
 <Card  className='m-5'>
       <Card.Img variant="top" src={'http://127.0.0.1:8000'+obj.turf.image} />
@@ -161,6 +124,10 @@ const deleteSlot = async (id,e) => {
 )}
 
 </Row>
+<Pagination postsPerPage={postsPerPage} 
+totalPosts={Slot.length}
+paginate={paginate}
+/>
     </>
   )
 }

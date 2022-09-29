@@ -9,6 +9,7 @@ import './List.css'
 import { useNavigate,Link } from 'react-router-dom';
 import Footer from '../components/Footer'
 import '../components/home.css'
+import Pagination from '../components/Pagination';
 
 // mui
 import Box from '@mui/material/Box';
@@ -20,6 +21,8 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 function TurfByCategory() {
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(3);
 
     const navigate = useNavigate()
     const [turfbycategory, setturfbycategory] = useState([])
@@ -95,6 +98,11 @@ function TurfByCategory() {
       getTurfbyCategory()
     },[]);
     
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - indexOfLastPost;
+    const currentPost = turfbycategory.slice(indexOfFirstPost, indexOfLastPost);
+    // change page 
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -183,6 +191,11 @@ function TurfByCategory() {
     
     </Col>
 </Row>
+
+<Pagination postsPerPage={postsPerPage} 
+totalPosts={turfbycategory.length}
+paginate={paginate}
+/>
 <div className='FooterContainer'>
   <Footer/>
 </div>

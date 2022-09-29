@@ -19,6 +19,16 @@ from django.core.mail import EmailMessage
 from django.shortcuts import render
 from payments.serializers import OrderSerializer
 
+import json
+import razorpay
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view,authentication_classes
+from django.core.mail import send_mail
+from .serializers import VendorOrderSerializer
+from .models import VendorOrder
+from django.conf import settings
+
 from payments.models import Order
 
 from .serializers import CitySerializer, DistrictSerializer, SlotEditSerializer, SlotSerializer, SubcategorySerializer, TurfEditSerializer, VendorEditSerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
@@ -546,9 +556,116 @@ def Get_all_Slot(request,id):
     except:
         message = {'detail':'Slot is not available'}
         return Response(message,status=status.HTTP_400_BAD_REQUEST) 
-    
+
+#payment................................
+
+@api_view(['POST'])
+# @authentication_classes([VendorAuthentication])
+def start_payment(request):   
+    amount = request.data['amount']
+    name = request.data['name']  
+    vendor = request.data['vendor'] 
+    client = razorpay.Client(auth=(settings.RAZORPAY_ID,settings.RAZORPAY_KEY))
+
+    # create razorpay order
+    # the amount will come in 'paise' that means if we pass 50 amount will become
+    # 0.5 rupees that means 50 paise so we have to convert it in rupees. So, we will 
+    # mumtiply it by 100 so it will be 50 rupees.
+    payment = client.order.create({"amount": int(amount) * 100, 
+                                   "currency": "INR", 
+                                   "payment_capture": "1"})
+
+    # we are saving an order with isPaid=False because we've just initialized the order
+    # we haven't received the money we will handle the payment succes in next 
+    # function
+    order = VendorOrder.objects.create(
+                                 order_amount=amount, 
+                                 order_payment_id=payment['id'],
+                                 vendor_id=vendor,
+                               )
+
+    serializer = VendorOrderSerializer(order)
+
+    """order response will be 
+    {'id': 17, 
+    'order_date': '23 January 2021 03:28 PM', 
+    'order_product': '**product name from frontend**', 
+    'order_amount': '**product amount from frontend**', 
+    'order_payment_id': 'order_G3NhfSWWh5UfjQ', # it will be unique everytime
+    'isPaid': False}"""
+
+    data = {
+        "payment": payment,
+        "order": serializer.data
+    }
+    return Response(data)
 
 
+@api_view(['POST'])
+# @authentication_classes([VendorAuthentication])
+def handle_payment_success(request):
+    vendor_id = request.data['vendor'] 
+    print(vendor_id)
+    # request.data is coming from frontend
+    # res = json.loads(request.data["response"])
+    res = json.loads(request.data["response"])
+    print(res,'response is hweww')
+
+    """res will be:
+    {'razorpay_payment_id': 'pay_G3NivgSZLx7I9e', 
+    'razorpay_order_id': 'order_G3NhfSWWh5UfjQ', 
+    'razorpay_signature': '76b2accbefde6cd2392b5fbf098ebcbd4cb4ef8b78d62aa5cce553b2014993c0'}
+    this will come from frontend which we will use to validate and confirm the payment
+    """
+
+    ord_id = ""
+    raz_pay_id = ""
+    raz_signature = ""
+
+    # res.keys() will give us list of keys in res
+    for key in res.keys():
+        if key == 'razorpay_order_id':
+            ord_id = res[key]
+        elif key == 'razorpay_payment_id':
+            raz_pay_id = res[key]
+        elif key == 'razorpay_signature':
+            raz_signature = res[key]
+    # get order by payment_id which we've created earlier with isPaid=False
+    order = VendorOrder.objects.get(order_payment_id=ord_id)
+    # we will pass this whole data in razorpay client to verify the payment
+    data = {
+        'razorpay_order_id': ord_id,
+        'razorpay_payment_id': raz_pay_id,
+        'razorpay_signature': raz_signature
+    }
+  
+    client = razorpay.Client(auth=(settings.RAZORPAY_ID,settings.RAZORPAY_KEY))
+   
+    # checking if the transaction is valid or not by passing above data dictionary in 
+    # razorpay client if it is "valid" then check will return None
+    check = client.utility.verify_payment_signature(data)
+    if check is None:
+       
+        return Response({'error': 'Something went wrong'})
+
+    # if payment is successful that means check is None then we will turn isPaid=True
+    vendor = Vendor.objects.get(id=vendor_id)
+    print(vendor)
+    vendor.is_Paid=True
+    vendor.save()
+    order.isPaid = True
+    order.save()
+    send_mail('Hello  ',
+            'payment successfully received! ,Thank You For join with Jogobonito ,Your can check your profile',
+            'deepukrishna25@gmail.com'
+            ,[vendor.email]   
+            ,fail_silently=False)
+
+    data = {
+        'message': 'payment successfully received!'
+    }
+
+    return Response(data)
 
 
     

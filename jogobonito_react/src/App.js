@@ -29,6 +29,11 @@ import Payment from "./components/Payment";
 import BookedSlots from "./components/Vendor/BookedSlots";
 import UserProfile from "./components/UserProfile";
 import UserBookedSlots from "./components/UserBookedSlots";
+import VendorManage from "./components/Mastar/VendorManage";
+import AllVendors from "./components/Mastar/AllVendors";
+import AllUsers from "./components/Mastar/AllUsers";
+import SlotbookedDetails from "./components/Mastar/SlotbookedDetails";
+import VendorOrderDetails from "./components/Mastar/VendorOrderDetails";
 
 function App(){
   return (
@@ -72,8 +77,12 @@ function App(){
       <Route path='/payment' element ={<Payment/>} />
       <Route path='/bookedslot' element ={<BookedSlots/>} />
 
-
-      {/* <Route path='/Category' element ={<CategoryPage/>} /> */}
+{/* Mastar */}
+      <Route path="/vendormanage" element={<VendorManage/>}/>
+      <Route path="/allvendormanage" element={<AllVendors/>}/>
+      <Route path="/allusers" element={<AllUsers/>}/>
+      <Route path="/userorders" element={<SlotbookedDetails/>}/>
+      <Route path='/vendororder' element ={<VendorOrderDetails/>} />
     </Routes>
     </AuthProvider>
   </BrowserRouter>

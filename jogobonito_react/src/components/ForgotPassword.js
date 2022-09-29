@@ -67,12 +67,12 @@ function ForgotPassword() {
       <Button className='ms-5 me-5 mt-3' variant="primary" type="submit">
         Submit
       </Button>
-      <Link className='ms-5 mt-3 mb-5' to='/'> SignIn</Link>
+      <Link className='ms-5 mt-3 mb-5' to='/Login'> SignIn</Link>
       
     </Form>
     
     {  detail &&(<> <h6 style={{color:'green'}}>Password reset link has been sent to your email</h6>  <br/>
-            <Button onClick={()=>navigate('/')} 
+            <Button onClick={()=>navigate('/Login')} 
             style={{border:'solid green',color:'green'}} 
             variant="" className='sub-button' type="" > 
             Login

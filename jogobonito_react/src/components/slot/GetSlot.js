@@ -10,12 +10,16 @@ import axios from "../../constants/constants"
 import { useParams } from 'react-router-dom';
 import '../List.css'
 import authContext from '../../context/authContext'
+import Pagination from '../../components/Pagination';
 
 function GetSlot() {
   let {authTokens,} = useContext(authContext)
     // const [show, setShow] = useState(false);
     // const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(3);
 
   const {Turf_id} = useParams();
   const [err,setErr]= useState('')
@@ -140,6 +144,13 @@ function GetSlot() {
   useEffect(()=>{
     getslot()
   },[])
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - indexOfLastPost;
+  const currentPost = Slot.slice(indexOfFirstPost, indexOfLastPost);
+  // change page 
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
   return (
     <>
       <Navebar/>
@@ -174,6 +185,10 @@ Book It
 )}
 
 </Row>
+<Pagination postsPerPage={postsPerPage} 
+totalPosts={Slot.length}
+paginate={paginate}
+/>
     </>
   )
 }

@@ -6,7 +6,7 @@ import authContext from '../context/authContext'
 function Payment() {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
-  let {authTokens,} = useContext(authContext)
+  let {VendorAuthTokens,} = useContext(authContext)
 
 // this function will handel payment when user submit his/her money
 // and it will confim if payment is successfull or not
@@ -17,7 +17,7 @@ function Payment() {
       // we will send the response we've got from razorpay to the backend to validate the payment
       bodyData.append("response", JSON.stringify(response));
 
-      await axios.post('payment/payment/success/',bodyData,{headers:{Authorization:`Bearer ${authTokens?.token}`}})
+      await axios.post('vendor/payment/success/',bodyData,{headers:{Authorization:`Bearer ${VendorAuthTokens}`}})
         .then((res) => {
           console.log("Everything is OK!");
           setName("");
@@ -47,7 +47,7 @@ function Payment() {
     bodyData.append("amount", amount.toString());
     bodyData.append("name", name);
 
-    const data = await axios.post('payment/pay/',bodyData,{headers:{Authorization:`Bearer ${authTokens?.token}`}}).then((res) => {
+    const data = await axios.post('vendor/pay/',bodyData,{headers:{Authorization:`Bearer ${VendorAuthTokens}`}}).then((res) => {
       return res;
     });
 

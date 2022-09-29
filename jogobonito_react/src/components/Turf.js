@@ -133,7 +133,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
           label="Enter district">
           {district.map((obj)=>
           <MenuItem    onClick={()=>filterDistHandler(obj.id)} value={obj.id}>{obj.district}</MenuItem>
-          )}
+          )}data
         </Select>
       </FormControl>
     </Box> <br/>
@@ -184,7 +184,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
         <span className='listSize'>Turf Size:key={obj.id} {obj.size}</span>
         <span className='listDesc'>Turf Desc: {obj.category.category_name}</span>
         <span className='listcity'>Turf City: {obj.city.city}</span>
-        <span className='listcity'>Turf City: {obj.district.district}</span>
+        <span className='listcity'>Turf district: {obj.district.district}</span>
         <span className='listPrice'>Price: {obj.price}</span>
       </div>
       <div className='BookingBtn'>

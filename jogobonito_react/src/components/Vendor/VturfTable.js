@@ -6,12 +6,14 @@ import Button from 'react-bootstrap/Button';
 import authContext from '../../context/authContext'
 import { useNavigate,Link } from 'react-router-dom';
 import Vnavebar from './Vnavebar';
-// import '../../components/Vendor/Vhome.css'
+import Pagination from '../../components/Pagination';
 
 import Modal from 'react-bootstrap/Modal';
 
 function VturfTable() {
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(3);
 
   const [show, setShow] = useState(false);
 
@@ -54,6 +56,13 @@ function VturfTable() {
     useEffect(()=>{
         getfurfbyvendor()
       },[])
+
+      const indexOfLastPost = currentPage * postsPerPage;
+      const indexOfFirstPost = indexOfLastPost - indexOfLastPost;
+      const currentPost = turf.slice(indexOfFirstPost, indexOfLastPost);
+      // change page 
+      const paginate = pageNumber => setCurrentPage(pageNumber);
+
   return (
 
     <div className=''>
@@ -78,7 +87,7 @@ function VturfTable() {
           <th>Delete</th>
         </tr>
       </thead>
-      {turf.map((obj,index)=>
+      {currentPost.map((obj,index)=>
       <tbody>
         <tr>
           <td>{index+1}</td>
@@ -117,13 +126,14 @@ function VturfTable() {
       )}
     </Table>
     </Col>
-
-
-
 </Row>
 ) : (
        ''
       )}
+      <Pagination postsPerPage={postsPerPage} 
+totalPosts={turf.length}
+paginate={paginate}
+/>
     </div>
   )
 }
