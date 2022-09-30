@@ -11,6 +11,7 @@ import Button from 'react-bootstrap/Button';
 import Pagination from '../../components/Pagination';
 
 import Switch from '@mui/material/Switch';
+import Mnavebars from './Mnavebars';
 
 
 function AllUsers() {
@@ -107,7 +108,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <div>
-        
+        <Mnavebars/>
       
         <Row>
       {loading && <h4>loading...</h4>}

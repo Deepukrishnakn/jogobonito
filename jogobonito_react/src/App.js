@@ -34,6 +34,7 @@ import AllVendors from "./components/Mastar/AllVendors";
 import AllUsers from "./components/Mastar/AllUsers";
 import SlotbookedDetails from "./components/Mastar/SlotbookedDetails";
 import VendorOrderDetails from "./components/Mastar/VendorOrderDetails";
+import MastarHome from "./components/Mastar/MastarHome";
 
 function App(){
   return (
@@ -78,11 +79,12 @@ function App(){
       <Route path='/bookedslot' element ={<BookedSlots/>} />
 
 {/* Mastar */}
-      <Route path="/vendormanage" element={<VendorManage/>}/>
+      <Route path="/paidvendor" element={<VendorManage/>}/>
       <Route path="/allvendormanage" element={<AllVendors/>}/>
       <Route path="/allusers" element={<AllUsers/>}/>
       <Route path="/userorders" element={<SlotbookedDetails/>}/>
       <Route path='/vendororder' element ={<VendorOrderDetails/>} />
+      <Route path='/mhome' element ={<MastarHome/>} />
     </Routes>
     </AuthProvider>
   </BrowserRouter>

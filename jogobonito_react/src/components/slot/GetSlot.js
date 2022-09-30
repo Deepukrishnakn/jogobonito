@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import '../List.css'
 import authContext from '../../context/authContext'
 import Pagination from '../../components/Pagination';
+import Alert from 'react-bootstrap/Alert';
 
 function GetSlot() {
   let {authTokens,} = useContext(authContext)
@@ -155,11 +156,13 @@ function GetSlot() {
     <>
       <Navebar/>
       <Header/>
-
-      <Row>
       {loading && <h4>loading...</h4>}
 <h1 className='title mt-5'>Find Your Time</h1>
-{  err &&(<> <h6 style={{color:'red'}}>{err}</h6>  <br/></>) }
+{Slot.length ==0  ?  <Alert variant='danger' className='m-5'>
+Sorry Slot is Not available !!!
+        </Alert>:
+      <Row>
+
         {Slot.map((obj)=>
       <Col lg={3}>
 <Card  className='m-5'>
@@ -184,7 +187,7 @@ Book It
 
 )}
 
-</Row>
+</Row> }
 <Pagination postsPerPage={postsPerPage} 
 totalPosts={Slot.length}
 paginate={paginate}

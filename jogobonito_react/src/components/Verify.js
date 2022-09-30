@@ -4,6 +4,7 @@ import { useState,useContext } from 'react';
 import axios from "../constants/constants"
 import AuthContext from '../context/authContext';
 import { Navigate, useNavigate} from 'react-router-dom'
+import { toast,ToastContainer } from 'react-toastify';
 
 function Verify() {
   const navigate = useNavigate()
@@ -26,7 +27,7 @@ function Verify() {
           }).catch((err)=>{
             console.log(err.response.data.detail)
             setDetail(null)
-            setErr(err.response.data.detail)
+            toast.error(err.response.data.detail)
           })
       }
  

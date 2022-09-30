@@ -5,10 +5,13 @@ import axios from "../constants/constants"
 import {useNavigate,Link} from 'react-router-dom'
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function BusinessRegistretion() {
 
-
+  const notify = () => toast.success("Pay the amount for Subscription!");
+  const paymentsuccess = () => toast.success("Payment is succefuly complited");
   const navigate = useNavigate()
   const [first_name, setFirst_name] = useState('')
   const [last_name, setLast_name] = useState('')
@@ -61,6 +64,7 @@ function BusinessRegistretion() {
     }).then((response)=>{
       console.log(response.data)
       if (response.data.phone_number){
+        notify()
         localStorage.setItem('vendor_id',response.data.id)
         navigate('/Bisuness')
       }else{
@@ -70,6 +74,7 @@ function BusinessRegistretion() {
       console.log(err.response.data.detail)
       setDetail(null)
       setErr(err.response.data.detail)
+      toast.error(err.response.data.detail)
     })
   }}
 
@@ -87,62 +92,62 @@ function BusinessRegistretion() {
       let isValid = true
 
       if (!first_name){
-        first_nameErr.short_fname = '*first name is a required field'
+        toast.error('*first name is a required field')
         isValid = false
       }else if(first_name.trim().length <3){
-        first_nameErr.short_fname = '*first name is too short'
+        toast.error ('*first name is too short')
         isValid = false
       }
 
       if (!last_name){
-      last_nameErr.short_lname = '*last name is a required field'
+        toast.error('*last name is a required field')
       isValid = false
     }else if(last_name.trim().length <1){
-      last_nameErr.short_lname = '*last name is too short'
+      toast.error('*last name is too short')
       isValid = false
     }
 
     if (!email){
-      emailErr.short_email= '*email is a required field'
+      toast.error('*email is a required field')
       isValid = false
     }
 
     if (!phone_number){
-      phone_numberErr.short_mobile= '*mobile no. is a required field'
+      toast.error('*mobile no. is a required field')
       isValid = false
     }else if(phone_number.trim().length != 10){
-      phone_number.short_mobile= '*enter a valid mobile no!.'
+      toast.error ('*enter a valid mobile no!.')
       isValid = false
     }else if( /^[a-zA-Z()]+$/.test(phone_number)){
-      phone_numberErr.short_mobile= '*enter a valid mobile no!.'
+      toast.error('*enter a valid mobile no!.')
       isValid = false
     }
 
     if(!password ){
-      passwordErr.short_password= '*password is a required field!'
+      toast.error('*password is a required field!')
       isValid = false
     }else if(password.length <8  ) {
-      passwordErr.short_password= '*minimum 8 characters are required for password'
+      toast.error( '*minimum 8 characters are required for password')
       isValid = false
     }
      if(!confirm_password){
-      confirm_passwordErr.short_cpassword= '* required field!'
+      toast.error ('* confirm password required field!')
       isValid = false
     }
      else if(password!=confirm_password){
-      confirm_passwordErr.password_mismatch= '*passwords does not match'
+      toast.error ('*passwords does not match')
       isValid = false
     }
     if(!turf_name){
-      turf_nameErr.short_cpassword= '* required field!'
+      toast.error('*turf name required field!')
       isValid = false
     }
     if(!district){
-      districtErr.short_cpassword= '* required field!'
+      toast.error( '* district required field!')
       isValid = false
     }
     if(!city){
-      cityErr.short_cpassword= '* required field!'
+      toast.error('*city required field!')
       isValid = false
     }
 
@@ -175,6 +180,7 @@ function BusinessRegistretion() {
       
       await axios.post('vendor/payment/success/',bodyData)
         .then((res) => {
+          paymentsuccess()
           console.log("Everything is OK!");
           localStorage.removeItem('vendor_id')
           navigate('/')
@@ -254,8 +260,13 @@ function BusinessRegistretion() {
 
 
 <Form className=' m-5' onSubmit={vendorRegisterHandler}>
+
+{localStorage.getItem('vendor_id')? <ToastContainer />:""}
+{/* <button onClick={notify}>Notify!</button> */}
+        <ToastContainer />
+
  {  err?( <Stack sx={{ width: '100%' }} spacing={2}>
-      <Alert severity="error">{err} — check it out!</Alert>
+      {/* <Alert severity="error">{err} — check it out!</Alert> */}
         </Stack>):''}
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Enter First Name</Form.Label>
@@ -363,6 +374,7 @@ function BusinessRegistretion() {
       {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
         <Form.Check type="checkbox" label="Check me out" />
       </Form.Group> */}
+      
       <Button variant="primary" type="submit">
         Submit
       </Button>
@@ -372,7 +384,7 @@ function BusinessRegistretion() {
         Pay for Registaretion
       </Button>
 
-
+      <ToastContainer/>
     </div>
   )
 }

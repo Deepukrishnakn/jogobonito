@@ -9,7 +9,7 @@ import { useNavigate,Link, useParams } from 'react-router-dom';
 import Footer from '../components/Footer'
 import '../components/home.css'
 import Pagination from '../components/Pagination';
-
+import Alert from 'react-bootstrap/Alert';
 // mui
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -115,6 +115,9 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
         <Header/>
         <Row>
         <h1 className='title mt-5'>Find Your Turf</h1>
+        {currentPost.length ==0  ?  <Alert variant='danger' className='m-5'>
+Sorry Turf is Not available !!!
+        </Alert>:''}
             <Col lg={4} sm={12} md={6}>
             <h1 className='title mt-5'>Filter Your Turf</h1>
             <div className='turfContainer m-5'>

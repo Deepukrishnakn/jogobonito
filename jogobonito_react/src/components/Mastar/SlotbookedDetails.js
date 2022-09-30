@@ -7,6 +7,7 @@ import { useNavigate,Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Pagination from '../../components/Pagination';
+import Mnavebars from './Mnavebars';
 
 function SlotbookedDetails() {
 
@@ -61,7 +62,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
   return (
     <div>
         
-       
+       <Mnavebars/>
       
         <Row>
       {loading && <h4>loading...</h4>}

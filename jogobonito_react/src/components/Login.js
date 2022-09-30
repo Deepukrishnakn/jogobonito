@@ -6,7 +6,8 @@ import AuthContext from '../context/authContext';
 import { useNavigate,Link } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Login() {
   const [email,setEmail]= useState('')
   const [password,setPassword]= useState('')
@@ -36,12 +37,12 @@ function Login() {
     let isValid = true
 
   if (!email){
-    emailErr.short_email= '*email is a required field'
+    toast.error ('*email is a required field')
     isValid = false
   }
 
   if(!password ){
-    passwordErr.short_password= '*password is a required field!'
+    toast.error ('*password is a required field!')
     isValid = false
   }
   
@@ -54,7 +55,7 @@ console.log(error)
 
   return (
     <div className='m-5'>
-
+<ToastContainer />
 
 <div>
 <Form className='login_form' onSubmit={loginHandler}>

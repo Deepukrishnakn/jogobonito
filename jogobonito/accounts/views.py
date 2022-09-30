@@ -112,9 +112,12 @@ class LoginAPIView(APIView):
             )
 
             response = Response()
+            
             response.set_cookie(key='refresh_token',value=refresh_token,httponly=True)
             response.data = {
-                'token': access_token
+                'token': access_token,
+                'admin': user.is_admin,
+                
             }
             return response
         else:

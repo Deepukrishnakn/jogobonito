@@ -6,6 +6,8 @@ import AuthContext from '../context/authContext';
 import { useNavigate,Link } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import { toast,ToastContainer } from 'react-toastify';
+
 
 function VendorLogin() {
   const [email,setEmail]= useState('')
@@ -36,12 +38,12 @@ function VendorLogin() {
     let isValid = true
 
   if (!email){
-    emailErr.short_email= '*email is a required field'
+    toast.error('*email is a required field')
     isValid = false
   }
 
   if(!password ){
-    passwordErr.short_password= '*password is a required field!'
+    toast.error('*password is a required field!')
     isValid = false
   }
   
@@ -55,7 +57,7 @@ console.log(error)
   return (
     <div className='m-5'>
 
-
+<ToastContainer />
 <div>
 <Form className='login_form' onSubmit={loginHandler}>
       <Form.Group className=" ms-5 me-5" controlId="formBasicEmail">

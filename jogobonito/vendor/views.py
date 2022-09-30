@@ -31,7 +31,7 @@ from django.conf import settings
 
 from payments.models import Order
 
-from .serializers import CitySerializer, DistrictSerializer, SlotEditSerializer, SlotSerializer, SubcategorySerializer, TurfEditSerializer, VendorEditSerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
+from .serializers import CitySerializer, DistrictSerializer, SlotEditSerializer, SlotSerializer, SubcategorySerializer, VendorRegisterSerializer,TurfSerializer,CategorySerializer
 from django.contrib.auth.hashers import make_password
 from .models import City, District, SubCategory, TurfSlot, VendorToken,Vendor,Turf,Category
 from .authentication import create_access_token,create_refresh_token, VendorAuthentication
@@ -39,7 +39,6 @@ from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.pagination  import LimitOffsetPagination
 from django.contrib.auth import  authenticate
 
 # Create your views here.

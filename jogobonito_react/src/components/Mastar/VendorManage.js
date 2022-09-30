@@ -13,6 +13,7 @@ import Pagination from '../../components/Pagination';
 import Switch from '@mui/material/Switch';
 import { green } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
+import Mnavebars from './Mnavebars';
 
 function VendorManage() {
 
@@ -135,7 +136,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
   return (
     <div>
         
-      
+      <Mnavebars/>
         <Row>
       {loading && <h4>loading...</h4>}
 <h1 className='title mt-5'>Paid Vendors Details</h1>
@@ -183,7 +184,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
 
       <Modal show={show1} onHide={handleClose1}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
         <Modal.Body>
        <h5 style={{color:'red'}}>Are You sure you want to delete? {obj.first_name+' '+obj.last_name}</h5> 
@@ -205,7 +206,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
     {singleVendor ? 
 <Modal show={show} onHide={handleClose}>
 <Modal.Header closeButton>
-<Modal.Title>Order Details </Modal.Title>
+<Modal.Title>Paid Details </Modal.Title>
 </Modal.Header>
 <Modal.Body>
 <div>

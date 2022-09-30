@@ -13,6 +13,7 @@ import Pagination from '../../components/Pagination';
 import Switch from '@mui/material/Switch';
 import { green } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
+import Mnavebars from './Mnavebars';
 
 function AllVendors() {
 
@@ -155,7 +156,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <div>
-        
+    <Mnavebars/>    
       
         <Row>
       {loading && <h4>loading...</h4>}

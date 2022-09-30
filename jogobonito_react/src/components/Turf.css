@@ -51,4 +51,6 @@
     background-color: #febb02;
     text-align: center;
 }
-
+.alert{
+    align-items: flex-start;
+}

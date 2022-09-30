@@ -4,7 +4,8 @@ import Form from 'react-bootstrap/Form';
 import AuthContext from '../context/authContext';
 import axios from "../constants/constants"
 import {useNavigate,Link} from 'react-router-dom'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 
@@ -20,7 +21,7 @@ function Register() {
   const [confirm_password, setConfirm_password] = useState('')
   const [detail,setDetail]= useState('')
   const [err,setErr]= useState('')
-
+  const notify = () => toast.success("Successfuly registerd!");
   const [first_nameErr, setFirst_nameErr] = useState({})
   const [last_nameErr, setLast_nameErr] = useState({})
   const [emailErr, setEmailErr] = useState({})
@@ -45,7 +46,7 @@ function Register() {
     }).then((response)=>{
       console.log(response.data)
       if (response.data.phone_number){
-
+        notify()
         navigate('/verify')
       }else{
        console.log("ok")
@@ -71,50 +72,50 @@ function Register() {
       let isValid = true
 
       if (!first_name){
-        first_nameErr.short_fname = '*first name is a required field'
+        toast.error ('*first name is a required field')
         isValid = false
       }else if(first_name.trim().length <3){
-        first_nameErr.short_fname = '*first name is too short'
+        toast.error('*first name is too short')
         isValid = false
       }
 
       if (!last_name){
-      last_nameErr.short_lname = '*last name is a required field'
+        toast.error('*last name is a required field')
       isValid = false
     }else if(last_name.trim().length <1){
-      last_nameErr.short_lname = '*last name is too short'
+      toast.error ('*last name is too short')
       isValid = false
     }
 
     if (!email){
-      emailErr.short_email= '*email is a required field'
+      toast.error ('*email is a required field')
       isValid = false
     }
 
     if (!phone_number){
-      phone_numberErr.short_mobile= '*mobile no. is a required field'
+      toast.error( '*mobile no. is a required field')
       isValid = false
     }else if(phone_number.trim().length != 10){
-      phone_number.short_mobile= '*enter a valid mobile no!.'
+      toast.error('*enter a valid mobile no!.')
       isValid = false
     }else if( /^[a-zA-Z()]+$/.test(phone_number)){
-      phone_numberErr.short_mobile= '*enter a valid mobile no!.'
+      toast.error('*enter a valid mobile no!.')
       isValid = false
     }
 
     if(!password ){
-      passwordErr.short_password= '*password is a required field!'
+      toast.error( '*password is a required field!')
       isValid = false
     }else if(password.length <8  ) {
-      passwordErr.short_password= '*minimum 8 characters are required for password'
+      toast.error( '*minimum 8 characters are required for password')
       isValid = false
     }
      if(!confirm_password){
-      confirm_passwordErr.short_cpassword= '* required field!'
+      toast.error('* confirm password required field!')
       isValid = false
     }
      else if(password!=confirm_password){
-      confirm_passwordErr.password_mismatch= '*passwords does not match'
+      toast.error('*passwords does not match')
       isValid = false
     }
 
@@ -132,7 +133,7 @@ function Register() {
 
   return (
     <div>
-
+  <ToastContainer />
 <Form className=' m-5' onSubmit={registerHandler}>
 {  err?( <Stack sx={{ width: '100%' }} spacing={2}>
       <Alert severity="error">{err} — check it out!</Alert>
