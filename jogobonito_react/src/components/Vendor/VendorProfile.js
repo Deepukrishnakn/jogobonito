@@ -76,10 +76,10 @@ useEffect(() => {
 <Vnavebar/>
 
           
-<div className='container vendor-profile'>
+<div className='ProContainer vendor-profile'>
         <div className='row'>
             <div className='col-md-4 ms-5'>
-                <img className='proimg' src='https://images.news18.com/ibnlive/uploads/2022/02/tite.jpg' alt='' srcSet=''/>
+                <img className='proimg' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXYgFiTeaKeuWAQG_wPzeCa1rfCt-KqNuDvzX7FKncWll2cMplmPyNj0WJU8xrq3zWKf8&usqp=CAU' alt='' srcSet=''/>
                 <h2 className='ms-5 mt-3'>{vendor.first_name +'  '+ vendor.last_name}</h2>
             </div>
 

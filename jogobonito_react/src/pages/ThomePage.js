@@ -28,6 +28,7 @@ function ThomePage() {
 <div className='newturfontainer'>
   <Row>
     <Col lg={12}>
+    <h1 className='title mb-5'>Find Your Turf</h1>
     <Newturf/>
     </Col>
   </Row>

@@ -380,9 +380,9 @@ function BusinessRegistretion() {
       </Button>
       <Link className='ms-5 mb-3 mt-3' to='/Login'> SignIn</Link>
     </Form>
-    <Button variant="success" className='ms-5 mb-5' onClick={paymentHandler}>
+  { localStorage.getItem('vendor_id')? <Button variant="success" className='ms-5 mb-5' onClick={paymentHandler}>
         Pay for Registaretion
-      </Button>
+      </Button>:''}
 
       <ToastContainer/>
     </div>

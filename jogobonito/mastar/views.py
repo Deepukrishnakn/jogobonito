@@ -16,6 +16,9 @@ from .serializer import VendorActivatSerializer
 from rest_framework.response import Response
 from vendor.models import Vendor,VendorOrder
 from rest_framework import viewsets
+from django.db.models.functions import ExtractMonth
+import calendar
+from django.db.models import Count
 
 # Create your views here.
 
@@ -59,4 +62,26 @@ class VendorOrderViewset(viewsets.ModelViewSet):
     serializer_class = VendorOrderSerializer
 
 
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+def Orderchart(request):
+    monthNumber=0
+    totalOrders=0
+    orders = Order.objects.annotate(month=ExtractMonth('order_date')).values('month').annotate(count=Count('id')).values('month','count')
+    totalusers = Account.objects.filter(is_admin=False,is_active = True).count()
+    totalvendor = Vendor.objects.filter(is_active = True).count()
+    print(totalusers)
+    print(totalvendor)
+    monthNumber = []
+    totalOrders = []
+    for d in orders:
+        monthNumber.append(calendar.month_name[d['month']])
+        totalOrders.append(d['count'])
 
+    formdata ={
+        'monthNumber':monthNumber,
+        'totalOrders':totalOrders,
+        'totalusers':totalusers,
+        'totalvendor':totalvendor,
+    }
+    return Response(formdata)

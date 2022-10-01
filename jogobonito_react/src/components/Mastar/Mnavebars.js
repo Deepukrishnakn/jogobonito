@@ -35,7 +35,7 @@ function Mnavebars() {
             <NavDropdown title="MY Account" id="collasible-nav-dropdown">
             {authTokens ?   <NavDropdown.Item href="" lassName='me-5 vnave' onClick={userLogout}>
                 Log out
-              </NavDropdown.Item>:<NavDropdown.Item href="" className='vnave'> <Link to='/userLogout'>Login</Link></NavDropdown.Item>
+              </NavDropdown.Item>:<NavDropdown.Item href="" className='vnave'> <Link to='/Login'>Login</Link></NavDropdown.Item>
              }
               {/* <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item> */}
               {/* <NavDropdown.Divider />

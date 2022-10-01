@@ -27,7 +27,7 @@ function Newturf() {
 
         <Row>
         {loading && <h4>loading...</h4>}
-        <h1 className='title mb-5'>Find Your Turf</h1>
+       
         {data.slice(0,4).map((obj)=>
         <Col lg={3}>
         <div className='newturfItem'>

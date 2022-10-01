@@ -21,6 +21,7 @@
 }
 
 .turfdetails{
+    font-family: serif;
     font-size: 24px;
 }
 .turfaddress{
@@ -44,7 +45,7 @@
 }
 
 .turfdetailsprice{
-    color: #008009;
+    color: #b4e7b7;
     font-weight: 500;
 }
 .bookbtn{
@@ -54,8 +55,8 @@
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
-    background-color: #14440b;
-    color: white;
+    background-color: #ccdbc9;
+    color: rgb(150, 34, 34);
     font-weight: bold;
 }
 .turfdetails{
@@ -66,10 +67,10 @@
 }
 
 .singleturfcard{
-    background-color: rgb(109, 180, 100);
+    background-color: rgb(224, 238, 234);
     border-width: 5rem;
     text-align: center;
-    color: white
+    color: rgb(10, 22, 46)
  ;
 }
 
@@ -80,7 +81,7 @@
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
-    background-color: #093304;
-    color: white;
+    background-color: #0e6106;
+    color: rgb(255, 248, 248);
     font-weight: bold;
 }

@@ -417,7 +417,7 @@ useEffect(() => {
       </Offcanvas>
             
           </Nav>
-           <Form className="d-flex">
+           {/* <Form className="d-flex">
             <Form.Control
               type="search"
               placeholder="Search"
@@ -425,7 +425,7 @@ useEffect(() => {
               aria-label="Search"
             />
             <Button variant="outline-success">Search</Button>
-          </Form> 
+          </Form>  */}
         </Navbar.Collapse>
       </Container>
     </Navbar>

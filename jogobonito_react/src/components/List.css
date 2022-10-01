@@ -1,5 +1,5 @@
 .list{
-    border: 1px solid lightgray;
+    border: 1px solid rgb(199, 151, 151);
     padding: 10px;
     border-radius: 5px;
     display: flex;
@@ -50,7 +50,8 @@
 
 }
 
-.bookbtn{
+.bookbtn{   
+    font-size: 12px;
     background-color: #0071c2;
     color: white;
     font-weight: bold;

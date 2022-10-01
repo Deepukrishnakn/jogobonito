@@ -67,7 +67,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
         <Row>
       {loading && <h4>loading...</h4>}
 <h1 className='title mt-5'>Booked Turfs & Slots Details</h1>
-{order ? (
+{currentPost ? (
       <Col lg={12}>
  <Table striped bordered hover className='m-5 me-5'>
       <thead>

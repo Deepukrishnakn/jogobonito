@@ -12,13 +12,15 @@ import '../List.css'
 import authContext from '../../context/authContext'
 import Pagination from '../../components/Pagination';
 import Alert from 'react-bootstrap/Alert';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function GetSlot() {
   let {authTokens,} = useContext(authContext)
     // const [show, setShow] = useState(false);
     // const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
-
+    const successcall = () => toast.success("Payment is succefuly complited!");
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(3);
 
@@ -61,6 +63,7 @@ function GetSlot() {
 
       await axios.post('payment/payment/success/',bodyData,{headers:{Authorization:`Bearer ${authTokens}`}})
         .then((res) => {
+          successcall()
           console.log("Everything is OK!");
           setName("");
           setAmount("");
@@ -89,7 +92,7 @@ function GetSlot() {
     let bodyData = new FormData();
 
     // we will pass the amount and product name to the backend using form data
-    bodyData.append("amount", slotPrice*.2);
+    bodyData.append("amount", slotPrice);
     console.log(slotPrice)
     bodyData.append("name", Slot_No);
     bodyData.append("slot", slotId);
@@ -156,13 +159,13 @@ function GetSlot() {
     <>
       <Navebar/>
       <Header/>
+      <ToastContainer/>
       {loading && <h4>loading...</h4>}
 <h1 className='title mt-5'>Find Your Time</h1>
 {Slot.length ==0  ?  <Alert variant='danger' className='m-5'>
 Sorry Slot is Not available !!!
         </Alert>:
       <Row>
-
         {Slot.map((obj)=>
       <Col lg={3}>
 <Card  className='m-5'>
@@ -176,7 +179,10 @@ Sorry Slot is Not available !!!
         Date: {obj.Date}
         </Card.Text>
         <Card.Text>
-        Date: {obj.Time}
+        Time: {obj.Time}
+        </Card.Text>
+        <Card.Text>
+        Slot No.: {obj.Slot_No}
         </Card.Text>
         <Button variant="primary" onClick={()=>paymentHandler(obj.turf.price,obj.id,obj.Slot_No)}>
 Book It

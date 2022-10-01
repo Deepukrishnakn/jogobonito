@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import authContext from '../../context/authContext'
 import { useNavigate,Link } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
+import Alert from 'react-bootstrap/Alert';
 
 function Vhome() {
     const {VendorAuthTokens} =useContext(authContext)
@@ -42,7 +43,10 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <div>
-       {turf ? (
+      {turf.length ==0  ?  <Alert variant='success' className='m-5'>
+Now you can Post Your Own Turf !!!
+        </Alert>:
+     
         <Row>
       {loading && <h4>loading...</h4>}
 <h1 className='title mt-5'>Your Turfs</h1>
@@ -68,10 +72,8 @@ View Slots
 )}
 
 </Row>
+}
 
-) : (
-       ''
-      )}
       <Pagination postsPerPage={postsPerPage} 
 totalPosts={turf.length}
 paginate={paginate}

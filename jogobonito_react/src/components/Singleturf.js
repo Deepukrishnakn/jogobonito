@@ -55,8 +55,8 @@ useEffect(() => {
                 alt={turfdetails.image}
               />
               <Carousel.Caption>
-                <h3>{turfdetails.turf_name}</h3>
-                <p>{turfdetails.description}</p>
+                {/* <h3>{turfdetails.turf_name}</h3>
+                <p>{turfdetails.description}</p> */}
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
@@ -67,8 +67,8 @@ useEffect(() => {
               />
       
       <Carousel.Caption>
-                <h3>{turfdetails.turf_name}</h3>
-                <p>{turfdetails.description}</p>
+                {/* <h3>{turfdetails.turf_name}</h3>
+                <p>{turfdetails.description}</p> */}
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
@@ -79,8 +79,8 @@ useEffect(() => {
               />
       
       <Carousel.Caption>
-                <h3>{turfdetails.turf_name}</h3>
-                <p>{turfdetails.description}</p>
+                {/* <h3 style={{color:"black"}}>{turfdetails.turf_name}</h3>
+                <p style={{color:"black"}}>{turfdetails.description}</p> */}
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
@@ -91,8 +91,8 @@ useEffect(() => {
               />
       
       <Carousel.Caption>
-                <h3>{turfdetails.turf_name}</h3>
-                <p>{turfdetails.description}</p>
+                {/* <h3>{turfdetails.turf_name}</h3>
+                <p>{turfdetails.description}</p> */}
               </Carousel.Caption>
             </Carousel.Item>
           </Carousel>
@@ -106,7 +106,7 @@ useEffect(() => {
               <div className="turfdetailsprice">  
              <h2 className="bookbtnp ms-5"> <b>${turfdetails.price}</b> For one match</h2>
               </div>
-                <h1 className="priceh1">Perfect for play {turfdetails.size}</h1>
+                <h1 className="priceh1"> {turfdetails.size}</h1>
                 <h2>
                 
                   <button className="bookbtn me-5" onClick={()=>navigate(`/getslot/${turfdetails.id}`)}>Reserve or Book Now </button>

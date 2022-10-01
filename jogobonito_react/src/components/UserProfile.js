@@ -11,6 +11,8 @@ import './Vendor/Vhome.css'
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import { useNavigate,Link } from 'react-router-dom';
+import { Col, Row } from 'react-bootstrap'
+import Footer from './Footer'
 function UserProfile() {
 
   const navigate = useNavigate()
@@ -105,13 +107,16 @@ const handleShow2 = () => setShow2(true);
     <div>
   <Navebar/>
   <Header/>
+<Row>
+  <Col lg={12}>
+    
 
-<div className='container vendor-profile mb-5'>
+<div className='ProContainer vendor-profile mb-5'>
 {/* {  err?( <Stack sx={{ width: '100%' }} spacing={2}>
       <Alert severity="error">{err} — check it out!</Alert>
         </Stack>):''} */}
         <div className='row'>
-            <div className='col-md-4 ms-5'>
+            <div className='col-md-4 ms-5 '>
                 <img className='proimg' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzOqVVbDGiWYvTQbqwGjL4SKT1Sjf6MM2MALjh0txKHPYS8OWaKwGdUXbm978B8G5HAsg&usqp=CAU' alt='' srcSet=''/>
                 <h2 className='ms-2 mt-3'>{user.username}</h2>
             </div>
@@ -236,7 +241,11 @@ const handleShow2 = () => setShow2(true);
             </div>
             </div>
             </div>
-         
+            </Col>
+</Row>
+{/* <div className='FooterContainer'>
+  <Footer/>
+</div> */}
     </div>
   )
 }

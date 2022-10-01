@@ -55,8 +55,9 @@ function Header() {
           <p className='hederDesc'>
           I once cried because I had no shoes to play soccer, but one day, I met a man who had no feet.
           </p>
-          <Link to='/Register'><button className='headerBtn'>Sign In / Sign Up</button></Link>
-          <Link to='/userprofile'><button className='headerBtn ms-3'>My Account</button></Link>
+         
+          {authTokens ?  <Link to='/userprofile'><button className='headerBtn ms-3'>My Account</button></Link>:
+           <Link to='/Register'><button className='headerBtn'>Sign In / Sign Up</button></Link>}
           <Form className="d-flex mt-3">
             <Form.Control
               type="search"

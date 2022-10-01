@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 // import Modal from 'react-bootstrap/Modal';
 // import Header from '../Header';
 // import Navebar from '../Navebar';
+import Alert from 'react-bootstrap/Alert';
 import '../slot/Slot.css'
 import Card from 'react-bootstrap/Card';
 import axios from "../../constants/constants"
@@ -72,7 +73,11 @@ const deleteSlot = async (id,e) => {
     <>
     
 <Vnavebar/>
+{Slot.length ==0  ?  <Alert variant='danger' className='m-5'>
+Sorry Slot is Not available !!!
+        </Alert>:
       <Row>
+        
       {loading && <h4>loading...</h4>}
 <h1 className='title mt-5'> Your Slots</h1>
         {currentPost.map((obj)=>
@@ -124,6 +129,7 @@ const deleteSlot = async (id,e) => {
 )}
 
 </Row>
+}
 <Pagination postsPerPage={postsPerPage} 
 totalPosts={Slot.length}
 paginate={paginate}

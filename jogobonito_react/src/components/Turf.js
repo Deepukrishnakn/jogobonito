@@ -178,9 +178,11 @@ Sorry Turf is Not available !!!
             </Col>
             <Col lg={8}>
  {loading && <h4>loading...</h4>}
+ <Row className='row'>
+  <Col lg={12}>
  
 {currentPost.map((obj)=>
-<div className='list mt-5 me-5 '>
+<div className='list mt-5 me-5 container'>
       <img src={'http://127.0.0.1:8000'+obj.image} alt='' className='listImg'/>
       <div className='listDesc'>
       <h1 className='listTile'>Turf Name: {obj.turf_name}</h1>
@@ -190,13 +192,15 @@ Sorry Turf is Not available !!!
         <span className='listcity'>Turf district: {obj.district.district}</span>
         <span className='listPrice'>Price: {obj.price}</span>
       </div>
-      <div className='BookingBtn'>
+      <div className='BookingBtn '>
       <button className='bookbtn' onClick={()=>navigate(`/singleturf/${obj.category.slug}/${obj.slug}/`)}>See Availability</button>
     </div>
     </div>
 )}
 
-
+   
+</Col>
+ </Row>
             </Col>
         </Row>
 <Pagination postsPerPage={postsPerPage} 

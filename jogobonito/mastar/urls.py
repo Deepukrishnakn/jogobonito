@@ -10,5 +10,6 @@ router.register('userorders',views.UserOrderViewset,basename="userorders")
 router.register('vendororders',views.VendorOrderViewset,basename="vendororders")
 urlpatterns = [
     path('Activetvendor/<int:id>/', views.ActivetVendor, name="Activetvendor"),
+    path('Orderchart/', views.Orderchart, name="Orderchart"),
        
  ]+router.urls 

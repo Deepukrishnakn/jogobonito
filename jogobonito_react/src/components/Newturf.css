@@ -22,7 +22,7 @@
     font-family: "Inter";
     padding: 1rem;
     font-size: 25px; 
-    background-color: rgb(152, 228, 31);
+    background-color: rgb(223, 238, 16);
     border-radius: 5px; 
     font-weight: bold;
 }
@@ -33,14 +33,14 @@
     color: azure;
     border-radius: 5px;
     font-size: 30px;
-    background-color: rgb(6, 99, 4);  
+    background-color: rgb(0, 0, 0);  
     font-weight: bold;
 }    
 
 .buttons{
     padding: 1rem;
-    background-color: #8968d6;
-    color: white;
+    background-color: #6247a1;
+    color: rgb(196, 197, 151);
     font-weight: bold;
     border: none;
     cursor: pointer;
